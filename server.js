@@ -10,14 +10,16 @@ app.get('/', function (req, res){ // map root to index.html
     res.sendFile(__dirname + '/index.html')
 });
 
+//var cnt1=0, cnt2=0, cnt3=0, cnt4=0;
 // Connect to mongo
-mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, function(err, client){ // db is an object pointing to mongodb just connected to
+mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, function(err, client){
+    //console.log("mongo.connect execution #"+cnt1++);
     if(err){
         throw err;
     }
     console.log('MongoDB connected... Bitch!'); // good job
 
-    var db = client.db('mongochat');
+    var db = client.db('mongochat'); // db is an object pointing to mongodb just connected to
 
     // Create function to send status
     sendStatus = function(socket, s){ // Pre-defined function
@@ -25,7 +27,8 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
     }
 
     // Connect to Socket.io
-    io.on('connection', function(socket){ // A function to be executed whenever a client connects to the server
+    io.on('connection', function(socket){ // CLIENT STARTING POINT  A function to be executed whenever a client connects to the server
+        //console.log("io.connect execution #"+cnt2++);
         console.log('connecting new client...');
         let chat = db.collection('chats'); // parallel to creating a table in mysql
         console.log('new client connected!');
@@ -44,6 +47,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
         // Handle input events
         socket.on('input', function(data){
+            //console.log("input to server #"+cnt3++);
             let name = data.name;
             let message = data.message;
 
@@ -69,6 +73,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
         // Handle clear
         socket.on('clear', function(data){
+            //console.log("clear execution #"+cnt4++);
             // Remove all chats from collection
             chat.remove({}, function(){
                 // Emit cleared
