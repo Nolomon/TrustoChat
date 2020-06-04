@@ -68,4 +68,64 @@ console.log("Signature is "+((verdict)?"valid.":"invalid!"));
 #3: simple verdict indicator for testing 
 #4: ???
 #5: Frontend++
+
+
+Initial Schema:
+
+users = {
+        username : "user name",
+        * userID: <currently ip address of user machine>,
+        cert: <user PK certificate for signing>,
+        passHash: <user salted password hash, currently null>,
+        state: <online/offline/other>
+}
+
+chats = {
+        * chatID : <chat ID>,
+        members : [member_1_ID, memeber_2_ID,..(currently groups are not supported)],
+        creationDate: <date when the chat was created>,
+        lastUpdate: <date when the chat was last updated>
+        <IDs of the last 30 messages exchanged in the chat>
+}
+
+messages = {
+        * msgID : <ID of message in the chat>,
+        * chatID : <ID of chat containing the message>,
+        * ownerID: <ID of the user originally sent the message>,
+        sendDate: < Date when message was sent from the owner>,
+        State: <sent/recieved/read/other>,
+        msgBody: <message body>, //* for large bodies, store only reference/URI and use a file system for storing the actual body.
+        msgSignature: <signature of the message>,
+        <other metadata>
+}
+
+
+
+userlog = {                     //! CURRENTLY NOT AVAILABLE FOR QUICK DEPLOY PURPOSES        
+        * userID: <currently ip address of user machine>,
+        * userLogID: <ID of log between the logs of the specific user userID>,
+        activity: <login/logout/cookieslogin/cookieslogout/other>,
+        activityDate: <Date of when the activity started>
+} //? What kind of logging tools/features are included in the database?
+userMsgLog = {                          //! CURRENTLY NOT AVAILABLE FOR QUICK DEPLOY PURPOSES
+        * msgID: <ID of message in the chat>,
+        * chatID : <ID of chat containing the message>,
+        * memberID: <ID of chat member reading the message>,
+        state: <sent/recieved/read/other>,
+        dateRcvd: <Date when message was received by memberID>,
+        dateRead: <Date when message was read by memberID>,
+        <possibly other metadata specific to memberID>
+}
+ ? SHOULD I COMBINE MESSAGE WITH USERMESSAGELOG?????????????
+ ? IS CLUSTERING A TERM FOR PROCESSING OR STORAGE OR BOTH?
+
+!       TELL THE FUCKERS TO DOCUMENT WHAT CAN BE DONE ASAP!!! Refining should be easier than laying down new information.
+
+
+
+
+
+
+
+
  */
