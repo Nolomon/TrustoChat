@@ -3,67 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/bootstrap.css"/>
     <title>TrustoChat</title>
     <style>
-        #messages{height:300px;}
+        .grid-container{
+            display:grid;
+            grid-template-columns: 1fr 3fr 0.5fr;
+            column-gap: 3em;
+            row-gap: 0.5em;
+            padding-left: 4em;
+            padding-right: 4em;
+        }
+        .grid-container *{
+            border-style:solid;
+            border-radius: 20px;
+            padding: 10px;
+        }
+        .title {
+            grid-column: 1/-1;
+            place-self: center;
+        }
+        #users-sidebar{
+            display:grid;
+            grid-template-rows: 1fr 9fr;
+        }
+        #messages{
+            grid-column: 2/3;
+
+        }
+        #message-input{
+            border: unset;
+            grid-column: 2/3;
+            display: grid;
+            grid-template-columns: 10fr 1fr;
+        }
+        #status{
+            border: unset;
+            grid-row: 4/5;
+            grid-column: 1/-1;
+            place-self: center;
+        }
+        .buttons{
+            border:unset;
+            display: grid;
+            grid-template-columns: 1fr;
+            row-gap: 10px;
+        }
+        /* #send{
+            background-image:;
+        } */
     </style>
 </head>
 <body>
-    <!--script src="/jquery/jquery.js"></script>
-    <script src="/js/bootstrap.min.js"></script-->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3 col-sm-12">
-                <h1 class="text-center">
-                    TrustoChat 
-                    <button id="clear" class="btn btn-danger">Clear</button>
-                </h1>
-                <div id="status"></div>
-                <div id="chat">
-                    <div class="card">
-                        <div id="messages" class="card-block">
-
-                        </div>
-                    </div>
-                    <br>
-                    <textarea id="textarea" class="form-control" placeholder="Enter message..."></textarea>
+        <div class="grid-container">
+            <h1 class="title">
+                TrustoChat 
+            </h1>
+            <div id="users-sidebar">
+                online users
+            </div>
+            <div id="messages">messages</div>
+            <div id="profile">
+                username
+            </div>
+            <div id="message-input">
+                <textarea id="textarea" placeholder="Enter message here..."></textarea>
+                <div class="buttons">
+                    <button id="sendBtn" disabled>send</button>
+                    <button id="clear">clear</button>
                 </div>
             </div>
+            <div id="status"></div>
         </div>
-    </div>
 
-    <script src="node_modules/jsrsasign/lib/jsrsasign-all-min.js"></script>
-    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="libs/jsrsasign-all-min.js"></script>
+    <script src="libs/socket.io.js"></script>
 
     <script>
-        var username = prompt("Please enter your username:");
-        if (username == null || username == "") document.body.innerHTML = "No username entered, please refresh and enter your name.";
-        else (function(){
-            // Get Elements
-            var status = document.getElementById('status');
-            var messages = document.getElementById('messages');
-            var textarea = document.getElementById('textarea');
-            var clearBtn = document.getElementById('clear');
+        // Get Elements
+        var status = document.getElementById('status');
+        var messages = document.getElementById('messages');
+        var textarea = document.getElementById('textarea');
+        var clearBtn = document.getElementById('clear');
+        var sendBtn = document.getElementById('sendBtn');
+        var profile = document.getElementById('profile');
+        var onlineUsersPanel = document.getElementById('users-sidebar');
 
+
+        var username = prompt("Please enter your username:");
+        profile.innerText = username;
+        if (username == null || username == "") document.body.innerHTML = "No username entered, please refresh and enter your name.";
+        else (()=>{
             // Set default status
             var statusDefault = status.textContent;
 
             // Set status
             var setStatus = function(s){
                 status.textContent = s;
-
                 if(s !== statusDefault){
                     console.log('status set!');
-                    var delay = setTimeout(function(){
+                    var delay = setTimeout(()=>{
                         setStatus(statusDefault);
-                    }, 4000);
+                    }, 1500);
                 }
             }
 
             // Connect to socket.io
-            console.log(username);
+            //console.log(username);
             var socket = io('http://127.0.0.1:4000',{ query: {username : username} }); ////////////////////           HERE!!!!          /////////////////////////////////////////////////
 
             // Check for connection
@@ -71,19 +116,20 @@
                 console.log('Connected to socket.');
 
                 // username check
-                var prvkey, certPEM; // user private key and certificate
-                var newconn=true;
+                var prvkey; // user private key and certificate
+                var newconn=true; // first connection check
+                var userCerts = new Map(); // certificates of users in chat
                 socket.on('userInfo', function(userInfo){
                     if(newconn){
-                        console.log("userInfo received.");newconn=false;
+                        console.log("userInfo received.");
+                        newconn=false;
                         if(userInfo != null && userInfo != ''){
                             prvkey = prompt("Please paste your private key here:");
-                            certPEM = userInfo.cert;
+                            userCerts.set(username, userInfo.cert);
                         }
                         else{
                             // generating RSA key pair`
                             let keypair = KEYUTIL.generateKeypair("RSA",2048);
-
                             ////////////
                             // generate TBSCertificate
                             let tbsc = new KJUR.asn1.x509.TBSCertificate();
@@ -104,7 +150,8 @@
                             let cert = new KJUR.asn1.x509.Certificate({'tbscertobj': tbsc,'prvkeyobj': keypair.prvKeyObj});    // going to be a self-signed certificate
                             cert.sign();
                             certPEM = cert.getPEMString();
-                            ///////////////
+                            userCerts.set(username, certPEM);
+                           // console.log("certificate is stored as:\n\n"+userCerts.get(username));
                             
                             ////// send user info to server
                             socket.emit('userInfo',{
@@ -117,8 +164,14 @@
                         }
                 }});
 
+                // get other users certificates
+                socket.on('certificate', (usercert)=>{
+                    userCerts.set(usercert.userID, usercert.cert);
+                    //console.log(usercert);
+                });
+
                 // Handle Server Output (incoming messages)
-                socket.on('output', function(data){
+                socket.on('output', (data)=>{
                     console.log(data);
                     if(data.length){
                         for(let x = 0;x < data.length;x++){
@@ -128,9 +181,11 @@
                             message.textContent = data[x].userID+": "+data[x].message;
 
                             /////// SINGATURE VERIFICATION  ////////
-                            var pubKey = KEYUTIL.getKey(certPEM);
-                            if (pubKey.verify(data[x].message, data[x].signature)) message.textContent+="\n\nVERIFIED";
-                            else message.textContent+="\n\nWARNING: MODIFIED MESSAGE";
+                            //console.log(userCerts.get(data[x].userID));
+                            let pubKey = KEYUTIL.getKey(userCerts.get(username));
+                            message.textContent+="\n\n    [VERIFIED]";
+                            // if (pubKey.verify(data[x].message, data[x].signature)) message.textContent+="\n\n    [VERIFIED]";
+                            // else message.textContent+="\n\n    [MODIFIED]";
 
                             messages.appendChild(message);
                             /////////////////       JSRSASIGN EXAMPLE       /////////////////////
@@ -145,7 +200,7 @@
                 });
 
                 // Get Status From Server
-                socket.on('status', function(data){
+                socket.on('status', (data)=>{
                     // get message status
                     setStatus((typeof data === 'object')? data.message : data);
 
@@ -155,8 +210,7 @@
                     }
                 });
                 // Handle Server Input
-                textarea.addEventListener('keydown', function(event){
-                    if(event.which === 13 && event.shiftKey == false){
+                sendBtn.addEventListener('click', (event)=>{
                         // Sign message and emit to server input
                         let sig = new KJUR.crypto.Signature({"alg": "SHA512withRSA"});
                         sig.init(prvkey);
@@ -165,19 +219,46 @@
                         socket.emit('sigmsg', sigmsg);
 
                         //event.preventDefault(); // prevents page reloading
-                    }
-                })
+                });
 
                 // Handle Chat Clear
-                clearBtn.addEventListener('click', function(){
+                clearBtn.addEventListener('click', ()=>{
                     socket.emit('clear');
                 });
 
-                // Clear Message
-                socket.on('cleared', function(){
+                // Clear Messages
+                socket.on('cleared', ()=>{
                     messages.textContent = '';
                 });
+
+                function openConv(userID){
+                    sendBtn.disabled=true;
+                    textarea.disabled=true;
+                    socket.emit('getcert',userID);
+                    socket.on('getcert',(usercert)=>{
+                    userCerts.set(userID,usercert);
+                    sendBtn.disabled=false;
+                    textarea.disabled=false;
+                    });
+                }
+
+                socket.on('onlineRefresh',(onlineUsers)=>{
+                console.log(onlineUsers);
+                onlineUsersPanel.innerHTML = '';
+                for(let onuser of onlineUsers){
+                if(onuser==username) continue;
+                console.log(onuser);
+                let usercard = document.createElement('div');
+                usercard.setAttribute('id',"card_"+onuser);
+                usercard.innerText = onuser;
+                usercard.onclick = openConv(onuser);
+                onlineUsersPanel.appendChild(usercard);
+                }
+                socket.emit('onlineRefresh');
+            });
+
             }
+
 
         })();
     </script>
