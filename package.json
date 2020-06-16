@@ -4,17 +4,22 @@
   "description": "web chat app with end-to-end message signature",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "test": "node test.js"
   },
   "author": "M.A.N",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "jquery": "^3.4.1",
-    "jsrsasign": "^8.0.15",
-    "jsrsasign-util": "^1.0.0",
     "mongodb": "^3.5.4",
-    "socket.io": "^2.3.0"
-  }
+    "nodemon": "^2.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/Nolomon/trustochat.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/Nolomon/trustochat/issues"
+  },
+  "homepage": "https://gitlab.com/Nolomon/trustochat#readme"
 }
