@@ -1,14 +1,15 @@
 const express = require('express');
 const app = express();
-app.use(express.static((__dirname)+'/public'));
+app.use(express.static(__dirname+'/public'));
 const server = require('http').createServer(app);
 const io = require('socket.io').listen(server); // importing sockets library as client
 const mongo = require('mongodb').MongoClient; // importing MongoClient library as mongo
 server.listen(process.env.PORT || 4000);
 
-// app.get('/', function (req, res){ // redirect root
-//      res.sendFile(__dirname + '/index2.html');
-// });
+
+// connected users / sockets
+//var connectedUsers = new Map();
+var onlineUsers = [];
 
 // Connect to mongo
 mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, function(err, client){
@@ -25,61 +26,60 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
         socket.emit('status', s);
     }
 
-    // connected users / sockets
-    var connectedUsers = new Map();
-
     // Connect to Socket.io
     io.on('connection', async (socket)=>{ //* CLIENT STARTING POINT  A function to be executed whenever a client connects to the server
 
         // socekt registeration
         const username = socket.handshake.query.username;
         console.log(username+' connected.');
-        connectedUsers.set(username, socket);
+        //connectedUsers.set(username, socket);
         //console.log('Number of connected users is:', connectedUsers.size);
 
 
         //  Username Check
         const users = db.collection('users');
         let usercert; // client certificate
-        users.findOne({userID:username}, (err, res)=>{
-            if (err) return err;
-            socket.emit('userInfo', res);
-            if(res != null){
-                 usercert = res.cert;
-                 //console.log("from findOne :\n"+usercert);
-            }
-            // console.log("userInfo : ");
-        });
+        let userInfo = users.findOne({userID:username});
+
         // Get new user info
-        socket.on('userInfo', (userInfo)=>{
-            users.insertOne({
-                username : username,
-                userID: username,
-                cert: userInfo.cert,
-                passHash: null,
-                status: 'online'
-            }, (err, res)=>{
-                usercert = userInfo.cert;
-                //console.log("from insertOne :\n"+usercert);
+        let newUserInfo = new Promise((resolve)=>{
+            userInfo.then((res)=>{
+                socket.emit('userInfo',res);
+                if(res!=null) resolve(null);
+            });
+            socket.on('userInfo', (data)=>{
+                users.insertOne({
+                    username : username,
+                    userID: username,
+                    cert: data.cert,
+                    passHash: null,
+                    status: 'online'
+                }, resolve(data));
             });
         });
 
+        function refresh(){
+            setTimeout(()=>{
+				onlineUsers = onlineUsers.reverse();
+                socket.emit('onlineRefresh', onlineUsers);
+			},6000);
+        };
 
-        // //* Distributing certificates on users
-        // //! This techinique is temporary and for simulation purpose only.
-        // for(let user of connectedUsers.keys()){
-        //     if(user!=username){
-        //         connectedUsers.get(user).emit('certificate',{userID: username, cert: usercert});  //! HERE THE FUCKING ISSUE
-        //         users.findOne({userID:user}, (err, res)=>{ // get other user cert
-        //             if (err) return err;
-        //             console.log(user+" cert emitted to "+username+" with cert:\n"+res.cert+"\n");
-        //             socket.emit('certificate',{userID: user, cert: res.cert});
-        //         });
-        //         //console.log(username+" certificate is:\n\n"+usercert);
-        //     }
-        // }
+        Promise.all([userInfo,newUserInfo]).then(()=>{
+            onlineUsers.push(username);
+			refresh();
+        });
+        socket.on('onlineRefresh',()=>{
+            refresh();
+        });
+        
+        socket.on('getcert',(userID)=>{
+            certToSend = users.findOne({'userID':userID}, (res) => socket.emit('getcert',res.cert));
+        });
 
-
+//? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//!                                     Need Synchronization !!!
+//? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         //* Update user online status
         users.updateOne({userID: username},{$set:{status:'online'}});
 
@@ -99,11 +99,11 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
             // Check for userID and message
             if(sigmsg.userID != '' && sigmsg.message != ''){  // Should let all checks be in server since client is open for modification
                 // Insert message
-                //console.log('inserting chats in collection..');
+                console.log('inserting chats in collection..');
                 chats.insertOne({userID: sigmsg.userID, message: sigmsg.message, signature: sigmsg.signature}, function(){
                     io.emit('output', [sigmsg]);
                     // Send status object
-                    //console.log('chats inserted');
+                    console.log('chats inserted');
                     sendStatus(socket, {
                         message: 'Message sent', // this is the shiiiiiiiit
                         clear: true
@@ -112,23 +112,23 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
             }
         });
 
+
+
         // Handle clear
         socket.on('clear', (data)=>{
-            //console.log("clear execution #"+cnt4++);
             // Remove all chats from collection
             chats.deleteOne({}, function(){
                 // Emit cleared
-                socket.emit('cleared');
+                io.emit('cleared');
             });
         });
 
-        // }).catch(console.error);
 
 
         // Handle Disconnect
         socket.on("disconnect", ()=>{
             users.updateOne({userID: username},{$set:{status:'offline'}});
-            connectedUsers.delete(username);
+            //connectedUsers.delete(username);
             console.log(username+" disconnected.");
             //console.log('Number of connected users is:', connectedUsers.size);
         });
