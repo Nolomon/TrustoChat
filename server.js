@@ -14,9 +14,7 @@ var onlineUsers = [];
 // Connect to mongo
 mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, function(err, client){
     //console.log("mongo.connect execution #"+cnt1++);
-    if(err){
-        throw err;
-    }
+    if(err) throw err;
     console.log('MongoDB connected... Bitch!'); // good job
 
     var db = client.db('trustochat'); // db is an object pointing to mongodb just connected to
@@ -27,7 +25,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
     }
 
     // Connect to Socket.io
-    io.on('connection', async (socket)=>{ //* CLIENT STARTING POINT  A function to be executed whenever a client connects to the server
+    io.on('connection', (socket)=>{ //* CLIENT STARTING POINT  A function to be executed whenever a client connects to the server
 
         // socekt registeration
         const username = socket.handshake.query.username;
@@ -38,47 +36,60 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
         //  Username Check
         const users = db.collection('users');
-        let usercert; // client certificate
-        let userInfo = users.findOne({userID:username});
-
+        users.findOne({userID:username}, (err, res)=>{
+            if(err) throw err;
+            console.log('first check:'+res);
+            socket.emit('userInfo', res);
+        });
         // Get new user info
-        let newUserInfo = new Promise((resolve)=>{
-            userInfo.then((res)=>{
-                socket.emit('userInfo',res);
-                if(res!=null) resolve(null);
-            });
-            socket.on('userInfo', (data)=>{
-                users.insertOne({
-                    username : username,
-                    userID: username,
-                    cert: data.cert,
-                    passHash: null,
-                    status: 'online'
-                }, resolve(data));
+        socket.on('userInfo', (data)=>{
+            //? check?
+            users.insertOne({
+                username : username,
+                userID: username,
+                cert: data.cert,
+                passHash: null,
+                status: 'online'
             });
         });
+
+        function checkUserInfo(){
+            users.findOne({userID:username}, (err, res)=>{
+                if(err) throw err;
+                if(res==null) setTimeout(checkUserInfo, 2000);
+                else return res;
+            });
+        };
+        const userInfoProm = new Promise((resolve)=>resolve(checkUserInfo));
 
         function refresh(){
             setTimeout(()=>{
-				onlineUsers = onlineUsers.reverse();
+                onlineUsers = onlineUsers.reverse();
+                console.log(username);
                 socket.emit('onlineRefresh', onlineUsers);
 			},6000);
         };
-
-        Promise.all([userInfo,newUserInfo]).then(()=>{
+        userInfoProm.then((value)=>{
             onlineUsers.push(username);
 			refresh();
         });
+
         socket.on('onlineRefresh',()=>{
             refresh();
         });
         
         socket.on('getcert',(userID)=>{
-            certToSend = users.findOne({'userID':userID}, (res) => socket.emit('getcert',res.cert));
+            console.log('searching for '+userID+' cert...');
+            users.findOne({'userID':userID}, (err, res) => {
+                if(err) throw err;
+                console.log(userID+' cert found:');
+                console.log(res);
+                socket.emit('getcert',res.cert);
+            });
         });
 
 //? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//!                                     Need Synchronization !!!
+//!                                     Need Synchronization !!!                                             //
 //? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         //* Update user online status
         users.updateOne({userID: username},{$set:{status:'online'}});
@@ -87,9 +98,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
         const chats = db.collection('chats');
         //* Get chats from mongo collection
         chats.find().limit(100).sort({_id:1}).toArray((err, res)=>{ // sort messages in ascending according to id (Chronologically)
-            if(err){
-                throw err;
-            }
+            if(err) throw err;
             socket.emit('output', res);
         });
 

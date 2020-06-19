@@ -116,8 +116,8 @@
                 console.log('Connected to socket.');
 
                 // username check
-                var prvkey; // user private key and certificate
-                var newconn=true; // first connection check
+                var prvkey; // user private key
+                var newconn = true; // first connection check
                 var userCerts = new Map(); // certificates of users in chat
                 socket.on('userInfo', function(userInfo){
                     if(newconn){
@@ -156,6 +156,8 @@
                             ////// send user info to server
                             socket.emit('userInfo',{
                                 cert: certPEM
+                            },()=>{
+                                console.log('userInfo sent to server.');
                             });
                             // show private key in pem format
                             prvkey = KEYUTIL.getPEM(keypair.prvKeyObj, "PKCS1PRV");
@@ -234,6 +236,8 @@
                 function openConv(userID){
                     sendBtn.disabled=true;
                     textarea.disabled=true;
+                    //if(userCerts.find(userID)==null){} 
+                    console.log('requesting cert for '+userID);
                     socket.emit('getcert',userID);
                     socket.on('getcert',(usercert)=>{
                     userCerts.set(userID,usercert);
@@ -243,19 +247,22 @@
                 }
 
                 socket.on('onlineRefresh',(onlineUsers)=>{
-                console.log(onlineUsers);
-                onlineUsersPanel.innerHTML = '';
-                for(let onuser of onlineUsers){
-                if(onuser==username) continue;
-                console.log(onuser);
-                let usercard = document.createElement('div');
-                usercard.setAttribute('id',"card_"+onuser);
-                usercard.innerText = onuser;
-                usercard.onclick = openConv(onuser);
-                onlineUsersPanel.appendChild(usercard);
-                }
-                socket.emit('onlineRefresh');
-            });
+                    console.log(onlineUsers);
+                    onlineUsersPanel.innerHTML = '';
+                    for(let onuser of onlineUsers){
+                        if(onuser==username) continue;
+                        console.log(onuser);
+                        let usercard = document.createElement('div');
+                        usercard.setAttribute('id',"card_"+onuser);
+                        usercard.innerText = onuser;
+                        usercard.onclick = (function (param) {
+                            console.log('execute openconv('+param+')');
+                                return ()=>openConv(param);
+                            })(onuser);
+                        onlineUsersPanel.appendChild(usercard);
+                    }
+                    socket.emit('onlineRefresh');   // Update onlineUsersPanel (server will take 6000ms)
+                });
 
             }
 
