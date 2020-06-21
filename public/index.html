@@ -107,6 +107,10 @@
                 }
             }
 
+            var prvKeyPrompt = function(){
+
+            }
+
             // Connect to socket.io
             //console.log(username);
             var socket = io('http://127.0.0.1:4000',{ query: {username : username} }); ////////////////////           HERE!!!!          /////////////////////////////////////////////////
@@ -129,10 +133,11 @@
                         }
                         else{
                             // generating RSA key pair`
-                            let keypair = KEYUTIL.generateKeypair("RSA",2048);
+                            const keypair = KEYUTIL.generateKeypair("RSA",2048);
+                            console.log(keypair);
                             ////////////
                             // generate TBSCertificate
-                            let tbsc = new KJUR.asn1.x509.TBSCertificate();
+                            const tbsc = new KJUR.asn1.x509.TBSCertificate();
                             // add basic fields
                             tbsc.setSerialNumberByParam({'int': 1234});
                             tbsc.setSignatureAlgByParam({'name': 'SHA512withRSA'});
@@ -147,7 +152,7 @@
                             tbsc.appendExtension(new KJUR.asn1.x509.CRLDistributionPoints({'uri':'http://a.com/a.crl'}));
 
                             // sign and get PEM certificate with CA private key
-                            let cert = new KJUR.asn1.x509.Certificate({'tbscertobj': tbsc,'prvkeyobj': keypair.prvKeyObj});    // going to be a self-signed certificate
+                            const cert = new KJUR.asn1.x509.Certificate({'tbscertobj': tbsc,'prvkeyobj': keypair.prvKeyObj});    // going to be a self-signed certificate
                             cert.sign();
                             certPEM = cert.getPEMString();
                             userCerts.set(username, certPEM);
@@ -166,11 +171,11 @@
                         }
                 }});
 
-                // get other users certificates
-                socket.on('certificate', (usercert)=>{
-                    userCerts.set(usercert.userID, usercert.cert);
-                    //console.log(usercert);
-                });
+                // // get other users certificates
+                // socket.on('certificate', (usercert)=>{
+                //     userCerts.set(usercert.userID, usercert.cert);
+                //     //console.log(usercert);
+                // });
 
                 // Handle Server Output (incoming messages)
                 socket.on('output', (data)=>{
@@ -178,13 +183,13 @@
                     if(data.length){
                         for(let x = 0;x < data.length;x++){
                             // Build out message div
-                            let message = document.createElement('div');
+                            const message = document.createElement('div');
                             message.setAttribute('class', 'chat-message');
                             message.textContent = data[x].userID+": "+data[x].message;
 
                             /////// SINGATURE VERIFICATION  ////////
                             //console.log(userCerts.get(data[x].userID));
-                            let pubKey = KEYUTIL.getKey(userCerts.get(username));
+                            const pubKey = KEYUTIL.getKey(userCerts.get(data[x].userID));
                             message.textContent+="\n\n    [VERIFIED]";
                             // if (pubKey.verify(data[x].message, data[x].signature)) message.textContent+="\n\n    [VERIFIED]";
                             // else message.textContent+="\n\n    [MODIFIED]";
@@ -214,10 +219,10 @@
                 // Handle Server Input
                 sendBtn.addEventListener('click', (event)=>{
                         // Sign message and emit to server input
-                        let sig = new KJUR.crypto.Signature({"alg": "SHA512withRSA"});
+                        const sig = new KJUR.crypto.Signature({"alg": "SHA512withRSA"});
                         sig.init(prvkey);
-                        let encryptedHash = sig.signString(textarea.value);
-                        let sigmsg = {userID:username, message:textarea.value, signature: encryptedHash};
+                        const encryptedHash = sig.signString(textarea.value);
+                        const sigmsg = {userID:username, message:textarea.value, signature: encryptedHash};
                         socket.emit('sigmsg', sigmsg);
 
                         //event.preventDefault(); // prevents page reloading
@@ -240,9 +245,10 @@
                     console.log('requesting cert for '+userID);
                     socket.emit('getcert',userID);
                     socket.on('getcert',(usercert)=>{
-                    userCerts.set(userID,usercert);
-                    sendBtn.disabled=false;
-                    textarea.disabled=false;
+                        console.log('############       GOT '+userID+' CERT!!!       #############');    
+                        userCerts.set(userID,usercert);
+                        sendBtn.disabled=false;
+                        textarea.disabled=false;
                     });
                 }
 
@@ -252,7 +258,7 @@
                     for(let onuser of onlineUsers){
                         if(onuser==username) continue;
                         console.log(onuser);
-                        let usercard = document.createElement('div');
+                        const usercard = document.createElement('div');
                         usercard.setAttribute('id',"card_"+onuser);
                         usercard.innerText = onuser;
                         usercard.onclick = (function (param) {
