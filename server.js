@@ -26,6 +26,8 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
     // Connect to Socket.io
     io.on('connection', (socket)=>{ //* CLIENT STARTING POINT  A function to be executed whenever a client connects to the server
+        // remove all old event handlers
+        socket.removeAllListeners();
 
         // socekt registeration
         const username = socket.handshake.query.username;
@@ -75,13 +77,13 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
             refresh();
         });
         
-        socket.on('getcert',(userID)=>{
+        socket.on('req-cert',(userID)=>{
             console.log('searching for '+userID+' cert...');
             users.findOne({'userID':userID}, (err, res) => {
                 if(err) throw err;
                 console.log(userID+' cert found:');
                 console.log(res);
-                socket.emit('getcert',res.cert);
+                socket.emit('res-cert',res.cert);
             });
         });
 
@@ -138,6 +140,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
             const onIndex = onlineUsers.indexOf(username);
             if(onIndex>-1) onlineUsers.splice(onIndex,1);
             users.updateOne({userID: username},{$set:{status:'offline'}});
+            socket.removeAllListeners();
             console.log(username+" disconnected.");
         });
     });
