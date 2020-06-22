@@ -30,9 +30,6 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
         // socekt registeration
         const username = socket.handshake.query.username;
         console.log(username+' connected.');
-        //connectedUsers.set(username, socket);
-        //console.log('Number of connected users is:', connectedUsers.size);
-
 
         //  Username Check
         const users = db.collection('users');
@@ -43,14 +40,14 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
         });
         // Get new user info
         socket.on('userInfo', (data)=>{
-            //? check?
+            console.log('REGISTERING NEW USER:'+username+' ...');
             users.insertOne({
                 username : username,
                 userID: username,
                 cert: data.cert,
                 passHash: null,
                 status: 'online'
-            });
+            },()=>console.log('USER '+username+' REGISTERED!'));
         });
 
         function checkUserInfo(){
@@ -88,18 +85,20 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
             });
         });
 
-//? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//!                                     Need Synchronization !!!                                             //
-//? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //!                                     Need Synchronization !!!                                             //
+    //? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         //* Update user online status
         users.updateOne({userID: username},{$set:{status:'online'}});
 
 
         const chats = db.collection('chats');
         //* Get chats from mongo collection
-        chats.find().limit(100).sort({_id:1}).toArray((err, res)=>{ // sort messages in ascending according to id (Chronologically)
-            if(err) throw err;
-            socket.emit('output', res);
+        socket.on('openconv', (convID)=>{
+            chats.find().limit(100).sort({_id:1}).toArray((err, res)=>{ // sort messages in ascending according to id (Chronologically)
+                if(err) throw err;
+                socket.emit('output', res);
+            });
         });
 
         // Handle input events
@@ -114,7 +113,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
                     // Send status object
                     console.log('chats inserted');
                     sendStatus(socket, {
-                        message: 'Message sent', // this is the shiiiiiiiit
+                        message: 'Message sent',
                         clear: true
                     });
                 });
@@ -136,10 +135,10 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
         // Handle Disconnect
         socket.on("disconnect", ()=>{
+            const onIndex = onlineUsers.indexOf(username);
+            if(onIndex>-1) onlineUsers.splice(onIndex,1);
             users.updateOne({userID: username},{$set:{status:'offline'}});
-            //connectedUsers.delete(username);
             console.log(username+" disconnected.");
-            //console.log('Number of connected users is:', connectedUsers.size);
         });
     });
 });
