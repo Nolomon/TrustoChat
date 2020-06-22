@@ -113,7 +113,8 @@
 
             // Connect to socket.io
             //console.log(username);
-            var socket = io('http://127.0.0.1:4000',{ query: {username : username} }); ////////////////////           HERE!!!!          /////////////////////////////////////////////////
+            //127.0.0.1
+            var socket = io('http://192.168.1.100:4000',{ query: {username : username} }); ////////////////////           HERE!!!!          /////////////////////////////////////////////////
 
             // Check for connection
             if(socket !== undefined){
@@ -178,7 +179,10 @@
                 // });
 
                 // Handle Server Output (incoming messages)
+                let outputCnt = 1;
                 socket.on('output', (data)=>{
+                    console.log(outputCnt++);
+                    console.log("------------------------------------");
                     console.log(data);
                     if(data.length){
                         for(let x = 0;x < data.length;x++){
@@ -246,12 +250,14 @@
                         while(messages.firstChild && messages.removeChild(messages.firstChild));
                         resolve();
                     });
-                    clearProm.then(()=>{
+
+                    clearProm.then(()=>{ // getting other user certificate
                         console.log('requesting cert for '+userID);
-                        socket.emit('getcert',userID);
-                        socket.on('getcert',(usercert)=>{
+                        socket.emit('req-cert',userID);
+                        socket.on('res-cert',(usercert)=>{
                             console.log('############       GOT '+userID+' CERT!!!       #############');    
                             userCerts.set(userID,usercert);
+                            //socket.removeAllListeners('output');
                             socket.emit('openconv', null);
                             sendBtn.disabled=false;
                             textarea.disabled=false;
@@ -269,7 +275,6 @@
                         usercard.setAttribute('id',"card_"+onuser);
                         usercard.innerText = onuser;
                         usercard.onclick = (function (param) {
-                            console.log('execute openconv('+param+')');
                                 return ()=>openConv(param);
                             })(onuser);
                         onlineUsersPanel.appendChild(usercard);
