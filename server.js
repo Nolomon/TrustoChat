@@ -26,8 +26,6 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
     // Connect to Socket.io
     io.on('connection', (socket)=>{ //* CLIENT STARTING POINT  A function to be executed whenever a client connects to the server
-        // remove all old event handlers
-        socket.removeAllListeners();
 
         // socekt registeration
         const username = socket.handshake.query.username;

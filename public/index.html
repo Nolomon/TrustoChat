@@ -113,7 +113,7 @@
 
             // Connect to socket.io
             //console.log(username);
-            //127.0.0.1
+            //local: 127.0.0.1
             var socket = io('http://192.168.1.100:4000',{ query: {username : username} }); ////////////////////           HERE!!!!          /////////////////////////////////////////////////
 
             // Check for connection
@@ -257,10 +257,10 @@
                         socket.on('res-cert',(usercert)=>{
                             console.log('############       GOT '+userID+' CERT!!!       #############');    
                             userCerts.set(userID,usercert);
-                            //socket.removeAllListeners('output');
                             socket.emit('openconv', null);
                             sendBtn.disabled=false;
                             textarea.disabled=false;
+                            socket.removeAllListeners('res-cert'); // or you could've used socket.once() instead of socket.on()
                         });
                     });
                 }
