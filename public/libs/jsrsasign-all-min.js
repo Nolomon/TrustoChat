@@ -1,5 +1,5 @@
 /*
- * jsrsasign(all) 8.0.15 (2020-04-13) (c) 2010-2020 Kenji Urushima | kjur.github.com/jsrsasign/license
+ * jsrsasign(all) 8.0.20 (2020-06-24) (c) 2010-2020 Kenji Urushima | kjur.github.com/jsrsasign/license
  */
 
 /*!
@@ -16,8 +16,7 @@ YAHOO.lang = {
         if (!h || !g) {
             throw new Error("YAHOO.lang.extend failed, please check that all dependencies are included.")
         }
-        var d = function () {
-        };
+        var d = function () {};
         d.prototype = h.prototype;
         g.prototype = new d();
         g.prototype.constructor = g;
@@ -30,21 +29,21 @@ YAHOO.lang = {
             for (b in f) {
                 g.prototype[b] = f[b]
             }
-            var e = function () {
-            }, c = ["toString", "valueOf"];
+            var e = function () {},
+                c = ["toString", "valueOf"];
             try {
                 if (/MSIE/.test(navigator.userAgent)) {
                     e = function (j, i) {
                         for (b = 0; b < c.length; b = b + 1) {
-                            var l = c[b], k = i[l];
+                            var l = c[b],
+                                k = i[l];
                             if (typeof k === "function" && k != Object.prototype[l]) {
                                 j[l] = k
                             }
                         }
                     }
                 }
-            } catch (a) {
-            }
+            } catch (a) {}
             e(g.prototype, f)
         }
     }
@@ -62,9 +61,7 @@ var CryptoJS = CryptoJS || (function (e, g) {
     var a = {};
     var b = a.lib = {};
     var j = b.Base = (function () {
-        function n() {
-        }
-
+        function n() {}
         return {
             extend: function (p) {
                 n.prototype = this;
@@ -80,12 +77,14 @@ var CryptoJS = CryptoJS || (function (e, g) {
                 o.init.prototype = o;
                 o.$super = this;
                 return o
-            }, create: function () {
+            },
+            create: function () {
                 var o = this.extend();
                 o.init.apply(o, arguments);
                 return o
-            }, init: function () {
-            }, mixIn: function (p) {
+            },
+            init: function () {},
+            mixIn: function (p) {
                 for (var o in p) {
                     if (p.hasOwnProperty(o)) {
                         this[o] = p[o]
@@ -94,7 +93,8 @@ var CryptoJS = CryptoJS || (function (e, g) {
                 if (p.hasOwnProperty("toString")) {
                     this.toString = p.toString
                 }
-            }, clone: function () {
+            },
+            clone: function () {
                 return this.init.prototype.extend(this)
             }
         }
@@ -107,9 +107,11 @@ var CryptoJS = CryptoJS || (function (e, g) {
             } else {
                 this.sigBytes = o.length * 4
             }
-        }, toString: function (n) {
+        },
+        toString: function (n) {
             return (n || h).stringify(this)
-        }, concat: function (t) {
+        },
+        concat: function (t) {
             var q = this.words;
             var p = t.words;
             var n = this.sigBytes;
@@ -127,16 +129,19 @@ var CryptoJS = CryptoJS || (function (e, g) {
             }
             this.sigBytes += s;
             return this
-        }, clamp: function () {
+        },
+        clamp: function () {
             var o = this.words;
             var n = this.sigBytes;
             o[n >>> 2] &= 4294967295 << (32 - (n % 4) * 8);
             o.length = e.ceil(n / 4)
-        }, clone: function () {
+        },
+        clone: function () {
             var n = j.clone.call(this);
             n.words = this.words.slice(0);
             return n
-        }, random: function (p) {
+        },
+        random: function (p) {
             var o = [];
             for (var n = 0; n < p; n += 4) {
                 o.push((e.random() * 4294967296) | 0)
@@ -156,7 +161,8 @@ var CryptoJS = CryptoJS || (function (e, g) {
                 q.push((s & 15).toString(16))
             }
             return q.join("")
-        }, parse: function (p) {
+        },
+        parse: function (p) {
             var n = p.length;
             var q = [];
             for (var o = 0; o < n; o += 2) {
@@ -175,7 +181,8 @@ var CryptoJS = CryptoJS || (function (e, g) {
                 n.push(String.fromCharCode(s))
             }
             return n.join("")
-        }, parse: function (p) {
+        },
+        parse: function (p) {
             var n = p.length;
             var q = [];
             for (var o = 0; o < n; o++) {
@@ -191,7 +198,8 @@ var CryptoJS = CryptoJS || (function (e, g) {
             } catch (o) {
                 throw new Error("Malformed UTF-8 data")
             }
-        }, parse: function (n) {
+        },
+        parse: function (n) {
             return d.parse(unescape(encodeURIComponent(n)))
         }
     };
@@ -199,13 +207,15 @@ var CryptoJS = CryptoJS || (function (e, g) {
         reset: function () {
             this._data = new l.init();
             this._nDataBytes = 0
-        }, _append: function (n) {
+        },
+        _append: function (n) {
             if (typeof n == "string") {
                 n = c.parse(n)
             }
             this._data.concat(n);
             this._nDataBytes += n.sigBytes
-        }, _process: function (w) {
+        },
+        _process: function (w) {
             var q = this._data;
             var x = q.words;
             var n = q.sigBytes;
@@ -227,34 +237,43 @@ var CryptoJS = CryptoJS || (function (e, g) {
                 q.sigBytes -= r
             }
             return new l.init(o, r)
-        }, clone: function () {
+        },
+        clone: function () {
             var n = j.clone.call(this);
             n._data = this._data.clone();
             return n
-        }, _minBufferSize: 0
+        },
+        _minBufferSize: 0
     });
     var f = b.Hasher = i.extend({
-        cfg: j.extend(), init: function (n) {
+        cfg: j.extend(),
+        init: function (n) {
             this.cfg = this.cfg.extend(n);
             this.reset()
-        }, reset: function () {
+        },
+        reset: function () {
             i.reset.call(this);
             this._doReset()
-        }, update: function (n) {
+        },
+        update: function (n) {
             this._append(n);
             this._process();
             return this
-        }, finalize: function (n) {
+        },
+        finalize: function (n) {
             if (n) {
                 this._append(n)
             }
             var o = this._doFinalize();
             return o
-        }, blockSize: 512 / 32, _createHelper: function (n) {
+        },
+        blockSize: 512 / 32,
+        _createHelper: function (n) {
             return function (p, o) {
                 return new n.init(o).finalize(p)
             }
-        }, _createHmacHelper: function (n) {
+        },
+        _createHmacHelper: function (n) {
             return function (p, o) {
                 return new k.HMAC.init(n, o).finalize(p)
             }
@@ -270,7 +289,11 @@ code.google.com/p/crypto-js
 code.google.com/p/crypto-js/wiki/License
 */
 (function (g) {
-    var a = CryptoJS, f = a.lib, e = f.Base, h = f.WordArray, a = a.x64 = {};
+    var a = CryptoJS,
+        f = a.lib,
+        e = f.Base,
+        h = f.WordArray,
+        a = a.x64 = {};
     a.Word = e.extend({
         init: function (b, c) {
             this.high = b;
@@ -281,14 +304,16 @@ code.google.com/p/crypto-js/wiki/License
         init: function (b, c) {
             b = this.words = b || [];
             this.sigBytes = c != g ? c : 8 * b.length
-        }, toX32: function () {
+        },
+        toX32: function () {
             for (var b = this.words, c = b.length, a = [], d = 0; d < c; d++) {
                 var e = b[d];
                 a.push(e.high);
                 a.push(e.low)
             }
             return h.create(a, this.sigBytes)
-        }, clone: function () {
+        },
+        clone: function () {
             for (var b = e.clone.call(this), c = b.words = this.words.slice(0), a = c.length, d = 0; d < a; d++) c[d] = c[d].clone();
             return b
         }
@@ -302,31 +327,49 @@ code.google.com/p/crypto-js
 code.google.com/p/crypto-js/wiki/License
 */
 CryptoJS.lib.Cipher || function (u) {
-    var g = CryptoJS, f = g.lib, k = f.Base, l = f.WordArray, q = f.BufferedBlockAlgorithm, r = g.enc.Base64,
-        v = g.algo.EvpKDF, n = f.Cipher = q.extend({
-            cfg: k.extend(), createEncryptor: function (a, b) {
+    var g = CryptoJS,
+        f = g.lib,
+        k = f.Base,
+        l = f.WordArray,
+        q = f.BufferedBlockAlgorithm,
+        r = g.enc.Base64,
+        v = g.algo.EvpKDF,
+        n = f.Cipher = q.extend({
+            cfg: k.extend(),
+            createEncryptor: function (a, b) {
                 return this.create(this._ENC_XFORM_MODE, a, b)
-            }, createDecryptor: function (a, b) {
+            },
+            createDecryptor: function (a, b) {
                 return this.create(this._DEC_XFORM_MODE, a, b)
-            }, init: function (a, b, c) {
+            },
+            init: function (a, b, c) {
                 this.cfg = this.cfg.extend(c);
                 this._xformMode = a;
                 this._key = b;
                 this.reset()
-            }, reset: function () {
+            },
+            reset: function () {
                 q.reset.call(this);
                 this._doReset()
-            }, process: function (a) {
+            },
+            process: function (a) {
                 this._append(a);
                 return this._process()
-            }, finalize: function (a) {
+            },
+            finalize: function (a) {
                 a && this._append(a);
                 return this._doFinalize()
-            }, keySize: 4, ivSize: 4, _ENC_XFORM_MODE: 1, _DEC_XFORM_MODE: 2, _createHelper: function (a) {
+            },
+            keySize: 4,
+            ivSize: 4,
+            _ENC_XFORM_MODE: 1,
+            _DEC_XFORM_MODE: 2,
+            _createHelper: function (a) {
                 return {
                     encrypt: function (b, c, d) {
                         return ("string" == typeof c ? s : j).encrypt(a, b, c, d)
-                    }, decrypt: function (b, c, d) {
+                    },
+                    decrypt: function (b, c, d) {
                         return ("string" == typeof c ? s : j).decrypt(a, b, c, d)
                     }
                 }
@@ -335,26 +378,32 @@ CryptoJS.lib.Cipher || function (u) {
     f.StreamCipher = n.extend({
         _doFinalize: function () {
             return this._process(!0)
-        }, blockSize: 1
+        },
+        blockSize: 1
     });
-    var m = g.mode = {}, t = function (a, b, c) {
-        var d = this._iv;
-        d ? this._iv = u : d = this._prevBlock;
-        for (var e =
-            0; e < c; e++) a[b + e] ^= d[e]
-    }, h = (f.BlockCipherMode = k.extend({
-        createEncryptor: function (a, b) {
-            return this.Encryptor.create(a, b)
-        }, createDecryptor: function (a, b) {
-            return this.Decryptor.create(a, b)
-        }, init: function (a, b) {
-            this._cipher = a;
-            this._iv = b
-        }
-    })).extend();
+    var m = g.mode = {},
+        t = function (a, b, c) {
+            var d = this._iv;
+            d ? this._iv = u : d = this._prevBlock;
+            for (var e =
+                    0; e < c; e++) a[b + e] ^= d[e]
+        },
+        h = (f.BlockCipherMode = k.extend({
+            createEncryptor: function (a, b) {
+                return this.Encryptor.create(a, b)
+            },
+            createDecryptor: function (a, b) {
+                return this.Decryptor.create(a, b)
+            },
+            init: function (a, b) {
+                this._cipher = a;
+                this._iv = b
+            }
+        })).extend();
     h.Encryptor = h.extend({
         processBlock: function (a, b) {
-            var c = this._cipher, d = c.blockSize;
+            var c = this._cipher,
+                d = c.blockSize;
             t.call(this, a, b, d);
             c.encryptBlock(a, b);
             this._prevBlock = a.slice(b, b + d)
@@ -362,7 +411,9 @@ CryptoJS.lib.Cipher || function (u) {
     });
     h.Decryptor = h.extend({
         processBlock: function (a, b) {
-            var c = this._cipher, d = c.blockSize, e = a.slice(b, b + d);
+            var c = this._cipher,
+                d = c.blockSize,
+                e = a.slice(b, b + d);
             c.decryptBlock(a,
                 b);
             t.call(this, a, b, d);
@@ -375,90 +426,131 @@ CryptoJS.lib.Cipher || function (u) {
             for (var c = 4 * b, c = c - a.sigBytes % c, d = c << 24 | c << 16 | c << 8 | c, e = [], f = 0; f < c; f += 4) e.push(d);
             c = l.create(e, c);
             a.concat(c)
-        }, unpad: function (a) {
+        },
+        unpad: function (a) {
             a.sigBytes -= a.words[a.sigBytes - 1 >>> 2] & 255
         }
     };
     f.BlockCipher = n.extend({
-        cfg: n.cfg.extend({mode: m, padding: h}), reset: function () {
+        cfg: n.cfg.extend({
+            mode: m,
+            padding: h
+        }),
+        reset: function () {
             n.reset.call(this);
-            var a = this.cfg, b = a.iv, a = a.mode;
-            if (this._xformMode == this._ENC_XFORM_MODE) var c = a.createEncryptor; else c = a.createDecryptor, this._minBufferSize = 1;
+            var a = this.cfg,
+                b = a.iv,
+                a = a.mode;
+            if (this._xformMode == this._ENC_XFORM_MODE) var c = a.createEncryptor;
+            else c = a.createDecryptor, this._minBufferSize = 1;
             this._mode = c.call(a, this, b && b.words)
-        }, _doProcessBlock: function (a, b) {
+        },
+        _doProcessBlock: function (a, b) {
             this._mode.processBlock(a, b)
-        }, _doFinalize: function () {
+        },
+        _doFinalize: function () {
             var a = this.cfg.padding;
             if (this._xformMode == this._ENC_XFORM_MODE) {
                 a.pad(this._data, this.blockSize);
                 var b = this._process(!0)
             } else b = this._process(!0), a.unpad(b);
             return b
-        }, blockSize: 4
+        },
+        blockSize: 4
     });
     var p = f.CipherParams = k.extend({
-        init: function (a) {
-            this.mixIn(a)
-        }, toString: function (a) {
-            return (a || this.formatter).stringify(this)
-        }
-    }), m = (g.format = {}).OpenSSL = {
-        stringify: function (a) {
-            var b = a.ciphertext;
-            a = a.salt;
-            return (a ? l.create([1398893684, 1701076831]).concat(a).concat(b) : b).toString(r)
-        }, parse: function (a) {
-            a = r.parse(a);
-            var b = a.words;
-            if (1398893684 == b[0] && 1701076831 == b[1]) {
-                var c = l.create(b.slice(2, 4));
-                b.splice(0, 4);
-                a.sigBytes -= 16
+            init: function (a) {
+                this.mixIn(a)
+            },
+            toString: function (a) {
+                return (a || this.formatter).stringify(this)
             }
-            return p.create({ciphertext: a, salt: c})
-        }
-    }, j = f.SerializableCipher = k.extend({
-        cfg: k.extend({format: m}), encrypt: function (a, b, c, d) {
-            d = this.cfg.extend(d);
-            var e = a.createEncryptor(c, d);
-            b = e.finalize(b);
-            e = e.cfg;
-            return p.create({
-                ciphertext: b, key: c, iv: e.iv, algorithm: a, mode: e.mode, padding: e.padding,
-                blockSize: a.blockSize, formatter: d.format
-            })
-        }, decrypt: function (a, b, c, d) {
-            d = this.cfg.extend(d);
-            b = this._parse(b, d.format);
-            return a.createDecryptor(c, d).finalize(b.ciphertext)
-        }, _parse: function (a, b) {
-            return "string" == typeof a ? b.parse(a, this) : a
-        }
-    }), g = (g.kdf = {}).OpenSSL = {
-        execute: function (a, b, c, d) {
-            d || (d = l.random(8));
-            a = v.create({keySize: b + c}).compute(a, d);
-            c = l.create(a.words.slice(b), 4 * c);
-            a.sigBytes = 4 * b;
-            return p.create({key: a, iv: c, salt: d})
-        }
-    }, s = f.PasswordBasedCipher = j.extend({
-        cfg: j.cfg.extend({kdf: g}), encrypt: function (a,
-                                                        b, c, d) {
-            d = this.cfg.extend(d);
-            c = d.kdf.execute(c, a.keySize, a.ivSize);
-            d.iv = c.iv;
-            a = j.encrypt.call(this, a, b, c.key, d);
-            a.mixIn(c);
-            return a
-        }, decrypt: function (a, b, c, d) {
-            d = this.cfg.extend(d);
-            b = this._parse(b, d.format);
-            c = d.kdf.execute(c, a.keySize, a.ivSize, b.salt);
-            d.iv = c.iv;
-            return j.decrypt.call(this, a, b, c.key, d)
-        }
-    })
+        }),
+        m = (g.format = {}).OpenSSL = {
+            stringify: function (a) {
+                var b = a.ciphertext;
+                a = a.salt;
+                return (a ? l.create([1398893684, 1701076831]).concat(a).concat(b) : b).toString(r)
+            },
+            parse: function (a) {
+                a = r.parse(a);
+                var b = a.words;
+                if (1398893684 == b[0] && 1701076831 == b[1]) {
+                    var c = l.create(b.slice(2, 4));
+                    b.splice(0, 4);
+                    a.sigBytes -= 16
+                }
+                return p.create({
+                    ciphertext: a,
+                    salt: c
+                })
+            }
+        },
+        j = f.SerializableCipher = k.extend({
+            cfg: k.extend({
+                format: m
+            }),
+            encrypt: function (a, b, c, d) {
+                d = this.cfg.extend(d);
+                var e = a.createEncryptor(c, d);
+                b = e.finalize(b);
+                e = e.cfg;
+                return p.create({
+                    ciphertext: b,
+                    key: c,
+                    iv: e.iv,
+                    algorithm: a,
+                    mode: e.mode,
+                    padding: e.padding,
+                    blockSize: a.blockSize,
+                    formatter: d.format
+                })
+            },
+            decrypt: function (a, b, c, d) {
+                d = this.cfg.extend(d);
+                b = this._parse(b, d.format);
+                return a.createDecryptor(c, d).finalize(b.ciphertext)
+            },
+            _parse: function (a, b) {
+                return "string" == typeof a ? b.parse(a, this) : a
+            }
+        }),
+        g = (g.kdf = {}).OpenSSL = {
+            execute: function (a, b, c, d) {
+                d || (d = l.random(8));
+                a = v.create({
+                    keySize: b + c
+                }).compute(a, d);
+                c = l.create(a.words.slice(b), 4 * c);
+                a.sigBytes = 4 * b;
+                return p.create({
+                    key: a,
+                    iv: c,
+                    salt: d
+                })
+            }
+        },
+        s = f.PasswordBasedCipher = j.extend({
+            cfg: j.cfg.extend({
+                kdf: g
+            }),
+            encrypt: function (a,
+                b, c, d) {
+                d = this.cfg.extend(d);
+                c = d.kdf.execute(c, a.keySize, a.ivSize);
+                d.iv = c.iv;
+                a = j.encrypt.call(this, a, b, c.key, d);
+                a.mixIn(c);
+                return a
+            },
+            decrypt: function (a, b, c, d) {
+                d = this.cfg.extend(d);
+                b = this._parse(b, d.format);
+                c = d.kdf.execute(c, a.keySize, a.ivSize, b.salt);
+                d.iv = c.iv;
+                return j.decrypt.call(this, a, b, c.key, d)
+            }
+        })
 }();
 
 /*
@@ -470,10 +562,14 @@ code.google.com/p/crypto-js/wiki/License
 (function () {
     for (var q = CryptoJS, x = q.lib.BlockCipher, r = q.algo, j = [], y = [], z = [], A = [], B = [], C = [], s = [], u = [], v = [], w = [], g = [], k = 0; 256 > k; k++) g[k] = 128 > k ? k << 1 : k << 1 ^ 283;
     for (var n = 0, l = 0, k = 0; 256 > k; k++) {
-        var f = l ^ l << 1 ^ l << 2 ^ l << 3 ^ l << 4, f = f >>> 8 ^ f & 255 ^ 99;
+        var f = l ^ l << 1 ^ l << 2 ^ l << 3 ^ l << 4,
+            f = f >>> 8 ^ f & 255 ^ 99;
         j[n] = f;
         y[f] = n;
-        var t = g[n], D = g[t], E = g[D], b = 257 * g[f] ^ 16843008 * f;
+        var t = g[n],
+            D = g[t],
+            E = g[D],
+            b = 257 * g[f] ^ 16843008 * f;
         z[n] = b << 24 | b >>> 8;
         A[n] = b << 16 | b >>> 16;
         B[n] = b << 8 | b >>> 24;
@@ -486,39 +582,52 @@ code.google.com/p/crypto-js/wiki/License
         n ? (n = t ^ g[g[g[E ^ t]]], l ^= g[g[l]]) : n = l = 1
     }
     var F = [0, 1, 2, 4, 8,
-        16, 32, 64, 128, 27, 54], r = r.AES = x.extend({
-        _doReset: function () {
-            for (var c = this._key, e = c.words, a = c.sigBytes / 4, c = 4 * ((this._nRounds = a + 6) + 1), b = this._keySchedule = [], h = 0; h < c; h++) if (h < a) b[h] = e[h]; else {
-                var d = b[h - 1];
-                h % a ? 6 < a && 4 == h % a && (d = j[d >>> 24] << 24 | j[d >>> 16 & 255] << 16 | j[d >>> 8 & 255] << 8 | j[d & 255]) : (d = d << 8 | d >>> 24, d = j[d >>> 24] << 24 | j[d >>> 16 & 255] << 16 | j[d >>> 8 & 255] << 8 | j[d & 255], d ^= F[h / a | 0] << 24);
-                b[h] = b[h - a] ^ d
-            }
-            e = this._invKeySchedule = [];
-            for (a = 0; a < c; a++) h = c - a, d = a % 4 ? b[h] : b[h - 4], e[a] = 4 > a || 4 >= h ? d : s[j[d >>> 24]] ^ u[j[d >>> 16 & 255]] ^ v[j[d >>>
-            8 & 255]] ^ w[j[d & 255]]
-        }, encryptBlock: function (c, e) {
-            this._doCryptBlock(c, e, this._keySchedule, z, A, B, C, j)
-        }, decryptBlock: function (c, e) {
-            var a = c[e + 1];
-            c[e + 1] = c[e + 3];
-            c[e + 3] = a;
-            this._doCryptBlock(c, e, this._invKeySchedule, s, u, v, w, y);
-            a = c[e + 1];
-            c[e + 1] = c[e + 3];
-            c[e + 3] = a
-        }, _doCryptBlock: function (c, e, a, b, h, d, j, m) {
-            for (var n = this._nRounds, f = c[e] ^ a[0], g = c[e + 1] ^ a[1], k = c[e + 2] ^ a[2], p = c[e + 3] ^ a[3], l = 4, t = 1; t < n; t++) var q = b[f >>> 24] ^ h[g >>> 16 & 255] ^ d[k >>> 8 & 255] ^ j[p & 255] ^ a[l++], r = b[g >>> 24] ^ h[k >>> 16 & 255] ^ d[p >>> 8 & 255] ^ j[f & 255] ^ a[l++], s =
-                b[k >>> 24] ^ h[p >>> 16 & 255] ^ d[f >>> 8 & 255] ^ j[g & 255] ^ a[l++], p = b[p >>> 24] ^ h[f >>> 16 & 255] ^ d[g >>> 8 & 255] ^ j[k & 255] ^ a[l++], f = q, g = r, k = s;
-            q = (m[f >>> 24] << 24 | m[g >>> 16 & 255] << 16 | m[k >>> 8 & 255] << 8 | m[p & 255]) ^ a[l++];
-            r = (m[g >>> 24] << 24 | m[k >>> 16 & 255] << 16 | m[p >>> 8 & 255] << 8 | m[f & 255]) ^ a[l++];
-            s = (m[k >>> 24] << 24 | m[p >>> 16 & 255] << 16 | m[f >>> 8 & 255] << 8 | m[g & 255]) ^ a[l++];
-            p = (m[p >>> 24] << 24 | m[f >>> 16 & 255] << 16 | m[g >>> 8 & 255] << 8 | m[k & 255]) ^ a[l++];
-            c[e] = q;
-            c[e + 1] = r;
-            c[e + 2] = s;
-            c[e + 3] = p
-        }, keySize: 8
-    });
+            16, 32, 64, 128, 27, 54
+        ],
+        r = r.AES = x.extend({
+            _doReset: function () {
+                for (var c = this._key, e = c.words, a = c.sigBytes / 4, c = 4 * ((this._nRounds = a + 6) + 1), b = this._keySchedule = [], h = 0; h < c; h++)
+                    if (h < a) b[h] = e[h];
+                    else {
+                        var d = b[h - 1];
+                        h % a ? 6 < a && 4 == h % a && (d = j[d >>> 24] << 24 | j[d >>> 16 & 255] << 16 | j[d >>> 8 & 255] << 8 | j[d & 255]) : (d = d << 8 | d >>> 24, d = j[d >>> 24] << 24 | j[d >>> 16 & 255] << 16 | j[d >>> 8 & 255] << 8 | j[d & 255], d ^= F[h / a | 0] << 24);
+                        b[h] = b[h - a] ^ d
+                    } e = this._invKeySchedule = [];
+                for (a = 0; a < c; a++) h = c - a, d = a % 4 ? b[h] : b[h - 4], e[a] = 4 > a || 4 >= h ? d : s[j[d >>> 24]] ^ u[j[d >>> 16 & 255]] ^ v[j[d >>>
+                    8 & 255]] ^ w[j[d & 255]]
+            },
+            encryptBlock: function (c, e) {
+                this._doCryptBlock(c, e, this._keySchedule, z, A, B, C, j)
+            },
+            decryptBlock: function (c, e) {
+                var a = c[e + 1];
+                c[e + 1] = c[e + 3];
+                c[e + 3] = a;
+                this._doCryptBlock(c, e, this._invKeySchedule, s, u, v, w, y);
+                a = c[e + 1];
+                c[e + 1] = c[e + 3];
+                c[e + 3] = a
+            },
+            _doCryptBlock: function (c, e, a, b, h, d, j, m) {
+                for (var n = this._nRounds, f = c[e] ^ a[0], g = c[e + 1] ^ a[1], k = c[e + 2] ^ a[2], p = c[e + 3] ^ a[3], l = 4, t = 1; t < n; t++) var q = b[f >>> 24] ^ h[g >>> 16 & 255] ^ d[k >>> 8 & 255] ^ j[p & 255] ^ a[l++],
+                    r = b[g >>> 24] ^ h[k >>> 16 & 255] ^ d[p >>> 8 & 255] ^ j[f & 255] ^ a[l++],
+                    s =
+                    b[k >>> 24] ^ h[p >>> 16 & 255] ^ d[f >>> 8 & 255] ^ j[g & 255] ^ a[l++],
+                    p = b[p >>> 24] ^ h[f >>> 16 & 255] ^ d[g >>> 8 & 255] ^ j[k & 255] ^ a[l++],
+                    f = q,
+                    g = r,
+                    k = s;
+                q = (m[f >>> 24] << 24 | m[g >>> 16 & 255] << 16 | m[k >>> 8 & 255] << 8 | m[p & 255]) ^ a[l++];
+                r = (m[g >>> 24] << 24 | m[k >>> 16 & 255] << 16 | m[p >>> 8 & 255] << 8 | m[f & 255]) ^ a[l++];
+                s = (m[k >>> 24] << 24 | m[p >>> 16 & 255] << 16 | m[f >>> 8 & 255] << 8 | m[g & 255]) ^ a[l++];
+                p = (m[p >>> 24] << 24 | m[f >>> 16 & 255] << 16 | m[g >>> 8 & 255] << 8 | m[k & 255]) ^ a[l++];
+                c[e] = q;
+                c[e + 1] = r;
+                c[e + 2] = s;
+                c[e + 3] = p
+            },
+            keySize: 8
+        });
     q.AES = x._createHelper(r)
 })();
 
@@ -540,12 +649,17 @@ code.google.com/p/crypto-js/wiki/License
         this._lBlock ^= a;
         this._rBlock ^= a << b
     }
-
-    var h = CryptoJS, e = h.lib, n = e.WordArray, e = e.BlockCipher, g = h.algo,
+    var h = CryptoJS,
+        e = h.lib,
+        n = e.WordArray,
+        e = e.BlockCipher,
+        g = h.algo,
         q = [57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 59, 51, 43, 35, 27, 19, 11, 3, 60, 52, 44, 36, 63, 55, 47, 39, 31, 23, 15, 7, 62, 54, 46, 38, 30, 22, 14, 6, 61, 53, 45, 37, 29, 21, 13, 5, 28, 20, 12, 4],
         p = [14, 17, 11, 24, 1, 5, 3, 28, 15, 6, 21, 10, 23, 19, 12, 4, 26, 8, 16, 7, 27, 20, 13, 2, 41, 52, 31, 37, 47,
-            55, 30, 40, 51, 45, 33, 48, 44, 49, 39, 56, 34, 53, 46, 42, 50, 36, 29, 32],
-        r = [1, 2, 4, 6, 8, 10, 12, 14, 15, 17, 19, 21, 23, 25, 27, 28], s = [{
+            55, 30, 40, 51, 45, 33, 48, 44, 49, 39, 56, 34, 53, 46, 42, 50, 36, 29, 32
+        ],
+        r = [1, 2, 4, 6, 8, 10, 12, 14, 15, 17, 19, 21, 23, 25, 27, 28],
+        s = [{
             "0": 8421888,
             268435456: 32768,
             536870912: 8421378,
@@ -1065,7 +1179,9 @@ code.google.com/p/crypto-js/wiki/License
             2147483677: 2080,
             2147483678: 131104,
             2147483679: 134350848
-        }], t = [4160749569, 528482304, 33030144, 2064384, 129024, 8064, 504, 2147483679], m = g.DES = e.extend({
+        }],
+        t = [4160749569, 528482304, 33030144, 2064384, 129024, 8064, 504, 2147483679],
+        m = g.DES = e.extend({
             _doReset: function () {
                 for (var b = this._key.words, c = [], a = 0; 56 > a; a++) {
                     var f = q[a] - 1;
@@ -1081,11 +1197,14 @@ code.google.com/p/crypto-js/wiki/License
                 }
                 c = this._invSubKeys = [];
                 for (a = 0; 16 > a; a++) c[a] = b[15 - a]
-            }, encryptBlock: function (b, c) {
+            },
+            encryptBlock: function (b, c) {
                 this._doCryptBlock(b, c, this._subKeys)
-            }, decryptBlock: function (b, c) {
+            },
+            decryptBlock: function (b, c) {
                 this._doCryptBlock(b, c, this._invSubKeys)
-            }, _doCryptBlock: function (b, c, a) {
+            },
+            _doCryptBlock: function (b, c, a) {
                 this._lBlock = b[c];
                 this._rBlock = b[c + 1];
                 j.call(this, 4, 252645135);
@@ -1109,7 +1228,10 @@ code.google.com/p/crypto-js/wiki/License
                 j.call(this, 4, 252645135);
                 b[c] = this._lBlock;
                 b[c + 1] = this._rBlock
-            }, keySize: 2, ivSize: 2, blockSize: 2
+            },
+            keySize: 2,
+            ivSize: 2,
+            blockSize: 2
         });
     h.DES = e._createHelper(m);
     g = g.TripleDES = e.extend({
@@ -1119,15 +1241,20 @@ code.google.com/p/crypto-js/wiki/License
             this._des2 = m.createEncryptor(n.create(b.slice(2, 4)));
             this._des3 =
                 m.createEncryptor(n.create(b.slice(4, 6)))
-        }, encryptBlock: function (b, c) {
+        },
+        encryptBlock: function (b, c) {
             this._des1.encryptBlock(b, c);
             this._des2.decryptBlock(b, c);
             this._des3.encryptBlock(b, c)
-        }, decryptBlock: function (b, c) {
+        },
+        decryptBlock: function (b, c) {
             this._des3.decryptBlock(b, c);
             this._des2.encryptBlock(b, c);
             this._des1.decryptBlock(b, c)
-        }, keySize: 6, ivSize: 2, blockSize: 2
+        },
+        keySize: 6,
+        ivSize: 2,
+        blockSize: 2
     });
     h.TripleDES = e._createHelper(g)
 })();
@@ -1139,26 +1266,36 @@ code.google.com/p/crypto-js
 code.google.com/p/crypto-js/wiki/License
 */
 (function () {
-    var h = CryptoJS, j = h.lib.WordArray;
+    var h = CryptoJS,
+        j = h.lib.WordArray;
     h.enc.Base64 = {
         stringify: function (b) {
-            var e = b.words, f = b.sigBytes, c = this._map;
+            var e = b.words,
+                f = b.sigBytes,
+                c = this._map;
             b.clamp();
             b = [];
-            for (var a = 0; a < f; a += 3) for (var d = (e[a >>> 2] >>> 24 - 8 * (a % 4) & 255) << 16 | (e[a + 1 >>> 2] >>> 24 - 8 * ((a + 1) % 4) & 255) << 8 | e[a + 2 >>> 2] >>> 24 - 8 * ((a + 2) % 4) & 255, g = 0; 4 > g && a + 0.75 * g < f; g++) b.push(c.charAt(d >>> 6 * (3 - g) & 63));
-            if (e = c.charAt(64)) for (; b.length % 4;) b.push(e);
+            for (var a = 0; a < f; a += 3)
+                for (var d = (e[a >>> 2] >>> 24 - 8 * (a % 4) & 255) << 16 | (e[a + 1 >>> 2] >>> 24 - 8 * ((a + 1) % 4) & 255) << 8 | e[a + 2 >>> 2] >>> 24 - 8 * ((a + 2) % 4) & 255, g = 0; 4 > g && a + 0.75 * g < f; g++) b.push(c.charAt(d >>> 6 * (3 - g) & 63));
+            if (e = c.charAt(64))
+                for (; b.length % 4;) b.push(e);
             return b.join("")
-        }, parse: function (b) {
-            var e = b.length, f = this._map, c = f.charAt(64);
+        },
+        parse: function (b) {
+            var e = b.length,
+                f = this._map,
+                c = f.charAt(64);
             c && (c = b.indexOf(c), -1 != c && (e = c));
             for (var c = [], a = 0, d = 0; d <
-            e; d++) if (d % 4) {
-                var g = f.indexOf(b.charAt(d - 1)) << 2 * (d % 4), h = f.indexOf(b.charAt(d)) >>> 6 - 2 * (d % 4);
-                c[a >>> 2] |= (g | h) << 24 - 8 * (a % 4);
-                a++
-            }
-            return j.create(c, a)
-        }, _map: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+                e; d++)
+                if (d % 4) {
+                    var g = f.indexOf(b.charAt(d - 1)) << 2 * (d % 4),
+                        h = f.indexOf(b.charAt(d)) >>> 6 - 2 * (d % 4);
+                    c[a >>> 2] |= (g | h) << 24 - 8 * (a % 4);
+                    a++
+                } return j.create(c, a)
+        },
+        _map: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
     }
 })();
 
@@ -1188,7 +1325,6 @@ code.google.com/p/crypto-js/wiki/License
         a = a + (g ^ (f | ~j)) + h + l;
         return (a << k | a >>> 32 - k) + f
     }
-
     for (var r = CryptoJS, q = r.lib, F = q.WordArray, s = q.Hasher, q = r.algo, a = [], t = 0; 64 > t; t++) a[t] = 4294967296 * E.abs(E.sin(t + 1)) | 0;
     q = q.MD5 = s.extend({
         _doReset: function () {
@@ -1196,42 +1332,107 @@ code.google.com/p/crypto-js/wiki/License
         },
         _doProcessBlock: function (m, f) {
             for (var g = 0; 16 > g; g++) {
-                var j = f + g, p = m[j];
+                var j = f + g,
+                    p = m[j];
                 m[j] = (p << 8 | p >>> 24) & 16711935 | (p << 24 | p >>> 8) & 4278255360
             }
-            var g = this._hash.words, j = m[f + 0], p = m[f + 1], q = m[f + 2], r = m[f + 3], s = m[f + 4],
-                t = m[f + 5], u = m[f + 6], v = m[f + 7], w = m[f + 8], x = m[f + 9], y = m[f + 10], z = m[f + 11],
-                A = m[f + 12], B = m[f + 13], C = m[f + 14], D = m[f + 15], b = g[0], c = g[1], d = g[2], e = g[3],
-                b = h(b, c, d, e, j, 7, a[0]), e = h(e, b, c, d, p, 12, a[1]), d = h(d, e, b, c, q, 17, a[2]),
-                c = h(c, d, e, b, r, 22, a[3]), b = h(b, c, d, e, s, 7, a[4]), e = h(e, b, c, d, t, 12, a[5]),
-                d = h(d, e, b, c, u, 17, a[6]), c = h(c, d, e, b, v, 22, a[7]),
-                b = h(b, c, d, e, w, 7, a[8]), e = h(e, b, c, d, x, 12, a[9]), d = h(d, e, b, c, y, 17, a[10]),
-                c = h(c, d, e, b, z, 22, a[11]), b = h(b, c, d, e, A, 7, a[12]), e = h(e, b, c, d, B, 12, a[13]),
-                d = h(d, e, b, c, C, 17, a[14]), c = h(c, d, e, b, D, 22, a[15]), b = k(b, c, d, e, p, 5, a[16]),
-                e = k(e, b, c, d, u, 9, a[17]), d = k(d, e, b, c, z, 14, a[18]), c = k(c, d, e, b, j, 20, a[19]),
-                b = k(b, c, d, e, t, 5, a[20]), e = k(e, b, c, d, y, 9, a[21]), d = k(d, e, b, c, D, 14, a[22]),
-                c = k(c, d, e, b, s, 20, a[23]), b = k(b, c, d, e, x, 5, a[24]), e = k(e, b, c, d, C, 9, a[25]),
-                d = k(d, e, b, c, r, 14, a[26]), c = k(c, d, e, b, w, 20, a[27]), b = k(b, c, d, e, B, 5, a[28]),
+            var g = this._hash.words,
+                j = m[f + 0],
+                p = m[f + 1],
+                q = m[f + 2],
+                r = m[f + 3],
+                s = m[f + 4],
+                t = m[f + 5],
+                u = m[f + 6],
+                v = m[f + 7],
+                w = m[f + 8],
+                x = m[f + 9],
+                y = m[f + 10],
+                z = m[f + 11],
+                A = m[f + 12],
+                B = m[f + 13],
+                C = m[f + 14],
+                D = m[f + 15],
+                b = g[0],
+                c = g[1],
+                d = g[2],
+                e = g[3],
+                b = h(b, c, d, e, j, 7, a[0]),
+                e = h(e, b, c, d, p, 12, a[1]),
+                d = h(d, e, b, c, q, 17, a[2]),
+                c = h(c, d, e, b, r, 22, a[3]),
+                b = h(b, c, d, e, s, 7, a[4]),
+                e = h(e, b, c, d, t, 12, a[5]),
+                d = h(d, e, b, c, u, 17, a[6]),
+                c = h(c, d, e, b, v, 22, a[7]),
+                b = h(b, c, d, e, w, 7, a[8]),
+                e = h(e, b, c, d, x, 12, a[9]),
+                d = h(d, e, b, c, y, 17, a[10]),
+                c = h(c, d, e, b, z, 22, a[11]),
+                b = h(b, c, d, e, A, 7, a[12]),
+                e = h(e, b, c, d, B, 12, a[13]),
+                d = h(d, e, b, c, C, 17, a[14]),
+                c = h(c, d, e, b, D, 22, a[15]),
+                b = k(b, c, d, e, p, 5, a[16]),
+                e = k(e, b, c, d, u, 9, a[17]),
+                d = k(d, e, b, c, z, 14, a[18]),
+                c = k(c, d, e, b, j, 20, a[19]),
+                b = k(b, c, d, e, t, 5, a[20]),
+                e = k(e, b, c, d, y, 9, a[21]),
+                d = k(d, e, b, c, D, 14, a[22]),
+                c = k(c, d, e, b, s, 20, a[23]),
+                b = k(b, c, d, e, x, 5, a[24]),
+                e = k(e, b, c, d, C, 9, a[25]),
+                d = k(d, e, b, c, r, 14, a[26]),
+                c = k(c, d, e, b, w, 20, a[27]),
+                b = k(b, c, d, e, B, 5, a[28]),
                 e = k(e, b,
-                    c, d, q, 9, a[29]), d = k(d, e, b, c, v, 14, a[30]), c = k(c, d, e, b, A, 20, a[31]),
-                b = l(b, c, d, e, t, 4, a[32]), e = l(e, b, c, d, w, 11, a[33]), d = l(d, e, b, c, z, 16, a[34]),
-                c = l(c, d, e, b, C, 23, a[35]), b = l(b, c, d, e, p, 4, a[36]), e = l(e, b, c, d, s, 11, a[37]),
-                d = l(d, e, b, c, v, 16, a[38]), c = l(c, d, e, b, y, 23, a[39]), b = l(b, c, d, e, B, 4, a[40]),
-                e = l(e, b, c, d, j, 11, a[41]), d = l(d, e, b, c, r, 16, a[42]), c = l(c, d, e, b, u, 23, a[43]),
-                b = l(b, c, d, e, x, 4, a[44]), e = l(e, b, c, d, A, 11, a[45]), d = l(d, e, b, c, D, 16, a[46]),
-                c = l(c, d, e, b, q, 23, a[47]), b = n(b, c, d, e, j, 6, a[48]), e = n(e, b, c, d, v, 10, a[49]),
+                    c, d, q, 9, a[29]),
+                d = k(d, e, b, c, v, 14, a[30]),
+                c = k(c, d, e, b, A, 20, a[31]),
+                b = l(b, c, d, e, t, 4, a[32]),
+                e = l(e, b, c, d, w, 11, a[33]),
+                d = l(d, e, b, c, z, 16, a[34]),
+                c = l(c, d, e, b, C, 23, a[35]),
+                b = l(b, c, d, e, p, 4, a[36]),
+                e = l(e, b, c, d, s, 11, a[37]),
+                d = l(d, e, b, c, v, 16, a[38]),
+                c = l(c, d, e, b, y, 23, a[39]),
+                b = l(b, c, d, e, B, 4, a[40]),
+                e = l(e, b, c, d, j, 11, a[41]),
+                d = l(d, e, b, c, r, 16, a[42]),
+                c = l(c, d, e, b, u, 23, a[43]),
+                b = l(b, c, d, e, x, 4, a[44]),
+                e = l(e, b, c, d, A, 11, a[45]),
+                d = l(d, e, b, c, D, 16, a[46]),
+                c = l(c, d, e, b, q, 23, a[47]),
+                b = n(b, c, d, e, j, 6, a[48]),
+                e = n(e, b, c, d, v, 10, a[49]),
                 d = n(d, e, b, c,
-                    C, 15, a[50]), c = n(c, d, e, b, t, 21, a[51]), b = n(b, c, d, e, A, 6, a[52]),
-                e = n(e, b, c, d, r, 10, a[53]), d = n(d, e, b, c, y, 15, a[54]), c = n(c, d, e, b, p, 21, a[55]),
-                b = n(b, c, d, e, w, 6, a[56]), e = n(e, b, c, d, D, 10, a[57]), d = n(d, e, b, c, u, 15, a[58]),
-                c = n(c, d, e, b, B, 21, a[59]), b = n(b, c, d, e, s, 6, a[60]), e = n(e, b, c, d, z, 10, a[61]),
-                d = n(d, e, b, c, q, 15, a[62]), c = n(c, d, e, b, x, 21, a[63]);
+                    C, 15, a[50]),
+                c = n(c, d, e, b, t, 21, a[51]),
+                b = n(b, c, d, e, A, 6, a[52]),
+                e = n(e, b, c, d, r, 10, a[53]),
+                d = n(d, e, b, c, y, 15, a[54]),
+                c = n(c, d, e, b, p, 21, a[55]),
+                b = n(b, c, d, e, w, 6, a[56]),
+                e = n(e, b, c, d, D, 10, a[57]),
+                d = n(d, e, b, c, u, 15, a[58]),
+                c = n(c, d, e, b, B, 21, a[59]),
+                b = n(b, c, d, e, s, 6, a[60]),
+                e = n(e, b, c, d, z, 10, a[61]),
+                d = n(d, e, b, c, q, 15, a[62]),
+                c = n(c, d, e, b, x, 21, a[63]);
             g[0] = g[0] + b | 0;
             g[1] = g[1] + c | 0;
             g[2] = g[2] + d | 0;
             g[3] = g[3] + e | 0
-        }, _doFinalize: function () {
-            var a = this._data, f = a.words, g = 8 * this._nDataBytes, j = 8 * a.sigBytes;
+        },
+        _doFinalize: function () {
+            var a = this._data,
+                f = a.words,
+                g = 8 * this._nDataBytes,
+                j = 8 * a.sigBytes;
             f[j >>> 5] |= 128 << 24 - j % 32;
             var h = E.floor(g /
                 4294967296);
@@ -1243,7 +1444,8 @@ code.google.com/p/crypto-js/wiki/License
             f = a.words;
             for (g = 0; 4 > g; g++) j = f[g], f[g] = (j << 8 | j >>> 24) & 16711935 | (j << 24 | j >>> 8) & 4278255360;
             return a
-        }, clone: function () {
+        },
+        clone: function () {
             var a = s.clone.call(this);
             a._hash = this._hash.clone();
             return a
@@ -1260,43 +1462,55 @@ code.google.com/p/crypto-js
 code.google.com/p/crypto-js/wiki/License
 */
 (function () {
-    var k = CryptoJS, b = k.lib, m = b.WordArray, l = b.Hasher, d = [], b = k.algo.SHA1 = l.extend({
-        _doReset: function () {
-            this._hash = new m.init([1732584193, 4023233417, 2562383102, 271733878, 3285377520])
-        }, _doProcessBlock: function (n, p) {
-            for (var a = this._hash.words, e = a[0], f = a[1], h = a[2], j = a[3], b = a[4], c = 0; 80 > c; c++) {
-                if (16 > c) d[c] = n[p + c] | 0; else {
-                    var g = d[c - 3] ^ d[c - 8] ^ d[c - 14] ^ d[c - 16];
-                    d[c] = g << 1 | g >>> 31
+    var k = CryptoJS,
+        b = k.lib,
+        m = b.WordArray,
+        l = b.Hasher,
+        d = [],
+        b = k.algo.SHA1 = l.extend({
+            _doReset: function () {
+                this._hash = new m.init([1732584193, 4023233417, 2562383102, 271733878, 3285377520])
+            },
+            _doProcessBlock: function (n, p) {
+                for (var a = this._hash.words, e = a[0], f = a[1], h = a[2], j = a[3], b = a[4], c = 0; 80 > c; c++) {
+                    if (16 > c) d[c] = n[p + c] | 0;
+                    else {
+                        var g = d[c - 3] ^ d[c - 8] ^ d[c - 14] ^ d[c - 16];
+                        d[c] = g << 1 | g >>> 31
+                    }
+                    g = (e << 5 | e >>> 27) + b + d[c];
+                    g = 20 > c ? g + ((f & h | ~f & j) + 1518500249) : 40 > c ? g + ((f ^ h ^ j) + 1859775393) : 60 > c ? g + ((f & h | f & j | h & j) - 1894007588) : g + ((f ^ h ^
+                        j) - 899497514);
+                    b = j;
+                    j = h;
+                    h = f << 30 | f >>> 2;
+                    f = e;
+                    e = g
                 }
-                g = (e << 5 | e >>> 27) + b + d[c];
-                g = 20 > c ? g + ((f & h | ~f & j) + 1518500249) : 40 > c ? g + ((f ^ h ^ j) + 1859775393) : 60 > c ? g + ((f & h | f & j | h & j) - 1894007588) : g + ((f ^ h ^
-                    j) - 899497514);
-                b = j;
-                j = h;
-                h = f << 30 | f >>> 2;
-                f = e;
-                e = g
+                a[0] = a[0] + e | 0;
+                a[1] = a[1] + f | 0;
+                a[2] = a[2] + h | 0;
+                a[3] = a[3] + j | 0;
+                a[4] = a[4] + b | 0
+            },
+            _doFinalize: function () {
+                var b = this._data,
+                    d = b.words,
+                    a = 8 * this._nDataBytes,
+                    e = 8 * b.sigBytes;
+                d[e >>> 5] |= 128 << 24 - e % 32;
+                d[(e + 64 >>> 9 << 4) + 14] = Math.floor(a / 4294967296);
+                d[(e + 64 >>> 9 << 4) + 15] = a;
+                b.sigBytes = 4 * d.length;
+                this._process();
+                return this._hash
+            },
+            clone: function () {
+                var b = l.clone.call(this);
+                b._hash = this._hash.clone();
+                return b
             }
-            a[0] = a[0] + e | 0;
-            a[1] = a[1] + f | 0;
-            a[2] = a[2] + h | 0;
-            a[3] = a[3] + j | 0;
-            a[4] = a[4] + b | 0
-        }, _doFinalize: function () {
-            var b = this._data, d = b.words, a = 8 * this._nDataBytes, e = 8 * b.sigBytes;
-            d[e >>> 5] |= 128 << 24 - e % 32;
-            d[(e + 64 >>> 9 << 4) + 14] = Math.floor(a / 4294967296);
-            d[(e + 64 >>> 9 << 4) + 15] = a;
-            b.sigBytes = 4 * d.length;
-            this._process();
-            return this._hash
-        }, clone: function () {
-            var b = l.clone.call(this);
-            b._hash = this._hash.clone();
-            return b
-        }
-    });
+        });
     k.SHA1 = l._createHelper(b);
     k.HmacSHA1 = l._createHmacHelper(b)
 })();
@@ -1309,63 +1523,72 @@ code.google.com/p/crypto-js/wiki/License
 */
 (function (k) {
     for (var g = CryptoJS, h = g.lib, v = h.WordArray, j = h.Hasher, h = g.algo, s = [], t = [], u = function (q) {
-        return 4294967296 * (q - (q | 0)) | 0
-    }, l = 2, b = 0; 64 > b;) {
+            return 4294967296 * (q - (q | 0)) | 0
+        }, l = 2, b = 0; 64 > b;) {
         var d;
-        a:{
+        a: {
             d = l;
-            for (var w = k.sqrt(d), r = 2; r <= w; r++) if (!(d % r)) {
-                d = !1;
-                break a
-            }
-            d = !0
+            for (var w = k.sqrt(d), r = 2; r <= w; r++)
+                if (!(d % r)) {
+                    d = !1;
+                    break a
+                } d = !0
         }
         d && (8 > b && (s[b] = u(k.pow(l, 0.5))), t[b] = u(k.pow(l, 1 / 3)), b++);
         l++
     }
-    var n = [], h = h.SHA256 = j.extend({
-        _doReset: function () {
-            this._hash = new v.init(s.slice(0))
-        }, _doProcessBlock: function (q, h) {
-            for (var a = this._hash.words, c = a[0], d = a[1], b = a[2], k = a[3], f = a[4], g = a[5], j = a[6], l = a[7], e = 0; 64 > e; e++) {
-                if (16 > e) n[e] =
-                    q[h + e] | 0; else {
-                    var m = n[e - 15], p = n[e - 2];
-                    n[e] = ((m << 25 | m >>> 7) ^ (m << 14 | m >>> 18) ^ m >>> 3) + n[e - 7] + ((p << 15 | p >>> 17) ^ (p << 13 | p >>> 19) ^ p >>> 10) + n[e - 16]
+    var n = [],
+        h = h.SHA256 = j.extend({
+            _doReset: function () {
+                this._hash = new v.init(s.slice(0))
+            },
+            _doProcessBlock: function (q, h) {
+                for (var a = this._hash.words, c = a[0], d = a[1], b = a[2], k = a[3], f = a[4], g = a[5], j = a[6], l = a[7], e = 0; 64 > e; e++) {
+                    if (16 > e) n[e] =
+                        q[h + e] | 0;
+                    else {
+                        var m = n[e - 15],
+                            p = n[e - 2];
+                        n[e] = ((m << 25 | m >>> 7) ^ (m << 14 | m >>> 18) ^ m >>> 3) + n[e - 7] + ((p << 15 | p >>> 17) ^ (p << 13 | p >>> 19) ^ p >>> 10) + n[e - 16]
+                    }
+                    m = l + ((f << 26 | f >>> 6) ^ (f << 21 | f >>> 11) ^ (f << 7 | f >>> 25)) + (f & g ^ ~f & j) + t[e] + n[e];
+                    p = ((c << 30 | c >>> 2) ^ (c << 19 | c >>> 13) ^ (c << 10 | c >>> 22)) + (c & d ^ c & b ^ d & b);
+                    l = j;
+                    j = g;
+                    g = f;
+                    f = k + m | 0;
+                    k = b;
+                    b = d;
+                    d = c;
+                    c = m + p | 0
                 }
-                m = l + ((f << 26 | f >>> 6) ^ (f << 21 | f >>> 11) ^ (f << 7 | f >>> 25)) + (f & g ^ ~f & j) + t[e] + n[e];
-                p = ((c << 30 | c >>> 2) ^ (c << 19 | c >>> 13) ^ (c << 10 | c >>> 22)) + (c & d ^ c & b ^ d & b);
-                l = j;
-                j = g;
-                g = f;
-                f = k + m | 0;
-                k = b;
-                b = d;
-                d = c;
-                c = m + p | 0
+                a[0] = a[0] + c | 0;
+                a[1] = a[1] + d | 0;
+                a[2] = a[2] + b | 0;
+                a[3] = a[3] + k | 0;
+                a[4] = a[4] + f | 0;
+                a[5] = a[5] + g | 0;
+                a[6] = a[6] + j | 0;
+                a[7] = a[7] + l | 0
+            },
+            _doFinalize: function () {
+                var d = this._data,
+                    b = d.words,
+                    a = 8 * this._nDataBytes,
+                    c = 8 * d.sigBytes;
+                b[c >>> 5] |= 128 << 24 - c % 32;
+                b[(c + 64 >>> 9 << 4) + 14] = k.floor(a / 4294967296);
+                b[(c + 64 >>> 9 << 4) + 15] = a;
+                d.sigBytes = 4 * b.length;
+                this._process();
+                return this._hash
+            },
+            clone: function () {
+                var b = j.clone.call(this);
+                b._hash = this._hash.clone();
+                return b
             }
-            a[0] = a[0] + c | 0;
-            a[1] = a[1] + d | 0;
-            a[2] = a[2] + b | 0;
-            a[3] = a[3] + k | 0;
-            a[4] = a[4] + f | 0;
-            a[5] = a[5] + g | 0;
-            a[6] = a[6] + j | 0;
-            a[7] = a[7] + l | 0
-        }, _doFinalize: function () {
-            var d = this._data, b = d.words, a = 8 * this._nDataBytes, c = 8 * d.sigBytes;
-            b[c >>> 5] |= 128 << 24 - c % 32;
-            b[(c + 64 >>> 9 << 4) + 14] = k.floor(a / 4294967296);
-            b[(c + 64 >>> 9 << 4) + 15] = a;
-            d.sigBytes = 4 * b.length;
-            this._process();
-            return this._hash
-        }, clone: function () {
-            var b = j.clone.call(this);
-            b._hash = this._hash.clone();
-            return b
-        }
-    });
+        });
     g.SHA256 = j._createHelper(h);
     g.HmacSHA256 = j._createHmacHelper(h)
 })(Math);
@@ -1377,15 +1600,20 @@ code.google.com/p/crypto-js
 code.google.com/p/crypto-js/wiki/License
 */
 (function () {
-    var b = CryptoJS, d = b.lib.WordArray, a = b.algo, c = a.SHA256, a = a.SHA224 = c.extend({
-        _doReset: function () {
-            this._hash = new d.init([3238371032, 914150663, 812702999, 4144912697, 4290775857, 1750603025, 1694076839, 3204075428])
-        }, _doFinalize: function () {
-            var a = c._doFinalize.call(this);
-            a.sigBytes -= 4;
-            return a
-        }
-    });
+    var b = CryptoJS,
+        d = b.lib.WordArray,
+        a = b.algo,
+        c = a.SHA256,
+        a = a.SHA224 = c.extend({
+            _doReset: function () {
+                this._hash = new d.init([3238371032, 914150663, 812702999, 4144912697, 4290775857, 1750603025, 1694076839, 3204075428])
+            },
+            _doFinalize: function () {
+                var a = c._doFinalize.call(this);
+                a.sigBytes -= 4;
+                return a
+            }
+        });
     b.SHA224 = c._createHelper(a);
     b.HmacSHA224 = c._createHmacHelper(a)
 })();
@@ -1400,40 +1628,84 @@ code.google.com/p/crypto-js/wiki/License
     function a() {
         return d.create.apply(d, arguments)
     }
-
     for (var n = CryptoJS, r = n.lib.Hasher, e = n.x64, d = e.Word, T = e.WordArray, e = n.algo, ea = [a(1116352408, 3609767458), a(1899447441, 602891725), a(3049323471, 3964484399), a(3921009573, 2173295548), a(961987163, 4081628472), a(1508970993, 3053834265), a(2453635748, 2937671579), a(2870763221, 3664609560), a(3624381080, 2734883394), a(310598401, 1164996542), a(607225278, 1323610764), a(1426881987, 3590304994), a(1925078388, 4068182383), a(2162078206, 991336113), a(2614888103, 633803317),
-        a(3248222580, 3479774868), a(3835390401, 2666613458), a(4022224774, 944711139), a(264347078, 2341262773), a(604807628, 2007800933), a(770255983, 1495990901), a(1249150122, 1856431235), a(1555081692, 3175218132), a(1996064986, 2198950837), a(2554220882, 3999719339), a(2821834349, 766784016), a(2952996808, 2566594879), a(3210313671, 3203337956), a(3336571891, 1034457026), a(3584528711, 2466948901), a(113926993, 3758326383), a(338241895, 168717936), a(666307205, 1188179964), a(773529912, 1546045734), a(1294757372, 1522805485), a(1396182291,
-            2643833823), a(1695183700, 2343527390), a(1986661051, 1014477480), a(2177026350, 1206759142), a(2456956037, 344077627), a(2730485921, 1290863460), a(2820302411, 3158454273), a(3259730800, 3505952657), a(3345764771, 106217008), a(3516065817, 3606008344), a(3600352804, 1432725776), a(4094571909, 1467031594), a(275423344, 851169720), a(430227734, 3100823752), a(506948616, 1363258195), a(659060556, 3750685593), a(883997877, 3785050280), a(958139571, 3318307427), a(1322822218, 3812723403), a(1537002063, 2003034995), a(1747873779, 3602036899),
-        a(1955562222, 1575990012), a(2024104815, 1125592928), a(2227730452, 2716904306), a(2361852424, 442776044), a(2428436474, 593698344), a(2756734187, 3733110249), a(3204031479, 2999351573), a(3329325298, 3815920427), a(3391569614, 3928383900), a(3515267271, 566280711), a(3940187606, 3454069534), a(4118630271, 4000239992), a(116418474, 1914138554), a(174292421, 2731055270), a(289380356, 3203993006), a(460393269, 320620315), a(685471733, 587496836), a(852142971, 1086792851), a(1017036298, 365543100), a(1126000580, 2618297676), a(1288033470,
-            3409855158), a(1501505948, 4234509866), a(1607167915, 987167468), a(1816402316, 1246189591)], v = [], w = 0; 80 > w; w++) v[w] = a();
+            a(3248222580, 3479774868), a(3835390401, 2666613458), a(4022224774, 944711139), a(264347078, 2341262773), a(604807628, 2007800933), a(770255983, 1495990901), a(1249150122, 1856431235), a(1555081692, 3175218132), a(1996064986, 2198950837), a(2554220882, 3999719339), a(2821834349, 766784016), a(2952996808, 2566594879), a(3210313671, 3203337956), a(3336571891, 1034457026), a(3584528711, 2466948901), a(113926993, 3758326383), a(338241895, 168717936), a(666307205, 1188179964), a(773529912, 1546045734), a(1294757372, 1522805485), a(1396182291,
+                2643833823), a(1695183700, 2343527390), a(1986661051, 1014477480), a(2177026350, 1206759142), a(2456956037, 344077627), a(2730485921, 1290863460), a(2820302411, 3158454273), a(3259730800, 3505952657), a(3345764771, 106217008), a(3516065817, 3606008344), a(3600352804, 1432725776), a(4094571909, 1467031594), a(275423344, 851169720), a(430227734, 3100823752), a(506948616, 1363258195), a(659060556, 3750685593), a(883997877, 3785050280), a(958139571, 3318307427), a(1322822218, 3812723403), a(1537002063, 2003034995), a(1747873779, 3602036899),
+            a(1955562222, 1575990012), a(2024104815, 1125592928), a(2227730452, 2716904306), a(2361852424, 442776044), a(2428436474, 593698344), a(2756734187, 3733110249), a(3204031479, 2999351573), a(3329325298, 3815920427), a(3391569614, 3928383900), a(3515267271, 566280711), a(3940187606, 3454069534), a(4118630271, 4000239992), a(116418474, 1914138554), a(174292421, 2731055270), a(289380356, 3203993006), a(460393269, 320620315), a(685471733, 587496836), a(852142971, 1086792851), a(1017036298, 365543100), a(1126000580, 2618297676), a(1288033470,
+                3409855158), a(1501505948, 4234509866), a(1607167915, 987167468), a(1816402316, 1246189591)
+        ], v = [], w = 0; 80 > w; w++) v[w] = a();
     e = e.SHA512 = r.extend({
         _doReset: function () {
             this._hash = new T.init([new d.init(1779033703, 4089235720), new d.init(3144134277, 2227873595), new d.init(1013904242, 4271175723), new d.init(2773480762, 1595750129), new d.init(1359893119, 2917565137), new d.init(2600822924, 725511199), new d.init(528734635, 4215389547), new d.init(1541459225, 327033209)])
-        }, _doProcessBlock: function (a, d) {
+        },
+        _doProcessBlock: function (a, d) {
             for (var f = this._hash.words,
-                     F = f[0], e = f[1], n = f[2], r = f[3], G = f[4], H = f[5], I = f[6], f = f[7], w = F.high, J = F.low, X = e.high, K = e.low, Y = n.high, L = n.low, Z = r.high, M = r.low, $ = G.high, N = G.low, aa = H.high, O = H.low, ba = I.high, P = I.low, ca = f.high, Q = f.low, k = w, g = J, z = X, x = K, A = Y, y = L, U = Z, B = M, l = $, h = N, R = aa, C = O, S = ba, D = P, V = ca, E = Q, m = 0; 80 > m; m++) {
+                    F = f[0], e = f[1], n = f[2], r = f[3], G = f[4], H = f[5], I = f[6], f = f[7], w = F.high, J = F.low, X = e.high, K = e.low, Y = n.high, L = n.low, Z = r.high, M = r.low, $ = G.high, N = G.low, aa = H.high, O = H.low, ba = I.high, P = I.low, ca = f.high, Q = f.low, k = w, g = J, z = X, x = K, A = Y, y = L, U = Z, B = M, l = $, h = N, R = aa, C = O, S = ba, D = P, V = ca, E = Q, m = 0; 80 > m; m++) {
                 var s = v[m];
-                if (16 > m) var j = s.high = a[d + 2 * m] | 0, b = s.low = a[d + 2 * m + 1] | 0; else {
-                    var j = v[m - 15], b = j.high, p = j.low, j = (b >>> 1 | p << 31) ^ (b >>> 8 | p << 24) ^ b >>> 7,
-                        p = (p >>> 1 | b << 31) ^ (p >>> 8 | b << 24) ^ (p >>> 7 | b << 25), u = v[m - 2], b = u.high,
-                        c = u.low, u = (b >>> 19 | c << 13) ^ (b <<
-                        3 | c >>> 29) ^ b >>> 6, c = (c >>> 19 | b << 13) ^ (c << 3 | b >>> 29) ^ (c >>> 6 | b << 26),
-                        b = v[m - 7], W = b.high, t = v[m - 16], q = t.high, t = t.low, b = p + b.low,
-                        j = j + W + (b >>> 0 < p >>> 0 ? 1 : 0), b = b + c, j = j + u + (b >>> 0 < c >>> 0 ? 1 : 0),
-                        b = b + t, j = j + q + (b >>> 0 < t >>> 0 ? 1 : 0);
+                if (16 > m) var j = s.high = a[d + 2 * m] | 0,
+                    b = s.low = a[d + 2 * m + 1] | 0;
+                else {
+                    var j = v[m - 15],
+                        b = j.high,
+                        p = j.low,
+                        j = (b >>> 1 | p << 31) ^ (b >>> 8 | p << 24) ^ b >>> 7,
+                        p = (p >>> 1 | b << 31) ^ (p >>> 8 | b << 24) ^ (p >>> 7 | b << 25),
+                        u = v[m - 2],
+                        b = u.high,
+                        c = u.low,
+                        u = (b >>> 19 | c << 13) ^ (b <<
+                            3 | c >>> 29) ^ b >>> 6,
+                        c = (c >>> 19 | b << 13) ^ (c << 3 | b >>> 29) ^ (c >>> 6 | b << 26),
+                        b = v[m - 7],
+                        W = b.high,
+                        t = v[m - 16],
+                        q = t.high,
+                        t = t.low,
+                        b = p + b.low,
+                        j = j + W + (b >>> 0 < p >>> 0 ? 1 : 0),
+                        b = b + c,
+                        j = j + u + (b >>> 0 < c >>> 0 ? 1 : 0),
+                        b = b + t,
+                        j = j + q + (b >>> 0 < t >>> 0 ? 1 : 0);
                     s.high = j;
                     s.low = b
                 }
-                var W = l & R ^ ~l & S, t = h & C ^ ~h & D, s = k & z ^ k & A ^ z & A, T = g & x ^ g & y ^ x & y,
+                var W = l & R ^ ~l & S,
+                    t = h & C ^ ~h & D,
+                    s = k & z ^ k & A ^ z & A,
+                    T = g & x ^ g & y ^ x & y,
                     p = (k >>> 28 | g << 4) ^ (k << 30 | g >>> 2) ^ (k << 25 | g >>> 7),
-                    u = (g >>> 28 | k << 4) ^ (g << 30 | k >>> 2) ^ (g << 25 | k >>> 7), c = ea[m], fa = c.high,
-                    da = c.low, c = E + ((h >>> 14 | l << 18) ^ (h >>> 18 | l << 14) ^ (h << 23 | l >>> 9)),
+                    u = (g >>> 28 | k << 4) ^ (g << 30 | k >>> 2) ^ (g << 25 | k >>> 7),
+                    c = ea[m],
+                    fa = c.high,
+                    da = c.low,
+                    c = E + ((h >>> 14 | l << 18) ^ (h >>> 18 | l << 14) ^ (h << 23 | l >>> 9)),
                     q = V + ((l >>> 14 | h << 18) ^ (l >>> 18 | h << 14) ^ (l << 23 | h >>> 9)) + (c >>> 0 < E >>> 0 ? 1 :
-                        0), c = c + t, q = q + W + (c >>> 0 < t >>> 0 ? 1 : 0), c = c + da,
-                    q = q + fa + (c >>> 0 < da >>> 0 ? 1 : 0), c = c + b, q = q + j + (c >>> 0 < b >>> 0 ? 1 : 0),
-                    b = u + T, s = p + s + (b >>> 0 < u >>> 0 ? 1 : 0), V = S, E = D, S = R, D = C, R = l, C = h,
-                    h = B + c | 0, l = U + q + (h >>> 0 < B >>> 0 ? 1 : 0) | 0, U = A, B = y, A = z, y = x, z = k,
-                    x = g, g = c + b | 0, k = q + s + (g >>> 0 < c >>> 0 ? 1 : 0) | 0
+                        0),
+                    c = c + t,
+                    q = q + W + (c >>> 0 < t >>> 0 ? 1 : 0),
+                    c = c + da,
+                    q = q + fa + (c >>> 0 < da >>> 0 ? 1 : 0),
+                    c = c + b,
+                    q = q + j + (c >>> 0 < b >>> 0 ? 1 : 0),
+                    b = u + T,
+                    s = p + s + (b >>> 0 < u >>> 0 ? 1 : 0),
+                    V = S,
+                    E = D,
+                    S = R,
+                    D = C,
+                    R = l,
+                    C = h,
+                    h = B + c | 0,
+                    l = U + q + (h >>> 0 < B >>> 0 ? 1 : 0) | 0,
+                    U = A,
+                    B = y,
+                    A = z,
+                    y = x,
+                    z = k,
+                    x = g,
+                    g = c + b | 0,
+                    k = q + s + (g >>> 0 < c >>> 0 ? 1 : 0) | 0
             }
             J = F.low = J + g;
             F.high = w + k + (J >>> 0 < g >>> 0 ? 1 : 0);
@@ -1451,19 +1723,25 @@ code.google.com/p/crypto-js/wiki/License
             I.high = ba + S + (P >>> 0 < D >>> 0 ? 1 : 0);
             Q = f.low = Q + E;
             f.high = ca + V + (Q >>> 0 < E >>> 0 ? 1 : 0)
-        }, _doFinalize: function () {
-            var a = this._data, d = a.words, f = 8 * this._nDataBytes, e = 8 * a.sigBytes;
+        },
+        _doFinalize: function () {
+            var a = this._data,
+                d = a.words,
+                f = 8 * this._nDataBytes,
+                e = 8 * a.sigBytes;
             d[e >>> 5] |= 128 << 24 - e % 32;
             d[(e + 128 >>> 10 << 5) + 30] = Math.floor(f / 4294967296);
             d[(e + 128 >>> 10 << 5) + 31] = f;
             a.sigBytes = 4 * d.length;
             this._process();
             return this._hash.toX32()
-        }, clone: function () {
+        },
+        clone: function () {
             var a = r.clone.call(this);
             a._hash = this._hash.clone();
             return a
-        }, blockSize: 32
+        },
+        blockSize: 32
     });
     n.SHA512 = r._createHelper(e);
     n.HmacSHA512 = r._createHmacHelper(e)
@@ -1476,15 +1754,22 @@ code.google.com/p/crypto-js
 code.google.com/p/crypto-js/wiki/License
 */
 (function () {
-    var c = CryptoJS, a = c.x64, b = a.Word, e = a.WordArray, a = c.algo, d = a.SHA512, a = a.SHA384 = d.extend({
-        _doReset: function () {
-            this._hash = new e.init([new b.init(3418070365, 3238371032), new b.init(1654270250, 914150663), new b.init(2438529370, 812702999), new b.init(355462360, 4144912697), new b.init(1731405415, 4290775857), new b.init(2394180231, 1750603025), new b.init(3675008525, 1694076839), new b.init(1203062813, 3204075428)])
-        }, _doFinalize: function () {
-            var a = d._doFinalize.call(this);
-            a.sigBytes -= 16;
-            return a
-        }
-    });
+    var c = CryptoJS,
+        a = c.x64,
+        b = a.Word,
+        e = a.WordArray,
+        a = c.algo,
+        d = a.SHA512,
+        a = a.SHA384 = d.extend({
+            _doReset: function () {
+                this._hash = new e.init([new b.init(3418070365, 3238371032), new b.init(1654270250, 914150663), new b.init(2438529370, 812702999), new b.init(355462360, 4144912697), new b.init(1731405415, 4290775857), new b.init(2394180231, 1750603025), new b.init(3675008525, 1694076839), new b.init(1203062813, 3204075428)])
+            },
+            _doFinalize: function () {
+                var a = d._doFinalize.call(this);
+                a.sigBytes -= 16;
+                return a
+            }
+        });
     c.SHA384 =
         d._createHelper(a);
     c.HmacSHA384 = d._createHmacHelper(a)
@@ -1508,24 +1793,39 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 (function () {
-    var q = CryptoJS, d = q.lib, n = d.WordArray, p = d.Hasher, d = q.algo,
+    var q = CryptoJS,
+        d = q.lib,
+        n = d.WordArray,
+        p = d.Hasher,
+        d = q.algo,
         x = n.create([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 7, 4, 13, 1, 10, 6, 15, 3, 12, 0, 9, 5, 2, 14, 11, 8, 3, 10, 14, 4, 9, 15, 8, 1, 2, 7, 0, 6, 13, 11, 5, 12, 1, 9, 11, 10, 0, 8, 12, 4, 13, 3, 7, 15, 14, 5, 6, 2, 4, 0, 5, 9, 7, 12, 2, 10, 14, 1, 3, 8, 11, 6, 15, 13]),
         y = n.create([5, 14, 7, 0, 9, 2, 11, 4, 13, 6, 15, 8, 1, 10, 3, 12, 6, 11, 3, 7, 0, 13, 5, 10, 14, 15, 8, 12, 4, 9, 1, 2, 15, 5, 1, 3, 7, 14, 6, 9, 11, 8, 12, 2, 10, 0, 4, 13, 8, 6, 4, 1, 3, 11, 15, 0, 5, 12, 2, 13, 9, 7, 10, 14, 12, 15, 10, 4, 1, 5, 8, 7, 6, 2, 13, 14, 0, 3, 9, 11]),
         z = n.create([11, 14, 15, 12,
-            5, 8, 7, 9, 11, 13, 14, 15, 6, 7, 9, 8, 7, 6, 8, 13, 11, 9, 7, 15, 7, 12, 15, 9, 11, 7, 13, 12, 11, 13, 6, 7, 14, 9, 13, 15, 14, 8, 13, 6, 5, 12, 7, 5, 11, 12, 14, 15, 14, 15, 9, 8, 9, 14, 5, 6, 8, 6, 5, 12, 9, 15, 5, 11, 6, 8, 13, 12, 5, 12, 13, 14, 11, 8, 5, 6]),
+            5, 8, 7, 9, 11, 13, 14, 15, 6, 7, 9, 8, 7, 6, 8, 13, 11, 9, 7, 15, 7, 12, 15, 9, 11, 7, 13, 12, 11, 13, 6, 7, 14, 9, 13, 15, 14, 8, 13, 6, 5, 12, 7, 5, 11, 12, 14, 15, 14, 15, 9, 8, 9, 14, 5, 6, 8, 6, 5, 12, 9, 15, 5, 11, 6, 8, 13, 12, 5, 12, 13, 14, 11, 8, 5, 6
+        ]),
         A = n.create([8, 9, 9, 11, 13, 15, 15, 5, 7, 7, 8, 11, 14, 14, 12, 6, 9, 13, 15, 7, 12, 8, 9, 11, 7, 7, 12, 7, 6, 15, 13, 11, 9, 7, 15, 11, 8, 6, 6, 14, 12, 13, 5, 14, 13, 13, 7, 5, 15, 5, 8, 11, 14, 14, 6, 14, 6, 9, 12, 9, 12, 5, 15, 8, 8, 5, 12, 9, 12, 5, 14, 6, 8, 13, 6, 5, 15, 13, 11, 11]),
         B = n.create([0, 1518500249, 1859775393, 2400959708, 2840853838]),
         C = n.create([1352829926, 1548603684, 1836072691,
-            2053994217, 0]), d = d.RIPEMD160 = p.extend({
+            2053994217, 0
+        ]),
+        d = d.RIPEMD160 = p.extend({
             _doReset: function () {
                 this._hash = n.create([1732584193, 4023233417, 2562383102, 271733878, 3285377520])
-            }, _doProcessBlock: function (e, v) {
+            },
+            _doProcessBlock: function (e, v) {
                 for (var b = 0; 16 > b; b++) {
-                    var c = v + b, f = e[c];
+                    var c = v + b,
+                        f = e[c];
                     e[c] = (f << 8 | f >>> 24) & 16711935 | (f << 24 | f >>> 8) & 4278255360
                 }
-                var c = this._hash.words, f = B.words, d = C.words, n = x.words, q = y.words, p = z.words, w = A.words, t,
-                    g, h, j, r, u, k, l, m, s;
+                var c = this._hash.words,
+                    f = B.words,
+                    d = C.words,
+                    n = x.words,
+                    q = y.words,
+                    p = z.words,
+                    w = A.words,
+                    t, g, h, j, r, u, k, l, m, s;
                 u = t = c[0];
                 k = g = c[1];
                 l = h = c[2];
@@ -1539,8 +1839,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 c[3] = c[4] + t + k | 0;
                 c[4] = c[0] + g + l | 0;
                 c[0] = a
-            }, _doFinalize: function () {
-                var e = this._data, d = e.words, b = 8 * this._nDataBytes, c = 8 * e.sigBytes;
+            },
+            _doFinalize: function () {
+                var e = this._data,
+                    d = e.words,
+                    b = 8 * this._nDataBytes,
+                    c = 8 * e.sigBytes;
                 d[c >>> 5] |= 128 << 24 - c % 32;
                 d[(c + 64 >>> 9 << 4) + 14] = (b << 8 | b >>> 24) & 16711935 | (b << 24 | b >>> 8) & 4278255360;
                 e.sigBytes = 4 * (d.length + 1);
@@ -1549,7 +1853,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                 d = e.words;
                 for (b = 0; 5 > b; b++) c = d[b], d[b] = (c << 8 | c >>> 24) & 16711935 | (c << 24 | c >>> 8) & 4278255360;
                 return e
-            }, clone: function () {
+            },
+            clone: function () {
                 var d = p.clone.call(this);
                 d._hash = this._hash.clone();
                 return d
@@ -1566,25 +1871,30 @@ code.google.com/p/crypto-js
 code.google.com/p/crypto-js/wiki/License
 */
 (function () {
-    var c = CryptoJS, k = c.enc.Utf8;
+    var c = CryptoJS,
+        k = c.enc.Utf8;
     c.algo.HMAC = c.lib.Base.extend({
         init: function (a, b) {
             a = this._hasher = new a.init;
             "string" == typeof b && (b = k.parse(b));
-            var c = a.blockSize, e = 4 * c;
+            var c = a.blockSize,
+                e = 4 * c;
             b.sigBytes > e && (b = a.finalize(b));
             b.clamp();
             for (var f = this._oKey = b.clone(), g = this._iKey = b.clone(), h = f.words, j = g.words, d = 0; d < c; d++) h[d] ^= 1549556828, j[d] ^= 909522486;
             f.sigBytes = g.sigBytes = e;
             this.reset()
-        }, reset: function () {
+        },
+        reset: function () {
             var a = this._hasher;
             a.reset();
             a.update(this._iKey)
-        }, update: function (a) {
+        },
+        update: function (a) {
             this._hasher.update(a);
             return this
-        }, finalize: function (a) {
+        },
+        finalize: function (a) {
             var b =
                 this._hasher;
             a = b.finalize(a);
@@ -1601,25 +1911,37 @@ code.google.com/p/crypto-js
 code.google.com/p/crypto-js/wiki/License
 */
 (function () {
-    var b = CryptoJS, a = b.lib, d = a.Base, m = a.WordArray, a = b.algo, q = a.HMAC, l = a.PBKDF2 = d.extend({
-        cfg: d.extend({keySize: 4, hasher: a.SHA1, iterations: 1}), init: function (a) {
-            this.cfg = this.cfg.extend(a)
-        }, compute: function (a, b) {
-            for (var c = this.cfg, f = q.create(c.hasher, a), g = m.create(), d = m.create([1]), l = g.words, r = d.words, n = c.keySize, c = c.iterations; l.length < n;) {
-                var h = f.update(b).finalize(d);
-                f.reset();
-                for (var j = h.words, s = j.length, k = h, p = 1; p < c; p++) {
-                    k = f.finalize(k);
+    var b = CryptoJS,
+        a = b.lib,
+        d = a.Base,
+        m = a.WordArray,
+        a = b.algo,
+        q = a.HMAC,
+        l = a.PBKDF2 = d.extend({
+            cfg: d.extend({
+                keySize: 4,
+                hasher: a.SHA1,
+                iterations: 1
+            }),
+            init: function (a) {
+                this.cfg = this.cfg.extend(a)
+            },
+            compute: function (a, b) {
+                for (var c = this.cfg, f = q.create(c.hasher, a), g = m.create(), d = m.create([1]), l = g.words, r = d.words, n = c.keySize, c = c.iterations; l.length < n;) {
+                    var h = f.update(b).finalize(d);
                     f.reset();
-                    for (var t = k.words, e = 0; e < s; e++) j[e] ^= t[e]
+                    for (var j = h.words, s = j.length, k = h, p = 1; p < c; p++) {
+                        k = f.finalize(k);
+                        f.reset();
+                        for (var t = k.words, e = 0; e < s; e++) j[e] ^= t[e]
+                    }
+                    g.concat(h);
+                    r[0]++
                 }
-                g.concat(h);
-                r[0]++
+                g.sigBytes = 4 * n;
+                return g
             }
-            g.sigBytes = 4 * n;
-            return g
-        }
-    });
+        });
     b.PBKDF2 = function (a, b, c) {
         return l.create(c).compute(a, b)
     }
@@ -1741,7 +2063,8 @@ function am1(f, a, b, e, h, g) {
 }
 
 function am2(f, q, r, e, o, a) {
-    var k = q & 32767, p = q >> 15;
+    var k = q & 32767,
+        p = q >> 15;
     while (--a >= 0) {
         var d = this[f] & 32767;
         var g = this[f++] >> 15;
@@ -1754,7 +2077,8 @@ function am2(f, q, r, e, o, a) {
 }
 
 function am3(f, q, r, e, o, a) {
-    var k = q & 16383, p = q >> 14;
+    var k = q & 16383,
+        p = q >> 14;
     while (--a >= 0) {
         var d = this[f] & 16383;
         var g = this[f++] >> 14;
@@ -1765,7 +2089,6 @@ function am3(f, q, r, e, o, a) {
     }
     return o
 }
-
 if (j_lm && (navigator.appName == "Microsoft Internet Explorer")) {
     BigInteger.prototype.am = am2;
     dbits = 30
@@ -1868,7 +2191,9 @@ function bnpFromString(h, c) {
     }
     this.t = 0;
     this.s = 0;
-    var g = h.length, d = false, f = 0;
+    var g = h.length,
+        d = false,
+        f = 0;
     while (--g >= 0) {
         var a = (e == 8) ? h[g] & 255 : intAt(h, g);
         if (a < 0) {
@@ -1938,7 +2263,10 @@ function bnToString(c) {
             }
         }
     }
-    var g = (1 << e) - 1, l, a = false, h = "", f = this.t;
+    var g = (1 << e) - 1,
+        l, a = false,
+        h = "",
+        f = this.t;
     var j = this.DB - (f * this.DB) % e;
     if (f-- > 0) {
         if (j < this.DB && (l = this[f] >> j) > 0) {
@@ -1996,7 +2324,8 @@ function bnCompareTo(b) {
 }
 
 function nbits(a) {
-    var c = 1, b;
+    var c = 1,
+        b;
     if ((b = a >>> 16) != 0) {
         a = b;
         c += 16
@@ -2051,7 +2380,9 @@ function bnpLShiftTo(j, e) {
     var b = j % this.DB;
     var a = this.DB - b;
     var g = (1 << a) - 1;
-    var f = Math.floor(j / this.DB), h = (this.s << b) & this.DM, d;
+    var f = Math.floor(j / this.DB),
+        h = (this.s << b) & this.DM,
+        d;
     for (d = this.t - 1; d >= 0; --d) {
         e[d + f + 1] = (this[d] >> a) | h;
         h = (this[d] & g) << b
@@ -2088,7 +2419,9 @@ function bnpRShiftTo(g, d) {
 }
 
 function bnpSubTo(d, f) {
-    var e = 0, g = 0, b = Math.min(d.t, this.t);
+    var e = 0,
+        g = 0,
+        b = Math.min(d.t, this.t);
     while (e < b) {
         g += this[e] - d[e];
         f[e++] = g & this.DM;
@@ -2124,7 +2457,8 @@ function bnpSubTo(d, f) {
 }
 
 function bnpMultiplyTo(c, e) {
-    var b = this.abs(), f = c.abs();
+    var b = this.abs(),
+        f = c.abs();
     var d = b.t;
     e.t = d + f.t;
     while (--d >= 0) {
@@ -2178,7 +2512,9 @@ function bnpDivRemTo(n, h, g) {
     if (g == null) {
         g = nbi()
     }
-    var d = nbi(), a = this.s, l = n.s;
+    var d = nbi(),
+        a = this.s,
+        l = n.s;
     var v = this.DB - nbits(w[w.t - 1]);
     if (v > 0) {
         w.lShiftTo(v, d);
@@ -2193,8 +2529,12 @@ function bnpDivRemTo(n, h, g) {
         return
     }
     var o = b * (1 << this.F1) + ((p > 1) ? d[p - 2] >> this.F2 : 0);
-    var A = this.FV / o, z = (1 << this.F1) / o, x = 1 << this.F2;
-    var u = g.t, s = u - p, f = (h == null) ? nbi() : h;
+    var A = this.FV / o,
+        z = (1 << this.F1) / o,
+        x = 1 << this.F2;
+    var u = g.t,
+        s = u - p,
+        f = (h == null) ? nbi() : h;
     d.dlShiftTo(s, f);
     if (g.compareTo(f) >= 0) {
         g[g.t++] = 1;
@@ -2269,7 +2609,6 @@ function cSqrTo(a, b) {
     a.squareTo(b);
     this.reduce(b)
 }
-
 Classic.prototype.convert = cConvert;
 Classic.prototype.revert = cRevert;
 Classic.prototype.reduce = cReduce;
@@ -2348,7 +2687,6 @@ function montMulTo(a, c, b) {
     a.multiplyTo(c, b);
     this.reduce(b)
 }
-
 Montgomery.prototype.convert = montConvert;
 Montgomery.prototype.revert = montRevert;
 Montgomery.prototype.reduce = montReduce;
@@ -2363,7 +2701,10 @@ function bnpExp(h, j) {
     if (h > 4294967295 || h < 1) {
         return BigInteger.ONE
     }
-    var f = nbi(), a = nbi(), d = j.convert(this), c = nbits(h) - 1;
+    var f = nbi(),
+        a = nbi(),
+        d = j.convert(this),
+        c = nbits(h) - 1;
     d.copyTo(f);
     while (--c >= 0) {
         j.sqrTo(f, a);
@@ -2387,7 +2728,6 @@ function bnModPowInt(b, a) {
     }
     return this.exp(b, c)
 }
-
 BigInteger.prototype.copyTo = bnpCopyTo;
 BigInteger.prototype.fromInt = bnpFromInt;
 BigInteger.prototype.fromString = bnpFromString;
@@ -2412,7 +2752,6 @@ BigInteger.prototype.mod = bnMod;
 BigInteger.prototype.modPowInt = bnModPowInt;
 BigInteger.ZERO = nbv(0);
 BigInteger.ONE = nbv(1);
-
 /*! (c) Tom Wu | http://www-cs-students.stanford.edu/~tjw/jsbn/
  */
 function bnClone() {
@@ -2475,7 +2814,10 @@ function bnpToRadix(c) {
     }
     var f = this.chunkSize(c);
     var e = Math.pow(c, f);
-    var i = nbv(e), j = nbi(), h = nbi(), g = "";
+    var i = nbv(e),
+        j = nbi(),
+        h = nbi(),
+        g = "";
     this.divRemTo(i, j, h);
     while (j.signum() > 0) {
         g = (e + h.intValue()).toString(c).substr(1) + g;
@@ -2490,7 +2832,10 @@ function bnpFromRadix(m, h) {
         h = 10
     }
     var f = this.chunkSize(h);
-    var g = Math.pow(h, f), e = false, a = 0, l = 0;
+    var g = Math.pow(h, f),
+        e = false,
+        a = 0,
+        l = 0;
     for (var c = 0; c < m.length; ++c) {
         var k = intAt(m, c);
         if (k < 0) {
@@ -2536,7 +2881,8 @@ function bnpFromNumber(f, e, h) {
             }
         }
     } else {
-        var d = new Array(), g = f & 7;
+        var d = new Array(),
+            g = f & 7;
         d.length = (f >> 3) + 1;
         e.nextBytes(d);
         if (g > 0) {
@@ -2549,9 +2895,11 @@ function bnpFromNumber(f, e, h) {
 }
 
 function bnToByteArray() {
-    var b = this.t, c = new Array();
+    var b = this.t,
+        c = new Array();
     c[0] = this.s;
-    var e = this.DB - (b * this.DB) % 8, f, a = 0;
+    var e = this.DB - (b * this.DB) % 8,
+        f, a = 0;
     if (b-- > 0) {
         if (e < this.DB && (f = this[b] >> e) != (this.s & this.DM) >> e) {
             c[a++] = f | (this.s << (this.DB - e))
@@ -2734,7 +3082,8 @@ function cbit(a) {
 }
 
 function bnBitCount() {
-    var c = 0, a = this.s & this.DM;
+    var c = 0,
+        a = this.s & this.DM;
     for (var b = 0; b < this.t; ++b) {
         c += cbit(this[b] ^ a)
     }
@@ -2768,7 +3117,9 @@ function bnFlipBit(a) {
 }
 
 function bnpAddTo(d, f) {
-    var e = 0, g = 0, b = Math.min(d.t, this.t);
+    var e = 0,
+        g = 0,
+        b = Math.min(d.t, this.t);
     while (e < b) {
         g += this[e] + d[e];
         f[e++] = g & this.DM;
@@ -2840,7 +3191,8 @@ function bnRemainder(b) {
 }
 
 function bnDivideAndRemainder(b) {
-    var d = nbi(), c = nbi();
+    var d = nbi(),
+        c = nbi();
     this.divRemTo(b, d, c);
     return new Array(d, c)
 }
@@ -2863,13 +3215,11 @@ function bnpDAddOffset(b, a) {
         this[a] -= this.DV;
         if (++a >= this.t) {
             this[this.t++] = 0
-        }
-        ++this[a]
+        }++this[a]
     }
 }
 
-function NullExp() {
-}
+function NullExp() {}
 
 function nNop(a) {
     return a
@@ -2882,7 +3232,6 @@ function nMulTo(a, c, b) {
 function nSqrTo(a, b) {
     a.squareTo(b)
 }
-
 NullExp.prototype.convert = nNop;
 NullExp.prototype.revert = nNop;
 NullExp.prototype.mulTo = nMulTo;
@@ -2976,7 +3325,6 @@ function barrettMulTo(a, c, b) {
     a.multiplyTo(c, b);
     this.reduce(b)
 }
-
 Barrett.prototype.convert = barrettConvert;
 Barrett.prototype.revert = barrettRevert;
 Barrett.prototype.reduce = barrettReduce;
@@ -2984,7 +3332,9 @@ Barrett.prototype.mulTo = barrettMulTo;
 Barrett.prototype.sqrTo = barrettSqrTo;
 
 function bnModPow(q, f) {
-    var o = q.bitLength(), h, b = nbv(1), v;
+    var o = q.bitLength(),
+        h, b = nbv(1),
+        v;
     if (o <= 0) {
         return b
     } else {
@@ -3015,7 +3365,10 @@ function bnModPow(q, f) {
             v = new Montgomery(f)
         }
     }
-    var p = new Array(), d = 3, s = h - 1, a = (1 << h) - 1;
+    var p = new Array(),
+        d = 3,
+        s = h - 1,
+        a = (1 << h) - 1;
     p[1] = v.convert(this);
     if (h > 1) {
         var A = nbi();
@@ -3026,7 +3379,10 @@ function bnModPow(q, f) {
             d += 2
         }
     }
-    var l = q.t - 1, x, u = true, c = nbi(), y;
+    var l = q.t - 1,
+        x, u = true,
+        c = nbi(),
+        y;
     o = nbits(q[l]) - 1;
     while (l >= 0) {
         if (o >= s) {
@@ -3086,7 +3442,8 @@ function bnGCD(c) {
         b = h;
         h = e
     }
-    var d = b.getLowestSetBit(), f = h.getLowestSetBit();
+    var d = b.getLowestSetBit(),
+        f = h.getLowestSetBit();
     if (f < 0) {
         return b
     }
@@ -3122,7 +3479,8 @@ function bnpModInt(e) {
     if (e <= 0) {
         return 0
     }
-    var c = this.DV % e, b = (this.s < 0) ? e - 1 : 0;
+    var c = this.DV % e,
+        b = (this.s < 0) ? e - 1 : 0;
     if (this.t > 0) {
         if (c == 0) {
             b = this[0] % e
@@ -3140,8 +3498,12 @@ function bnModInverse(f) {
     if ((this.isEven() && j) || f.signum() == 0) {
         return BigInteger.ZERO
     }
-    var i = f.clone(), h = this.clone();
-    var g = nbv(1), e = nbv(0), l = nbv(0), k = nbv(1);
+    var i = f.clone(),
+        h = this.clone();
+    var g = nbv(1),
+        e = nbv(0),
+        l = nbv(0),
+        k = nbv(1);
     while (i.signum() != 0) {
         while (i.isEven()) {
             i.rShiftTo(1, i);
@@ -3204,7 +3566,6 @@ function bnModInverse(f) {
         return k
     }
 }
-
 var lowprimes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997];
 var lplim = (1 << 26) / lowprimes[lowprimes.length - 1];
 
@@ -3223,7 +3584,8 @@ function bnIsProbablePrime(e) {
     }
     d = 1;
     while (d < lowprimes.length) {
-        var a = lowprimes[d], c = d + 1;
+        var a = lowprimes[d],
+            c = d + 1;
         while (c < lowprimes.length && a < lplim) {
             a *= lowprimes[c++]
         }
@@ -3267,7 +3629,6 @@ function bnpMillerRabin(f) {
     }
     return true
 }
-
 BigInteger.prototype.chunkSize = bnpChunkSize;
 BigInteger.prototype.toRadix = bnpToRadix;
 BigInteger.prototype.fromRadix = bnpFromRadix;
@@ -3315,7 +3676,6 @@ BigInteger.prototype.pow = bnPow;
 BigInteger.prototype.gcd = bnGCD;
 BigInteger.prototype.isProbablePrime = bnIsProbablePrime;
 BigInteger.prototype.square = bnSquare;
-
 /*! (c) Tom Wu | http://www-cs-students.stanford.edu/~tjw/jsbn/
  */
 function Arcfour() {
@@ -3349,14 +3709,12 @@ function ARC4next() {
     this.S[this.j] = a;
     return this.S[(a + this.S[this.i]) & 255]
 }
-
 Arcfour.prototype.init = ARC4init;
 Arcfour.prototype.next = ARC4next;
 
 function prng_newstate() {
     return new Arcfour()
 }
-
 var rng_psize = 256;
 /*! (c) Tom Wu | http://www-cs-students.stanford.edu/~tjw/jsbn/
  */
@@ -3377,7 +3735,6 @@ function rng_seed_int(a) {
 function rng_seed_time() {
     rng_seed_int(new Date().getTime())
 }
-
 if (rng_pool == null) {
     rng_pool = new Array();
     rng_pptr = 0;
@@ -3428,11 +3785,8 @@ function rng_get_bytes(b) {
     }
 }
 
-function SecureRandom() {
-}
-
+function SecureRandom() {}
 SecureRandom.prototype.nextBytes = rng_get_bytes;
-
 /*! (c) Tom Wu | http://www-cs-students.stanford.edu/~tjw/jsbn/
  */
 function parseBigInt(b, a) {
@@ -3459,7 +3813,7 @@ function byte2Hex(a) {
 
 function pkcs1pad2(e, h) {
     if (h < e.length + 11) {
-        throw"Message too long for RSA";
+        throw "Message too long for RSA";
         return null
     }
     var g = new Array();
@@ -3495,7 +3849,8 @@ function pkcs1pad2(e, h) {
 }
 
 function oaep_mgf1_arr(c, a, e) {
-    var b = "", d = 0;
+    var b = "",
+        d = 0;
     while (b.length < a) {
         b += e(String.fromCharCode.apply(String, c.concat([(d & 4278190080) >> 24, (d & 16711680) >> 16, (d & 65280) >> 8, d & 255])));
         d += 1
@@ -3518,9 +3873,10 @@ function oaep_pad(q, a, f, l) {
         }
     }
     if (q.length + 2 * l + 2 > a) {
-        throw"Message too long for RSA"
+        throw "Message too long for RSA"
     }
-    var k = "", e;
+    var k = "",
+        e;
     for (e = 0; e < a - q.length - 2 * l - 2; e += 1) {
         k += "\x00"
     }
@@ -3562,7 +3918,7 @@ function RSASetPublic(b, a) {
             this.n = parseBigInt(b, 16);
             this.e = parseInt(a, 16)
         } else {
-            throw"Invalid RSA public key"
+            throw "Invalid RSA public key"
         }
     }
 }
@@ -3604,13 +3960,11 @@ function RSAEncryptOAEP(f, e, b) {
         return "0" + d
     }
 }
-
 RSAKey.prototype.doPublic = RSADoPublic;
 RSAKey.prototype.setPublic = RSASetPublic;
 RSAKey.prototype.encrypt = RSAEncrypt;
 RSAKey.prototype.encryptOAEP = RSAEncryptOAEP;
 RSAKey.prototype.type = "RSA";
-
 /*! (c) Tom Wu | http://www-cs-students.stanford.edu/~tjw/jsbn/
  */
 function pkcs1unpad2(g, j) {
@@ -3621,8 +3975,7 @@ function pkcs1unpad2(g, j) {
     }
     if (a.length - f != j - 1 || a[f] != 2) {
         return null
-    }
-    ++f;
+    }++f;
     while (a[f] != 0) {
         if (++f >= a.length) {
             return null
@@ -3647,7 +4000,8 @@ function pkcs1unpad2(g, j) {
 }
 
 function oaep_mgf1_str(c, a, e) {
-    var b = "", d = 0;
+    var b = "",
+        d = 0;
     while (b.length < a) {
         b += e(c + String.fromCharCode.apply(String, [(d & 4278190080) >> 24, (d & 16711680) >> 16, (d & 65280) >> 8, d & 255]));
         d += 1
@@ -3679,12 +4033,13 @@ function oaep_unpad(o, b, g, p) {
     }
     o = String.fromCharCode.apply(String, o);
     if (o.length < 2 * p + 2) {
-        throw"Cipher too short"
+        throw "Cipher too short"
     }
     var f = o.substr(1, p);
     var s = o.substr(p + 1);
     var q = oaep_mgf1_str(s, p, g);
-    var k = [], h;
+    var k = [],
+        h;
     for (h = 0; h < f.length; h += 1) {
         k[h] = f.charCodeAt(h) ^ q.charCodeAt(h)
     }
@@ -3695,13 +4050,13 @@ function oaep_unpad(o, b, g, p) {
     }
     j = String.fromCharCode.apply(String, j);
     if (j.substr(0, p) !== g("")) {
-        throw"Hash mismatch"
+        throw "Hash mismatch"
     }
     j = j.substr(p);
     var a = j.indexOf("\x01");
     var m = (a != -1) ? j.substr(0, a).lastIndexOf("\x00") : -1;
     if (m + 1 != a) {
-        throw"Malformed data"
+        throw "Malformed data"
     }
     return j.substr(a + 1)
 }
@@ -3718,7 +4073,7 @@ function RSASetPrivate(c, a, b) {
             this.e = parseInt(a, 16);
             this.d = parseBigInt(b, 16)
         } else {
-            throw"Invalid RSA private key"
+            throw "Invalid RSA private key"
         }
     }
 }
@@ -3727,16 +4082,16 @@ function RSASetPrivateEx(g, d, e, c, b, a, h, f) {
     this.isPrivate = true;
     this.isPublic = false;
     if (g == null) {
-        throw"RSASetPrivateEx N == null"
+        throw "RSASetPrivateEx N == null"
     }
     if (d == null) {
-        throw"RSASetPrivateEx E == null"
+        throw "RSASetPrivateEx E == null"
     }
     if (g.length == 0) {
-        throw"RSASetPrivateEx N.length == 0"
+        throw "RSASetPrivateEx N.length == 0"
     }
     if (d.length == 0) {
-        throw"RSASetPrivateEx E.length == 0"
+        throw "RSASetPrivateEx E.length == 0"
     }
     if (g != null && d != null && g.length > 0 && d.length > 0) {
         this.n = parseBigInt(g, 16);
@@ -3748,7 +4103,7 @@ function RSASetPrivateEx(g, d, e, c, b, a, h, f) {
         this.dmq1 = parseBigInt(h, 16);
         this.coeff = parseBigInt(f, 16)
     } else {
-        throw"Invalid RSA private key in RSASetPrivateEx"
+        throw "Invalid RSA private key in RSASetPrivateEx"
     }
 }
 
@@ -3757,14 +4112,14 @@ function RSAGenerate(b, i) {
     var f = b >> 1;
     this.e = parseInt(i, 16);
     var c = new BigInteger(i, 16);
-    for (; ;) {
-        for (; ;) {
+    for (;;) {
+        for (;;) {
             this.p = new BigInteger(b - f, 1, a);
             if (this.p.subtract(BigInteger.ONE).gcd(c).compareTo(BigInteger.ONE) == 0 && this.p.isProbablePrime(10)) {
                 break
             }
         }
-        for (; ;) {
+        for (;;) {
             this.q = new BigInteger(f, 1, a);
             if (this.q.subtract(BigInteger.ONE).gcd(c).compareTo(BigInteger.ONE) == 0 && this.q.isProbablePrime(10)) {
                 break
@@ -3780,11 +4135,13 @@ function RSAGenerate(b, i) {
         var e = g.multiply(d);
         if (e.gcd(c).compareTo(BigInteger.ONE) == 0) {
             this.n = this.p.multiply(this.q);
-            this.d = c.modInverse(e);
-            this.dmp1 = this.d.mod(g);
-            this.dmq1 = this.d.mod(d);
-            this.coeff = this.q.modInverse(this.p);
-            break
+            if (this.n.bitLength() == b) {
+                this.d = c.modInverse(e);
+                this.dmp1 = this.d.mod(g);
+                this.dmq1 = this.d.mod(d);
+                this.coeff = this.q.modInverse(this.p);
+                break
+            }
         }
     }
     this.isPrivate = true
@@ -3803,6 +4160,9 @@ function RSADoPrivate(a) {
 }
 
 function RSADecrypt(b) {
+    if (b.length != Math.ceil(this.n.bitLength() / 4)) {
+        throw new Error("wrong ctext length")
+    }
     var d = parseBigInt(b, 16);
     var a = this.doPrivate(d);
     if (a == null) {
@@ -3812,6 +4172,9 @@ function RSADecrypt(b) {
 }
 
 function RSADecryptOAEP(e, d, b) {
+    if (e.length != Math.ceil(this.n.bitLength() / 4)) {
+        throw new Error("wrong ctext length")
+    }
     var f = parseBigInt(e, 16);
     var a = this.doPrivate(f);
     if (a == null) {
@@ -3819,14 +4182,12 @@ function RSADecryptOAEP(e, d, b) {
     }
     return oaep_unpad(a, (this.n.bitLength() + 7) >> 3, d, b)
 }
-
 RSAKey.prototype.doPrivate = RSADoPrivate;
 RSAKey.prototype.setPrivate = RSASetPrivate;
 RSAKey.prototype.setPrivateEx = RSASetPrivateEx;
 RSAKey.prototype.generate = RSAGenerate;
 RSAKey.prototype.decrypt = RSADecrypt;
 RSAKey.prototype.decryptOAEP = RSADecryptOAEP;
-
 /*! (c) Tom Wu | http://www-cs-students.stanford.edu/~tjw/jsbn/
  */
 function ECFieldElementFp(b, a) {
@@ -3868,7 +4229,6 @@ function feFpSquare() {
 function feFpDivide(a) {
     return new ECFieldElementFp(this.q, this.x.multiply(a.toBigInteger().modInverse(this.q)).mod(this.q))
 }
-
 ECFieldElementFp.prototype.equals = feFpEquals;
 ECFieldElementFp.prototype.toBigInteger = feFpToBigInteger;
 ECFieldElementFp.prototype.negate = feFpNegate;
@@ -4044,12 +4404,10 @@ function pointFpMultiplyTwo(c, a, b) {
             if (b.testBit(d)) {
                 f = f.add(a)
             }
-        }
-        --d
+        }--d
     }
     return f
 }
-
 ECPointFp.prototype.getX = pointFpGetX;
 ECPointFp.prototype.getY = pointFpGetY;
 ECPointFp.prototype.equals = pointFpEquals;
@@ -4112,7 +4470,6 @@ function curveFpDecodePointHex(d) {
             return null
     }
 }
-
 ECCurveFp.prototype.getQ = curveFpGetQ;
 ECCurveFp.prototype.getA = curveFpGetA;
 ECCurveFp.prototype.getB = curveFpGetB;
@@ -4270,15 +4627,26 @@ var jsonParse = (function () {
     var i = '(?:"' + j + '*")';
     var d = new RegExp("(?:false|true|null|[\\{\\}\\[\\]]|" + e + "|" + i + ")", "g");
     var k = new RegExp("\\\\(?:([^u])|u(.{4}))", "g");
-    var g = {'"': '"', "/": "/", "\\": "\\", b: "\b", f: "\f", n: "\n", r: "\r", t: "\t"};
+    var g = {
+        '"': '"',
+        "/": "/",
+        "\\": "\\",
+        b: "\b",
+        f: "\f",
+        n: "\n",
+        r: "\r",
+        t: "\t"
+    };
 
     function h(l, m, n) {
         return m ? g[m] : String.fromCharCode(parseInt(n, 16))
     }
-
     var c = new String("");
     var a = "\\";
-    var f = {"{": Object, "[": Array};
+    var f = {
+        "{": Object,
+        "[": Array
+    };
     var b = Object.hasOwnProperty;
     return function (u, q) {
         var p = u.match(d);
@@ -4392,7 +4760,9 @@ var jsonParse = (function () {
                 }
                 return q.call(C, B, D)
             };
-            x = s({"": x}, "")
+            x = s({
+                "": x
+            }, "")
         }
         return x
     }
@@ -4445,17 +4815,33 @@ KJUR.asn1.ASN1Util = new function () {
         return hextopem(a, b)
     };
     this.newObject = function (k) {
-        var D = KJUR, n = D.asn1, z = n.DERBoolean, e = n.DERInteger, s = n.DERBitString, h = n.DEROctetString,
-            v = n.DERNull, w = n.DERObjectIdentifier, l = n.DEREnumerated, g = n.DERUTF8String, f = n.DERNumericString,
-            y = n.DERPrintableString, u = n.DERTeletexString, p = n.DERIA5String, C = n.DERUTCTime,
-            j = n.DERGeneralizedTime, m = n.DERSequence, c = n.DERSet, r = n.DERTaggedObject, o = n.ASN1Util.newObject;
+        var D = KJUR,
+            n = D.asn1,
+            z = n.DERBoolean,
+            e = n.DERInteger,
+            s = n.DERBitString,
+            h = n.DEROctetString,
+            v = n.DERNull,
+            w = n.DERObjectIdentifier,
+            l = n.DEREnumerated,
+            g = n.DERUTF8String,
+            f = n.DERNumericString,
+            y = n.DERPrintableString,
+            u = n.DERTeletexString,
+            p = n.DERIA5String,
+            C = n.DERUTCTime,
+            j = n.DERGeneralizedTime,
+            m = n.DERSequence,
+            c = n.DERSet,
+            r = n.DERTaggedObject,
+            o = n.ASN1Util.newObject;
         var t = Object.keys(k);
         if (t.length != 1) {
-            throw"key of param shall be only one."
+            throw "key of param shall be only one."
         }
         var F = t[0];
         if (":bool:int:bitstr:octstr:null:oid:enum:utf8str:numstr:prnstr:telstr:ia5str:utctime:gentime:seq:set:tag:".indexOf(":" + F + ":") == -1) {
-            throw"undefined key: " + F
+            throw "undefined key: " + F
         }
         if (F == "bool") {
             return new z(k[F])
@@ -4506,7 +4892,9 @@ KJUR.asn1.ASN1Util = new function () {
                 var B = o(d[x]);
                 E.push(B)
             }
-            return new m({array: E})
+            return new m({
+                array: E
+            })
         }
         if (F == "set") {
             var d = k[F];
@@ -4515,13 +4903,19 @@ KJUR.asn1.ASN1Util = new function () {
                 var B = o(d[x]);
                 E.push(B)
             }
-            return new c({array: E})
+            return new c({
+                array: E
+            })
         }
         if (F == "tag") {
             var A = k[F];
             if (Object.prototype.toString.call(A) === "[object Array]" && A.length == 3) {
                 var q = o(A[2]);
-                return new r({tag: A[0], explicit: A[1], obj: q})
+                return new r({
+                    tag: A[0],
+                    explicit: A[1],
+                    obj: q
+                })
             } else {
                 var b = {};
                 if (A.explicit !== undefined) {
@@ -4531,7 +4925,7 @@ KJUR.asn1.ASN1Util = new function () {
                     b.tag = A.tag
                 }
                 if (A.obj === undefined) {
-                    throw"obj shall be specified for 'tag'."
+                    throw "obj shall be specified for 'tag'."
                 }
                 b.obj = o(A.obj);
                 return new r(b)
@@ -4593,7 +4987,7 @@ KJUR.asn1.ASN1Util.oidIntToHex = function (f) {
         return n
     };
     if (!f.match(/^[0-9.]+$/)) {
-        throw"malformed oid string: " + f
+        throw "malformed oid string: " + f
     }
     var g = "";
     var b = f.split(".");
@@ -4613,10 +5007,10 @@ KJUR.asn1.ASN1Object = function () {
     var a = "";
     this.getLengthHexFromValue = function () {
         if (typeof this.hV == "undefined" || this.hV == null) {
-            throw"this.hV is null or undefined."
+            throw "this.hV is null or undefined."
         }
         if (this.hV.length % 2 == 1) {
-            throw"value hex must be even length: n=" + a.length + ",v=" + this.hV
+            throw "value hex must be even length: n=" + a.length + ",v=" + this.hV
         }
         var i = this.hV.length / 2;
         var h = i.toString(16);
@@ -4628,7 +5022,7 @@ KJUR.asn1.ASN1Object = function () {
         } else {
             var g = h.length / 2;
             if (g > 15) {
-                throw"ASN.1 length too long to represent by 8x: n = " + i.toString(16)
+                throw "ASN.1 length too long to represent by 8x: n = " + i.toString(16)
             }
             var f = 128 + g;
             return f.toString(16) + h
@@ -4822,7 +5216,7 @@ KJUR.asn1.DERBitString = function (b) {
     };
     this.setUnusedBitsAndHexValue = function (c, e) {
         if (c < 0 || 7 < c) {
-            throw"unused bits shall be from 0 to 7: u = " + c
+            throw "unused bits shall be from 0 to 7: u = " + c
         }
         var d = "0" + c;
         this.hTLV = null;
@@ -4946,7 +5340,7 @@ KJUR.asn1.DERObjectIdentifier = function (c) {
     };
     this.setValueOidString = function (f) {
         if (!f.match(/^[0-9.]+$/)) {
-            throw"malformed oid string: " + f
+            throw "malformed oid string: " + f
         }
         var g = "";
         var d = f.split(".");
@@ -4966,7 +5360,7 @@ KJUR.asn1.DERObjectIdentifier = function (c) {
         if (d !== "") {
             this.setValueOidString(d)
         } else {
-            throw"DERObjectIdentifier oidName undefined: " + e
+            throw "DERObjectIdentifier oidName undefined: " + e
         }
     };
     this.getFreshValueHex = function () {
@@ -5206,8 +5600,7 @@ KJUR.asn1.DERTaggedObject = function (a) {
     }
 };
 YAHOO.lang.extend(KJUR.asn1.DERTaggedObject, KJUR.asn1.ASN1Object);
-var ASN1HEX = new function () {
-};
+var ASN1HEX = new function () {};
 ASN1HEX.getLblen = function (c, a) {
     if (c.substr(a + 2, 1) != "8") {
         return 1
@@ -5297,7 +5690,7 @@ ASN1HEX.getIdxbyList = function (e, d, c, i) {
     if (c.length == 0) {
         if (i !== undefined) {
             if (e.substr(d, 2) !== i) {
-                throw"checking tag doesn't match: " + e.substr(d, 2) + "!=" + i
+                throw Error("checking tag doesn't match: " + e.substr(d, 2) + "!=" + i)
             }
         }
         return d
@@ -5310,11 +5703,11 @@ ASN1HEX.getTLVbyList = function (d, c, b, f) {
     var e = ASN1HEX;
     var a = e.getIdxbyList(d, c, b);
     if (a === undefined) {
-        throw"can't find nthList object"
+        throw "can't find nthList object"
     }
     if (f !== undefined) {
         if (d.substr(a, 2) != f) {
-            throw"checking tag doesn't match: " + d.substr(a, 2) + "!=" + f
+            throw "checking tag doesn't match: " + d.substr(a, 2) + "!=" + f
         }
     }
     return e.getTLV(d, a)
@@ -5324,7 +5717,7 @@ ASN1HEX.getVbyList = function (e, c, b, g, i) {
     var a, d;
     a = f.getIdxbyList(e, c, b, g);
     if (a === undefined) {
-        throw"can't find nthList object"
+        throw "can't find nthList object"
     }
     d = f.getV(e, a);
     if (i === true) {
@@ -5384,7 +5777,9 @@ ASN1HEX.dump = function (t, c, l, g) {
         }
     };
     if (c === undefined) {
-        c = {ommit_long_octet: 32}
+        c = {
+            ommit_long_octet: 32
+        }
     }
     if (l === undefined) {
         l = 0
@@ -5515,6 +5910,63 @@ ASN1HEX.isASN1HEX = function (e) {
     }
     return false
 };
+ASN1HEX.checkStrictDER = function (g, o, d, c, r) {
+    var s = ASN1HEX;
+    if (d === undefined) {
+        if (typeof g != "string") {
+            throw new Error("not hex string")
+        }
+        g = g.toLowerCase();
+        if (!KJUR.lang.String.isHex(g)) {
+            throw new Error("not hex string")
+        }
+        d = g.length;
+        c = g.length / 2;
+        if (c < 128) {
+            r = 1
+        } else {
+            r = Math.ceil(c.toString(16)) + 1
+        }
+    }
+    var k = s.getL(g, o);
+    if (k.length > r * 2) {
+        throw new Error("L of TLV too long: idx=" + o)
+    }
+    var n = s.getVblen(g, o);
+    if (n > c) {
+        throw new Error("value of L too long than hex: idx=" + o)
+    }
+    var q = s.getTLV(g, o);
+    var f = q.length - 2 - s.getL(g, o).length;
+    if (f !== (n * 2)) {
+        throw new Error("V string length and L's value not the same:" + f + "/" + (n * 2))
+    }
+    if (o === 0) {
+        if (g.length != q.length) {
+            throw new Error("total length and TLV length unmatch:" + g.length + "!=" + q.length)
+        }
+    }
+    var b = g.substr(o, 2);
+    if (b === "02") {
+        var a = s.getVidx(g, o);
+        if (g.substr(a, 2) == "00" && g.charCodeAt(a + 2) < 56) {
+            throw new Error("not least zeros for DER INTEGER")
+        }
+    }
+    if (parseInt(b, 16) & 32) {
+        var p = s.getVblen(g, o);
+        var m = 0;
+        var l = s.getChildIdx(g, o);
+        for (var e = 0; e < l.length; e++) {
+            var j = s.getTLV(g, l[e]);
+            m += j.length;
+            s.checkStrictDER(g, l[e], d, c, r)
+        }
+        if ((p * 2) != m) {
+            throw new Error("sum of children's TLV length and L unmatch: " + (p * 2) + "!=" + m)
+        }
+    }
+};
 ASN1HEX.oidname = function (a) {
     var c = KJUR.asn1;
     if (KJUR.lang.String.isHex(a)) {
@@ -5537,24 +5989,42 @@ if (typeof KJUR.asn1.x509 == "undefined" || !KJUR.asn1.x509) {
 }
 KJUR.asn1.x509.Certificate = function (e) {
     KJUR.asn1.x509.Certificate.superclass.constructor.call(this);
-    var a = null, j = null, h = null, k = null, i = null, b = KJUR, f = b.crypto, g = b.asn1, d = g.DERSequence,
+    var a = null,
+        j = null,
+        h = null,
+        k = null,
+        i = null,
+        b = KJUR,
+        f = b.crypto,
+        g = b.asn1,
+        d = g.DERSequence,
         c = g.DERBitString;
     this.sign = function () {
         this.asn1SignatureAlg = this.asn1TBSCert.asn1SignatureAlg;
-        var m = new KJUR.crypto.Signature({alg: this.asn1SignatureAlg.nameAlg});
+        var m = new KJUR.crypto.Signature({
+            alg: this.asn1SignatureAlg.nameAlg
+        });
         m.init(this.prvKey);
         m.updateHex(this.asn1TBSCert.getEncodedHex());
         this.hexSig = m.sign();
-        this.asn1Sig = new c({hex: "00" + this.hexSig});
-        var l = new d({array: [this.asn1TBSCert, this.asn1SignatureAlg, this.asn1Sig]});
+        this.asn1Sig = new c({
+            hex: "00" + this.hexSig
+        });
+        var l = new d({
+            array: [this.asn1TBSCert, this.asn1SignatureAlg, this.asn1Sig]
+        });
         this.hTLV = l.getEncodedHex();
         this.isModified = false
     };
     this.setSignatureHex = function (l) {
         this.asn1SignatureAlg = this.asn1TBSCert.asn1SignatureAlg;
         this.hexSig = l;
-        this.asn1Sig = new c({hex: "00" + this.hexSig});
-        var m = new d({array: [this.asn1TBSCert, this.asn1SignatureAlg, this.asn1Sig]});
+        this.asn1Sig = new c({
+            hex: "00" + this.hexSig
+        });
+        var m = new d({
+            array: [this.asn1TBSCert, this.asn1SignatureAlg, this.asn1Sig]
+        });
         this.hTLV = m.getEncodedHex();
         this.isModified = false
     };
@@ -5562,7 +6032,7 @@ KJUR.asn1.x509.Certificate = function (e) {
         if (this.isModified == false && this.hTLV != null) {
             return this.hTLV
         }
-        throw"not signed yet"
+        throw "not signed yet"
     };
     this.getPEMString = function () {
         var l = hextob64nl(this.getEncodedHex());
@@ -5580,11 +6050,22 @@ KJUR.asn1.x509.Certificate = function (e) {
 YAHOO.lang.extend(KJUR.asn1.x509.Certificate, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.TBSCertificate = function (e) {
     KJUR.asn1.x509.TBSCertificate.superclass.constructor.call(this);
-    var b = KJUR, i = b.asn1, f = i.DERSequence, h = i.DERInteger, c = i.DERTaggedObject, d = i.x509, g = d.Time,
-        a = d.X500Name, j = d.SubjectPublicKeyInfo;
+    var b = KJUR,
+        i = b.asn1,
+        f = i.DERSequence,
+        h = i.DERInteger,
+        c = i.DERTaggedObject,
+        d = i.x509,
+        g = d.Time,
+        a = d.X500Name,
+        j = d.SubjectPublicKeyInfo;
     this._initialize = function () {
         this.asn1Array = new Array();
-        this.asn1Version = new c({obj: new h({"int": 2})});
+        this.asn1Version = new c({
+            obj: new h({
+                "int": 2
+            })
+        });
         this.asn1SerialNumber = null;
         this.asn1SignatureAlg = null;
         this.asn1Issuer = null;
@@ -5627,9 +6108,11 @@ KJUR.asn1.x509.TBSCertificate = function (e) {
     };
     this.getEncodedHex = function () {
         if (this.asn1NotBefore == null || this.asn1NotAfter == null) {
-            throw"notBefore and/or notAfter not set"
+            throw "notBefore and/or notAfter not set"
         }
-        var l = new f({array: [this.asn1NotBefore, this.asn1NotAfter]});
+        var l = new f({
+            array: [this.asn1NotBefore, this.asn1NotAfter]
+        });
         this.asn1Array = new Array();
         this.asn1Array.push(this.asn1Version);
         this.asn1Array.push(this.asn1SerialNumber);
@@ -5639,11 +6122,19 @@ KJUR.asn1.x509.TBSCertificate = function (e) {
         this.asn1Array.push(this.asn1Subject);
         this.asn1Array.push(this.asn1SubjPKey);
         if (this.extensionsArray.length > 0) {
-            var m = new f({array: this.extensionsArray});
-            var k = new c({explicit: true, tag: "a3", obj: m});
+            var m = new f({
+                array: this.extensionsArray
+            });
+            var k = new c({
+                explicit: true,
+                tag: "a3",
+                obj: m
+            });
             this.asn1Array.push(k)
         }
-        var n = new f({array: this.asn1Array});
+        var n = new f({
+            array: this.asn1Array
+        });
         this.hTLV = n.getEncodedHex();
         this.isModified = false;
         return this.hTLV
@@ -5653,18 +6144,30 @@ KJUR.asn1.x509.TBSCertificate = function (e) {
 YAHOO.lang.extend(KJUR.asn1.x509.TBSCertificate, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.Extension = function (d) {
     KJUR.asn1.x509.Extension.superclass.constructor.call(this);
-    var f = null, a = KJUR, e = a.asn1, h = e.DERObjectIdentifier, i = e.DEROctetString, b = e.DERBitString,
-        g = e.DERBoolean, c = e.DERSequence;
+    var f = null,
+        a = KJUR,
+        e = a.asn1,
+        h = e.DERObjectIdentifier,
+        i = e.DEROctetString,
+        b = e.DERBitString,
+        g = e.DERBoolean,
+        c = e.DERSequence;
     this.getEncodedHex = function () {
-        var m = new h({oid: this.oid});
-        var l = new i({hex: this.getExtnValueHex()});
+        var m = new h({
+            oid: this.oid
+        });
+        var l = new i({
+            hex: this.getExtnValueHex()
+        });
         var k = new Array();
         k.push(m);
         if (this.critical) {
             k.push(new g())
         }
         k.push(l);
-        var j = new c({array: k});
+        var j = new c({
+            array: k
+        });
         return j.getEncodedHex()
     };
     this.critical = false;
@@ -5676,7 +6179,8 @@ KJUR.asn1.x509.Extension = function (d) {
 };
 YAHOO.lang.extend(KJUR.asn1.x509.Extension, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.Extension.appendByNameToArray = function (e, c, b) {
-    var g = e.toLowerCase(), f = KJUR.asn1.x509;
+    var g = e.toLowerCase(),
+        f = KJUR.asn1.x509;
     if (g == "basicconstraints") {
         var d = new f.BasicConstraints(c);
         b.push(d)
@@ -5713,7 +6217,7 @@ KJUR.asn1.x509.Extension.appendByNameToArray = function (e, c, b) {
                                         var d = new f.IssuerAltName(c);
                                         b.push(d)
                                     } else {
-                                        throw"unsupported extension name: " + e
+                                        throw "unsupported extension name: " + e
                                     }
                                 }
                             }
@@ -5745,7 +6249,9 @@ KJUR.asn1.x509.KeyUsage = function (f) {
                     }
                 }
             }
-            this.asn1ExtnValue = new KJUR.asn1.DERBitString({bin: d})
+            this.asn1ExtnValue = new KJUR.asn1.DERBitString({
+                bin: d
+            })
         }
     }
 };
@@ -5760,9 +6266,13 @@ KJUR.asn1.x509.BasicConstraints = function (c) {
             e.push(new KJUR.asn1.DERBoolean())
         }
         if (this.pathLen > -1) {
-            e.push(new KJUR.asn1.DERInteger({"int": this.pathLen}))
+            e.push(new KJUR.asn1.DERInteger({
+                "int": this.pathLen
+            }))
         }
-        var d = new KJUR.asn1.DERSequence({array: e});
+        var d = new KJUR.asn1.DERSequence({
+            array: e
+        });
         this.asn1ExtnValue = d;
         return this.asn1ExtnValue.getEncodedHex()
     };
@@ -5781,17 +6291,25 @@ KJUR.asn1.x509.BasicConstraints = function (c) {
 YAHOO.lang.extend(KJUR.asn1.x509.BasicConstraints, KJUR.asn1.x509.Extension);
 KJUR.asn1.x509.CRLDistributionPoints = function (d) {
     KJUR.asn1.x509.CRLDistributionPoints.superclass.constructor.call(this, d);
-    var b = KJUR, a = b.asn1, c = a.x509;
+    var b = KJUR,
+        a = b.asn1,
+        c = a.x509;
     this.getExtnValueHex = function () {
         return this.asn1ExtnValue.getEncodedHex()
     };
     this.setByDPArray = function (e) {
-        this.asn1ExtnValue = new a.DERSequence({array: e})
+        this.asn1ExtnValue = new a.DERSequence({
+            array: e
+        })
     };
     this.setByOneURI = function (h) {
-        var e = new c.GeneralNames([{uri: h}]);
+        var e = new c.GeneralNames([{
+            uri: h
+        }]);
         var g = new c.DistributionPointName(e);
-        var f = new c.DistributionPoint({dpobj: g});
+        var f = new c.DistributionPoint({
+            dpobj: g
+        });
         this.setByDPArray([f])
     };
     this.oid = "2.5.29.31";
@@ -5808,7 +6326,8 @@ KJUR.asn1.x509.CRLDistributionPoints = function (d) {
 YAHOO.lang.extend(KJUR.asn1.x509.CRLDistributionPoints, KJUR.asn1.x509.Extension);
 KJUR.asn1.x509.ExtKeyUsage = function (c) {
     KJUR.asn1.x509.ExtKeyUsage.superclass.constructor.call(this, c);
-    var b = KJUR, a = b.asn1;
+    var b = KJUR,
+        a = b.asn1;
     this.setPurposeArray = function (d) {
         this.asn1ExtnValue = new a.DERSequence();
         for (var e = 0; e < d.length; e++) {
@@ -5827,60 +6346,131 @@ KJUR.asn1.x509.ExtKeyUsage = function (c) {
     }
 };
 YAHOO.lang.extend(KJUR.asn1.x509.ExtKeyUsage, KJUR.asn1.x509.Extension);
-KJUR.asn1.x509.AuthorityKeyIdentifier = function (d) {
-    KJUR.asn1.x509.AuthorityKeyIdentifier.superclass.constructor.call(this, d);
-    var b = KJUR, a = b.asn1, c = a.DERTaggedObject;
+KJUR.asn1.x509.AuthorityKeyIdentifier = function (f) {
+    KJUR.asn1.x509.AuthorityKeyIdentifier.superclass.constructor.call(this, f);
+    var b = KJUR,
+        a = b.asn1,
+        d = a.DERTaggedObject,
+        e = a.x509.GeneralNames,
+        c = b.crypto.Util.isKey;
     this.asn1KID = null;
     this.asn1CertIssuer = null;
     this.asn1CertSN = null;
     this.getExtnValueHex = function () {
-        var f = new Array();
+        var h = new Array();
         if (this.asn1KID) {
-            f.push(new c({explicit: false, tag: "80", obj: this.asn1KID}))
+            h.push(new d({
+                explicit: false,
+                tag: "80",
+                obj: this.asn1KID
+            }))
         }
         if (this.asn1CertIssuer) {
-            f.push(new c({explicit: false, tag: "a1", obj: this.asn1CertIssuer}))
+            h.push(new d({
+                explicit: false,
+                tag: "a1",
+                obj: new e([{
+                    dn: this.asn1CertIssuer
+                }])
+            }))
         }
         if (this.asn1CertSN) {
-            f.push(new c({explicit: false, tag: "82", obj: this.asn1CertSN}))
+            h.push(new d({
+                explicit: false,
+                tag: "82",
+                obj: this.asn1CertSN
+            }))
         }
-        var e = new a.DERSequence({array: f});
-        this.asn1ExtnValue = e;
+        var g = new a.DERSequence({
+            array: h
+        });
+        this.asn1ExtnValue = g;
         return this.asn1ExtnValue.getEncodedHex()
     };
-    this.setKIDByParam = function (e) {
-        this.asn1KID = new KJUR.asn1.DEROctetString(e)
+    this.setKIDByParam = function (i) {
+        if (i.str !== undefined || i.hex !== undefined) {
+            this.asn1KID = new KJUR.asn1.DEROctetString(i)
+        } else {
+            if ((typeof i === "object" && KJUR.crypto.Util.isKey(i)) || (typeof i === "string" && i.indexOf("BEGIN ") != -1)) {
+                var h = i;
+                if (typeof i === "string") {
+                    h = KEYUTIL.getKey(i)
+                }
+                var g = KEYUTIL.getKeyID(h);
+                this.asn1KID = new KJUR.asn1.DEROctetString({
+                    hex: g
+                })
+            }
+        }
     };
-    this.setCertIssuerByParam = function (e) {
-        this.asn1CertIssuer = new KJUR.asn1.x509.X500Name(e)
+    this.setCertIssuerByParam = function (g) {
+        if (g.str !== undefined || g.ldapstr !== undefined || g.hex !== undefined || g.certsubject !== undefined || g.certissuer !== undefined) {
+            this.asn1CertIssuer = new KJUR.asn1.x509.X500Name(g)
+        } else {
+            if (typeof g === "string" && g.indexOf("BEGIN ") != -1 && g.indexOf("CERTIFICATE") != -1) {
+                this.asn1CertIssuer = new KJUR.asn1.x509.X500Name({
+                    certissuer: g
+                })
+            }
+        }
     };
-    this.setCertSNByParam = function (e) {
-        this.asn1CertSN = new KJUR.asn1.DERInteger(e)
+    this.setCertSNByParam = function (i) {
+        if (i.str !== undefined || i.bigint !== undefined || i.hex !== undefined) {
+            this.asn1CertSN = new KJUR.asn1.DERInteger(i)
+        } else {
+            if (typeof i === "string" && i.indexOf("BEGIN ") != -1 && i.indexOf("CERTIFICATE")) {
+                var g = new X509();
+                g.readCertPEM(i);
+                var h = g.getSerialNumberHex();
+                this.asn1CertSN = new KJUR.asn1.DERInteger({
+                    hex: h
+                })
+            }
+        }
     };
     this.oid = "2.5.29.35";
-    if (d !== undefined) {
-        if (d.kid !== undefined) {
-            this.setKIDByParam(d.kid)
+    if (f !== undefined) {
+        if (f.kid !== undefined) {
+            this.setKIDByParam(f.kid)
         }
-        if (d.issuer !== undefined) {
-            this.setCertIssuerByParam(d.issuer)
+        if (f.issuer !== undefined) {
+            this.setCertIssuerByParam(f.issuer)
         }
-        if (d.sn !== undefined) {
-            this.setCertSNByParam(d.sn)
+        if (f.sn !== undefined) {
+            this.setCertSNByParam(f.sn)
+        }
+        if (f.issuersn !== undefined && typeof f.issuersn === "string" && f.issuersn.indexOf("BEGIN ") != -1 && f.issuersn.indexOf("CERTIFICATE")) {
+            this.setCertSNByParam(f.issuersn);
+            this.setCertIssuerByParam(f.issuersn)
         }
     }
 };
 YAHOO.lang.extend(KJUR.asn1.x509.AuthorityKeyIdentifier, KJUR.asn1.x509.Extension);
 KJUR.asn1.x509.SubjectKeyIdentifier = function (d) {
     KJUR.asn1.x509.SubjectKeyIdentifier.superclass.constructor.call(this, d);
-    var b = KJUR, a = b.asn1, c = a.DEROctetString;
+    var b = KJUR,
+        a = b.asn1,
+        c = a.DEROctetString;
     this.asn1KID = null;
     this.getExtnValueHex = function () {
         this.asn1ExtnValue = this.asn1KID;
         return this.asn1ExtnValue.getEncodedHex()
     };
-    this.setKIDByParam = function (e) {
-        this.asn1KID = new c(e)
+    this.setKIDByParam = function (g) {
+        if (g.str !== undefined || g.hex !== undefined) {
+            this.asn1KID = new c(g)
+        } else {
+            if ((typeof g === "object" && KJUR.crypto.Util.isKey(g)) || (typeof g === "string" && g.indexOf("BEGIN") != -1)) {
+                var f = g;
+                if (typeof g === "string") {
+                    f = KEYUTIL.getKey(g)
+                }
+                var e = KEYUTIL.getKeyID(f);
+                this.asn1KID = new KJUR.asn1.DEROctetString({
+                    hex: e
+                })
+            }
+        }
     };
     this.oid = "2.5.29.14";
     if (d !== undefined) {
@@ -5893,14 +6483,21 @@ YAHOO.lang.extend(KJUR.asn1.x509.SubjectKeyIdentifier, KJUR.asn1.x509.Extension)
 KJUR.asn1.x509.AuthorityInfoAccess = function (a) {
     KJUR.asn1.x509.AuthorityInfoAccess.superclass.constructor.call(this, a);
     this.setAccessDescriptionArray = function (k) {
-        var j = new Array(), b = KJUR, g = b.asn1, d = g.DERSequence;
+        var j = new Array(),
+            b = KJUR,
+            g = b.asn1,
+            d = g.DERSequence;
         for (var f = 0; f < k.length; f++) {
             var c = new g.DERObjectIdentifier(k[f].accessMethod);
             var e = new g.x509.GeneralName(k[f].accessLocation);
-            var h = new d({array: [c, e]});
+            var h = new d({
+                array: [c, e]
+            });
             j.push(h)
         }
-        this.asn1ExtnValue = new d({array: j})
+        this.asn1ExtnValue = new d({
+            array: j
+        })
     };
     this.getExtnValueHex = function () {
         return this.asn1ExtnValue.getEncodedHex()
@@ -5947,15 +6544,26 @@ KJUR.asn1.x509.IssuerAltName = function (a) {
 YAHOO.lang.extend(KJUR.asn1.x509.IssuerAltName, KJUR.asn1.x509.Extension);
 KJUR.asn1.x509.CRL = function (f) {
     KJUR.asn1.x509.CRL.superclass.constructor.call(this);
-    var b = null, d = null, e = null, c = null, a = null;
+    var b = null,
+        d = null,
+        e = null,
+        c = null,
+        a = null;
     this.sign = function () {
         this.asn1SignatureAlg = this.asn1TBSCertList.asn1SignatureAlg;
-        sig = new KJUR.crypto.Signature({alg: "SHA1withRSA", prov: "cryptojs/jsrsa"});
+        sig = new KJUR.crypto.Signature({
+            alg: this.asn1SignatureAlg.nameAlg,
+            prov: "cryptojs/jsrsa"
+        });
         sig.init(this.prvKey);
         sig.updateHex(this.asn1TBSCertList.getEncodedHex());
         this.hexSig = sig.sign();
-        this.asn1Sig = new KJUR.asn1.DERBitString({hex: "00" + this.hexSig});
-        var g = new KJUR.asn1.DERSequence({array: [this.asn1TBSCertList, this.asn1SignatureAlg, this.asn1Sig]});
+        this.asn1Sig = new KJUR.asn1.DERBitString({
+            hex: "00" + this.hexSig
+        });
+        var g = new KJUR.asn1.DERSequence({
+            array: [this.asn1TBSCertList, this.asn1SignatureAlg, this.asn1Sig]
+        });
         this.hTLV = g.getEncodedHex();
         this.isModified = false
     };
@@ -5963,7 +6571,7 @@ KJUR.asn1.x509.CRL = function (f) {
         if (this.isModified == false && this.hTLV != null) {
             return this.hTLV
         }
-        throw"not signed yet"
+        throw "not signed yet"
     };
     this.getPEMString = function () {
         var g = hextob64nl(this.getEncodedHex());
@@ -5981,7 +6589,12 @@ KJUR.asn1.x509.CRL = function (f) {
 YAHOO.lang.extend(KJUR.asn1.x509.CRL, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.TBSCertList = function (g) {
     KJUR.asn1.x509.TBSCertList.superclass.constructor.call(this);
-    var e = null, d = KJUR, c = d.asn1, b = c.DERSequence, f = c.x509, a = f.Time;
+    var e = null,
+        d = KJUR,
+        c = d.asn1,
+        b = c.DERSequence,
+        f = c.x509,
+        a = f.Time;
     this.setSignatureAlgByParam = function (h) {
         this.asn1SignatureAlg = new f.AlgorithmIdentifier(h)
     };
@@ -6017,10 +6630,14 @@ KJUR.asn1.x509.TBSCertList = function (g) {
             this.asn1Array.push(this.asn1NextUpdate)
         }
         if (this.aRevokedCert.length > 0) {
-            var h = new b({array: this.aRevokedCert});
+            var h = new b({
+                array: this.aRevokedCert
+            });
             this.asn1Array.push(h)
         }
-        var i = new b({array: this.asn1Array});
+        var i = new b({
+            array: this.asn1Array
+        });
         this.hTLV = i.getEncodedHex();
         this.isModified = false;
         return this.hTLV
@@ -6038,7 +6655,10 @@ KJUR.asn1.x509.TBSCertList = function (g) {
 YAHOO.lang.extend(KJUR.asn1.x509.TBSCertList, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.CRLEntry = function (e) {
     KJUR.asn1.x509.CRLEntry.superclass.constructor.call(this);
-    var d = null, c = null, b = KJUR, a = b.asn1;
+    var d = null,
+        c = null,
+        b = KJUR,
+        a = b.asn1;
     this.setCertSerial = function (f) {
         this.sn = new a.DERInteger(f)
     };
@@ -6046,7 +6666,9 @@ KJUR.asn1.x509.CRLEntry = function (e) {
         this.time = new a.x509.Time(f)
     };
     this.getEncodedHex = function () {
-        var f = new a.DERSequence({array: [this.sn, this.time]});
+        var f = new a.DERSequence({
+            array: [this.sn, this.time]
+        });
         this.TLV = f.getEncodedHex();
         return this.TLV
     };
@@ -6063,7 +6685,10 @@ YAHOO.lang.extend(KJUR.asn1.x509.CRLEntry, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.X500Name = function (f) {
     KJUR.asn1.x509.X500Name.superclass.constructor.call(this);
     this.asn1Array = new Array();
-    var d = KJUR, c = d.asn1, e = c.x509, b = pemtohex;
+    var d = KJUR,
+        c = d.asn1,
+        e = c.x509,
+        b = pemtohex;
     this.setByString = function (g) {
         var k = g.split("/");
         k.shift();
@@ -6077,17 +6702,21 @@ KJUR.asn1.x509.X500Name = function (f) {
             }
         }
         for (var l = 0; l < j.length; l++) {
-            this.asn1Array.push(new e.RDN({str: j[l]}))
+            this.asn1Array.push(new e.RDN({
+                str: j[l]
+            }))
         }
     };
     this.setByLdapString = function (g) {
-        var h = e.X500Name.ldapToOneline(g);
+        var h = e.X500Name.ldapToCompat(g);
         this.setByString(h)
     };
     this.setByObject = function (i) {
         for (var g in i) {
             if (i.hasOwnProperty(g)) {
-                var h = new KJUR.asn1.x509.RDN({str: g + "=" + i[g]});
+                var h = new KJUR.asn1.x509.RDN({
+                    str: g + "=" + i[g]
+                });
                 this.asn1Array ? this.asn1Array.push(h) : this.asn1Array = [h]
             }
         }
@@ -6096,7 +6725,9 @@ KJUR.asn1.x509.X500Name = function (f) {
         if (typeof this.hTLV == "string") {
             return this.hTLV
         }
-        var g = new c.DERSequence({array: this.asn1Array});
+        var g = new c.DERSequence({
+            array: this.asn1Array
+        });
         this.hTLV = g.getEncodedHex();
         return this.hTLV
     };
@@ -6107,27 +6738,33 @@ KJUR.asn1.x509.X500Name = function (f) {
             if (f.ldapstr !== undefined) {
                 this.setByLdapString(f.ldapstr)
             } else {
-                if (typeof f === "object") {
-                    this.setByObject(f)
+                if (f.hex !== undefined) {
+                    this.hTLV = f.hex
+                } else {
+                    if (f.certissuer !== undefined) {
+                        var a = new X509();
+                        a.readCertPEM(f.certissuer);
+                        this.hTLV = a.getIssuerHex()
+                    } else {
+                        if (f.certsubject !== undefined) {
+                            var a = new X509();
+                            a.readCertPEM(f.certsubject);
+                            this.hTLV = a.getSubjectHex()
+                        } else {
+                            if (typeof f === "object" && f.certsubject === undefined && f.certissuer === undefined) {
+                                this.setByObject(f)
+                            }
+                        }
+                    }
                 }
             }
-        }
-        if (f.certissuer !== undefined) {
-            var a = new X509();
-            a.hex = b(f.certissuer);
-            this.hTLV = a.getIssuerHex()
-        }
-        if (f.certsubject !== undefined) {
-            var a = new X509();
-            a.hex = b(f.certsubject);
-            this.hTLV = a.getSubjectHex()
         }
     }
 };
 YAHOO.lang.extend(KJUR.asn1.x509.X500Name, KJUR.asn1.ASN1Object);
-KJUR.asn1.x509.X500Name.onelineToLDAP = function (d) {
+KJUR.asn1.x509.X500Name.compatToLDAP = function (d) {
     if (d.substr(0, 1) !== "/") {
-        throw"malformed input"
+        throw "malformed input"
     }
     var b = "";
     d = d.substr(1);
@@ -6138,7 +6775,10 @@ KJUR.asn1.x509.X500Name.onelineToLDAP = function (d) {
     });
     return c.join(",")
 };
-KJUR.asn1.x509.X500Name.ldapToOneline = function (g) {
+KJUR.asn1.x509.X500Name.onelineToLDAP = function (a) {
+    return KJUR.asn1.x509.X500Name.compatToLDAP(a)
+};
+KJUR.asn1.x509.X500Name.ldapToCompat = function (g) {
     var c = g.split(",");
     var e = false;
     var b = [];
@@ -6162,11 +6802,16 @@ KJUR.asn1.x509.X500Name.ldapToOneline = function (g) {
     b.reverse();
     return "/" + b.join("/")
 };
+KJUR.asn1.x509.X500Name.ldapToOneline = function (a) {
+    return KJUR.asn1.x509.X500Name.ldapToCompat(a)
+};
 KJUR.asn1.x509.RDN = function (a) {
     KJUR.asn1.x509.RDN.superclass.constructor.call(this);
     this.asn1Array = new Array();
     this.addByString = function (b) {
-        this.asn1Array.push(new KJUR.asn1.x509.AttributeTypeAndValue({str: b}))
+        this.asn1Array.push(new KJUR.asn1.x509.AttributeTypeAndValue({
+            str: b
+        }))
     };
     this.addByMultiValuedString = function (d) {
         var b = KJUR.asn1.x509.RDN.parseString(d);
@@ -6175,7 +6820,9 @@ KJUR.asn1.x509.RDN = function (a) {
         }
     };
     this.getEncodedHex = function () {
-        var b = new KJUR.asn1.DERSet({array: this.asn1Array});
+        var b = new KJUR.asn1.DERSet({
+            array: this.asn1Array
+        });
         this.TLV = b.getEncodedHex();
         return this.TLV
     };
@@ -6228,13 +6875,17 @@ KJUR.asn1.x509.RDN.parseString = function (m) {
 };
 KJUR.asn1.x509.AttributeTypeAndValue = function (d) {
     KJUR.asn1.x509.AttributeTypeAndValue.superclass.constructor.call(this);
-    var f = null, e = null, a = "utf8", c = KJUR, b = c.asn1;
+    var f = null,
+        e = null,
+        a = "utf8",
+        c = KJUR,
+        b = c.asn1;
     this.setByString = function (h) {
         var g = h.match(/^([^=]+)=(.+)$/);
         if (g) {
             this.setByAttrTypeAndValueStr(g[1], g[2])
         } else {
-            throw"malformed attrTypeAndValueStr: " + h
+            throw "malformed attrTypeAndValueStr: " + h
         }
     };
     this.setByAttrTypeAndValueStr = function (i, h) {
@@ -6247,21 +6898,31 @@ KJUR.asn1.x509.AttributeTypeAndValue = function (d) {
     };
     this.getValueObj = function (h, g) {
         if (h == "utf8") {
-            return new b.DERUTF8String({str: g})
+            return new b.DERUTF8String({
+                str: g
+            })
         }
         if (h == "prn") {
-            return new b.DERPrintableString({str: g})
+            return new b.DERPrintableString({
+                str: g
+            })
         }
         if (h == "tel") {
-            return new b.DERTeletexString({str: g})
+            return new b.DERTeletexString({
+                str: g
+            })
         }
         if (h == "ia5") {
-            return new b.DERIA5String({str: g})
+            return new b.DERIA5String({
+                str: g
+            })
         }
-        throw"unsupported directory string type: type=" + h + " value=" + g
+        throw "unsupported directory string type: type=" + h + " value=" + g
     };
     this.getEncodedHex = function () {
-        var g = new b.DERSequence({array: [this.typeObj, this.valueObj]});
+        var g = new b.DERSequence({
+            array: [this.typeObj, this.valueObj]
+        });
         this.TLV = g.getEncodedHex();
         return this.TLV
     };
@@ -6274,14 +6935,27 @@ KJUR.asn1.x509.AttributeTypeAndValue = function (d) {
 YAHOO.lang.extend(KJUR.asn1.x509.AttributeTypeAndValue, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.SubjectPublicKeyInfo = function (f) {
     KJUR.asn1.x509.SubjectPublicKeyInfo.superclass.constructor.call(this);
-    var l = null, k = null, a = KJUR, j = a.asn1, i = j.DERInteger, b = j.DERBitString, m = j.DERObjectIdentifier,
-        e = j.DERSequence, h = j.ASN1Util.newObject, d = j.x509, o = d.AlgorithmIdentifier, g = a.crypto, n = g.ECDSA,
+    var l = null,
+        k = null,
+        a = KJUR,
+        j = a.asn1,
+        i = j.DERInteger,
+        b = j.DERBitString,
+        m = j.DERObjectIdentifier,
+        e = j.DERSequence,
+        h = j.ASN1Util.newObject,
+        d = j.x509,
+        o = d.AlgorithmIdentifier,
+        g = a.crypto,
+        n = g.ECDSA,
         c = g.DSA;
     this.getASN1Object = function () {
         if (this.asn1AlgId == null || this.asn1SubjPKey == null) {
-            throw"algId and/or subjPubKey not set"
+            throw "algId and/or subjPubKey not set"
         }
-        var p = new e({array: [this.asn1AlgId, this.asn1SubjPKey]});
+        var p = new e({
+            array: [this.asn1AlgId, this.asn1SubjPKey]
+        });
         return p
     };
     this.getEncodedHex = function () {
@@ -6292,30 +6966,69 @@ KJUR.asn1.x509.SubjectPublicKeyInfo = function (f) {
     this.setPubKey = function (q) {
         try {
             if (q instanceof RSAKey) {
-                var u = h({seq: [{"int": {bigint: q.n}}, {"int": {"int": q.e}}]});
+                var u = h({
+                    seq: [{
+                        "int": {
+                            bigint: q.n
+                        }
+                    }, {
+                        "int": {
+                            "int": q.e
+                        }
+                    }]
+                });
                 var s = u.getEncodedHex();
-                this.asn1AlgId = new o({name: "rsaEncryption"});
-                this.asn1SubjPKey = new b({hex: "00" + s})
+                this.asn1AlgId = new o({
+                    name: "rsaEncryption"
+                });
+                this.asn1SubjPKey = new b({
+                    hex: "00" + s
+                })
             }
-        } catch (p) {
-        }
+        } catch (p) {}
         try {
             if (q instanceof KJUR.crypto.ECDSA) {
-                var r = new m({name: q.curveName});
-                this.asn1AlgId = new o({name: "ecPublicKey", asn1params: r});
-                this.asn1SubjPKey = new b({hex: "00" + q.pubKeyHex})
+                var r = new m({
+                    name: q.curveName
+                });
+                this.asn1AlgId = new o({
+                    name: "ecPublicKey",
+                    asn1params: r
+                });
+                this.asn1SubjPKey = new b({
+                    hex: "00" + q.pubKeyHex
+                })
             }
-        } catch (p) {
-        }
+        } catch (p) {}
         try {
             if (q instanceof KJUR.crypto.DSA) {
-                var r = new h({seq: [{"int": {bigint: q.p}}, {"int": {bigint: q.q}}, {"int": {bigint: q.g}}]});
-                this.asn1AlgId = new o({name: "dsa", asn1params: r});
-                var t = new i({bigint: q.y});
-                this.asn1SubjPKey = new b({hex: "00" + t.getEncodedHex()})
+                var r = new h({
+                    seq: [{
+                        "int": {
+                            bigint: q.p
+                        }
+                    }, {
+                        "int": {
+                            bigint: q.q
+                        }
+                    }, {
+                        "int": {
+                            bigint: q.g
+                        }
+                    }]
+                });
+                this.asn1AlgId = new o({
+                    name: "dsa",
+                    asn1params: r
+                });
+                var t = new i({
+                    bigint: q.y
+                });
+                this.asn1SubjPKey = new b({
+                    hex: "00" + t.getEncodedHex()
+                })
             }
-        } catch (p) {
-        }
+        } catch (p) {}
     };
     if (f !== undefined) {
         this.setPubKey(f)
@@ -6324,7 +7037,12 @@ KJUR.asn1.x509.SubjectPublicKeyInfo = function (f) {
 YAHOO.lang.extend(KJUR.asn1.x509.SubjectPublicKeyInfo, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.Time = function (f) {
     KJUR.asn1.x509.Time.superclass.constructor.call(this);
-    var e = null, a = null, d = KJUR, c = d.asn1, b = c.DERUTCTime, g = c.DERGeneralizedTime;
+    var e = null,
+        a = null,
+        d = KJUR,
+        c = d.asn1,
+        b = c.DERUTCTime,
+        g = c.DERGeneralizedTime;
     this.setTimeParams = function (h) {
         this.timeParams = h
     };
@@ -6370,10 +7088,11 @@ KJUR.asn1.x509.AlgorithmIdentifier = function (d) {
     this.asn1Alg = null;
     this.asn1Params = null;
     this.paramEmpty = false;
-    var b = KJUR, a = b.asn1;
+    var b = KJUR,
+        a = b.asn1;
     this.getEncodedHex = function () {
         if (this.nameAlg === null && this.asn1Alg === null) {
-            throw"algorithm not specified"
+            throw "algorithm not specified"
         }
         if (this.nameAlg !== null && this.asn1Alg === null) {
             this.asn1Alg = a.x509.OID.name2obj(this.nameAlg)
@@ -6382,7 +7101,9 @@ KJUR.asn1.x509.AlgorithmIdentifier = function (d) {
         if (this.asn1Params !== null) {
             e.push(this.asn1Params)
         }
-        var f = new a.DERSequence({array: e});
+        var f = new a.DERSequence({
+            array: e
+        });
         this.hTLV = f.getEncodedHex();
         return this.hTLV
     };
@@ -6407,9 +7128,24 @@ KJUR.asn1.x509.AlgorithmIdentifier = function (d) {
 YAHOO.lang.extend(KJUR.asn1.x509.AlgorithmIdentifier, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.GeneralName = function (e) {
     KJUR.asn1.x509.GeneralName.superclass.constructor.call(this);
-    var m = null, i = null, k = {rfc822: "81", dns: "82", dn: "a4", uri: "86", ip: "87"}, b = KJUR, g = b.asn1,
-        f = g.DERSequence, j = g.DEROctetString, d = g.DERIA5String, c = g.DERTaggedObject, l = g.ASN1Object,
-        a = g.x509.X500Name, h = pemtohex;
+    var m = null,
+        i = null,
+        k = {
+            rfc822: "81",
+            dns: "82",
+            dn: "a4",
+            uri: "86",
+            ip: "87"
+        },
+        b = KJUR,
+        g = b.asn1,
+        f = g.DERSequence,
+        j = g.DEROctetString,
+        d = g.DERIA5String,
+        c = g.DERTaggedObject,
+        l = g.ASN1Object,
+        a = g.x509.X500Name,
+        h = pemtohex;
     this.explicit = false;
     this.setByParam = function (p) {
         var r = null;
@@ -6419,25 +7155,43 @@ KJUR.asn1.x509.GeneralName = function (e) {
         }
         if (p.rfc822 !== undefined) {
             this.type = "rfc822";
-            u = new d({str: p[this.type]})
+            u = new d({
+                str: p[this.type]
+            })
         }
         if (p.dns !== undefined) {
             this.type = "dns";
-            u = new d({str: p[this.type]})
+            u = new d({
+                str: p[this.type]
+            })
         }
         if (p.uri !== undefined) {
             this.type = "uri";
-            u = new d({str: p[this.type]})
+            u = new d({
+                str: p[this.type]
+            })
         }
         if (p.dn !== undefined) {
             this.type = "dn";
             this.explicit = true;
-            u = new a({str: p.dn})
+            if (typeof p.dn === "string") {
+                u = new a({
+                    str: p.dn
+                })
+            } else {
+                if (p.dn instanceof KJUR.asn1.x509.X500Name) {
+                    u = p.dn
+                } else {
+                    u = new a(p.dn)
+                }
+            }
         }
         if (p.ldapdn !== undefined) {
             this.type = "dn";
             this.explicit = true;
-            u = new a({ldapstr: p.ldapdn})
+            u = new a({
+                ldapstr: p.ldapdn
+            })
         }
         if (p.certissuer !== undefined) {
             this.type = "dn";
@@ -6451,7 +7205,7 @@ KJUR.asn1.x509.GeneralName = function (e) {
                 w = h(o)
             }
             if (w == null) {
-                throw"certissuer param not cert"
+                throw "certissuer param not cert"
             }
             var t = new X509();
             t.hex = w;
@@ -6471,7 +7225,7 @@ KJUR.asn1.x509.GeneralName = function (e) {
                 w = h(o)
             }
             if (w == null) {
-                throw"certsubj param not cert"
+                throw "certsubj param not cert"
             }
             var t = new X509();
             t.hex = w;
@@ -6501,12 +7255,18 @@ KJUR.asn1.x509.GeneralName = function (e) {
                     }
                 }
             }
-            u = new j({hex: s})
+            u = new j({
+                hex: s
+            })
         }
         if (this.type == null) {
-            throw"unsupported type in params=" + p
+            throw "unsupported type in params=" + p
         }
-        this.asn1Obj = new c({explicit: this.explicit, tag: k[this.type], obj: u})
+        this.asn1Obj = new c({
+            explicit: this.explicit,
+            tag: k[this.type],
+            obj: u
+        })
     };
     this.getEncodedHex = function () {
         return this.asn1Obj.getEncodedHex()
@@ -6518,7 +7278,9 @@ KJUR.asn1.x509.GeneralName = function (e) {
 YAHOO.lang.extend(KJUR.asn1.x509.GeneralName, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.GeneralNames = function (d) {
     KJUR.asn1.x509.GeneralNames.superclass.constructor.call(this);
-    var a = null, c = KJUR, b = c.asn1;
+    var a = null,
+        c = KJUR,
+        b = c.asn1;
     this.setByParamArray = function (g) {
         for (var e = 0; e < g.length; e++) {
             var f = new b.x509.GeneralName(g[e]);
@@ -6526,7 +7288,9 @@ KJUR.asn1.x509.GeneralNames = function (d) {
         }
     };
     this.getEncodedHex = function () {
-        var e = new b.DERSequence({array: this.asn1Array});
+        var e = new b.DERSequence({
+            array: this.asn1Array
+        });
         return e.getEncodedHex()
     };
     this.asn1Array = new Array();
@@ -6537,12 +7301,22 @@ KJUR.asn1.x509.GeneralNames = function (d) {
 YAHOO.lang.extend(KJUR.asn1.x509.GeneralNames, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.DistributionPointName = function (b) {
     KJUR.asn1.x509.DistributionPointName.superclass.constructor.call(this);
-    var h = null, e = null, a = null, g = null, d = KJUR, c = d.asn1, f = c.DERTaggedObject;
+    var h = null,
+        e = null,
+        a = null,
+        g = null,
+        d = KJUR,
+        c = d.asn1,
+        f = c.DERTaggedObject;
     this.getEncodedHex = function () {
         if (this.type != "full") {
-            throw"currently type shall be 'full': " + this.type
+            throw "currently type shall be 'full': " + this.type
         }
-        this.asn1Obj = new f({explicit: false, tag: this.tag, obj: this.asn1V});
+        this.asn1Obj = new f({
+            explicit: false,
+            tag: this.tag,
+            obj: this.asn1V
+        });
         this.hTLV = this.asn1Obj.getEncodedHex();
         return this.hTLV
     };
@@ -6552,18 +7326,24 @@ KJUR.asn1.x509.DistributionPointName = function (b) {
             this.tag = "a0";
             this.asn1V = b
         } else {
-            throw"This class supports GeneralNames only as argument"
+            throw "This class supports GeneralNames only as argument"
         }
     }
 };
 YAHOO.lang.extend(KJUR.asn1.x509.DistributionPointName, KJUR.asn1.ASN1Object);
 KJUR.asn1.x509.DistributionPoint = function (d) {
     KJUR.asn1.x509.DistributionPoint.superclass.constructor.call(this);
-    var a = null, c = KJUR, b = c.asn1;
+    var a = null,
+        c = KJUR,
+        b = c.asn1;
     this.getEncodedHex = function () {
         var e = new b.DERSequence();
         if (this.asn1DP != null) {
-            var f = new b.DERTaggedObject({explicit: true, tag: "a0", obj: this.asn1DP});
+            var f = new b.DERTaggedObject({
+                explicit: true,
+                tag: "a0",
+                obj: this.asn1DP
+            });
             e.appendASN1Object(f)
         }
         this.hTLV = e.getEncodedHex();
@@ -6692,10 +7472,12 @@ KJUR.asn1.x509.OID = new function (a) {
             return this.objCache[b]
         }
         if (typeof this.name2oidList[b] == "undefined") {
-            throw"Name of ObjectIdentifier not defined: " + b
+            throw "Name of ObjectIdentifier not defined: " + b
         }
         var c = this.name2oidList[b];
-        var d = new KJUR.asn1.DERObjectIdentifier({oid: c});
+        var d = new KJUR.asn1.DERObjectIdentifier({
+            oid: c
+        });
         this.objCache[b] = d;
         return d
     };
@@ -6704,10 +7486,12 @@ KJUR.asn1.x509.OID = new function (a) {
             return this.objCache[b]
         }
         if (typeof this.atype2oidList[b] == "undefined") {
-            throw"AttributeType name undefined: " + b
+            throw "AttributeType name undefined: " + b
         }
         var c = this.atype2oidList[b];
-        var d = new KJUR.asn1.DERObjectIdentifier({oid: c});
+        var d = new KJUR.asn1.DERObjectIdentifier({
+            oid: c
+        });
         this.objCache[b] = d;
         return d
     }
@@ -6739,42 +7523,44 @@ KJUR.asn1.x509.OID.name2oid = function (a) {
 };
 KJUR.asn1.x509.X509Util = {};
 KJUR.asn1.x509.X509Util.newCertPEM = function (h) {
-    var g = KJUR.asn1.x509, b = g.TBSCertificate, a = g.Certificate;
+    var g = KJUR.asn1.x509,
+        b = g.TBSCertificate,
+        a = g.Certificate;
     var f = new b();
     if (h.serial !== undefined) {
         f.setSerialNumberByParam(h.serial)
     } else {
-        throw"serial number undefined."
+        throw "serial number undefined."
     }
     if (typeof h.sigalg.name === "string") {
         f.setSignatureAlgByParam(h.sigalg)
     } else {
-        throw"unproper signature algorithm name"
+        throw "unproper signature algorithm name"
     }
     if (h.issuer !== undefined) {
         f.setIssuerByParam(h.issuer)
     } else {
-        throw"issuer name undefined."
+        throw "issuer name undefined."
     }
     if (h.notbefore !== undefined) {
         f.setNotBeforeByParam(h.notbefore)
     } else {
-        throw"notbefore undefined."
+        throw "notbefore undefined."
     }
     if (h.notafter !== undefined) {
         f.setNotAfterByParam(h.notafter)
     } else {
-        throw"notafter undefined."
+        throw "notafter undefined."
     }
     if (h.subject !== undefined) {
         f.setSubjectByParam(h.subject)
     } else {
-        throw"subject name undefined."
+        throw "subject name undefined."
     }
     if (h.sbjpubkey !== undefined) {
         f.setSubjectPublicKeyByGetKey(h.sbjpubkey)
     } else {
-        throw"subject public key undefined."
+        throw "subject public key undefined."
     }
     if (h.ext !== undefined && h.ext.length !== undefined) {
         for (var d = 0; d < h.ext.length; d++) {
@@ -6784,7 +7570,7 @@ KJUR.asn1.x509.X509Util.newCertPEM = function (h) {
         }
     }
     if (h.cakey === undefined && h.sighex === undefined) {
-        throw"param cakey and sighex undefined."
+        throw "param cakey and sighex undefined."
     }
     var e = null;
     var c = null;
@@ -6794,11 +7580,16 @@ KJUR.asn1.x509.X509Util.newCertPEM = function (h) {
         } else {
             e = KEYUTIL.getKey.apply(null, h.cakey)
         }
-        c = new a({tbscertobj: f, prvkeyobj: e});
+        c = new a({
+            tbscertobj: f,
+            prvkeyobj: e
+        });
         c.sign()
     }
     if (h.sighex) {
-        c = new a({tbscertobj: f});
+        c = new a({
+            tbscertobj: f
+        });
         c.setSignatureHex(h.sighex)
     }
     return c.getPEMString()
@@ -6813,29 +7604,38 @@ if (typeof KJUR.asn1.cms == "undefined" || !KJUR.asn1.cms) {
     KJUR.asn1.cms = {}
 }
 KJUR.asn1.cms.Attribute = function (d) {
-    var a = [], c = KJUR, b = c.asn1;
+    var a = [],
+        c = KJUR,
+        b = c.asn1;
     b.cms.Attribute.superclass.constructor.call(this);
     this.getEncodedHex = function () {
         var h, g, e;
-        h = new b.DERObjectIdentifier({oid: this.attrTypeOid});
-        g = new b.DERSet({array: this.valueList});
+        h = new b.DERObjectIdentifier({
+            oid: this.attrTypeOid
+        });
+        g = new b.DERSet({
+            array: this.valueList
+        });
         try {
             g.getEncodedHex()
         } catch (f) {
-            throw"fail valueSet.getEncodedHex in Attribute(1)/" + f
+            throw "fail valueSet.getEncodedHex in Attribute(1)/" + f
         }
-        e = new b.DERSequence({array: [h, g]});
+        e = new b.DERSequence({
+            array: [h, g]
+        });
         try {
             this.hTLV = e.getEncodedHex()
         } catch (f) {
-            throw"failed seq.getEncodedHex in Attribute(2)/" + f
+            throw "failed seq.getEncodedHex in Attribute(2)/" + f
         }
         return this.hTLV
     }
 };
 YAHOO.lang.extend(KJUR.asn1.cms.Attribute, KJUR.asn1.ASN1Object);
 KJUR.asn1.cms.ContentType = function (d) {
-    var c = KJUR, b = c.asn1;
+    var c = KJUR,
+        b = c.asn1;
     b.cms.ContentType.superclass.constructor.call(this);
     this.attrTypeOid = "1.2.840.113549.1.9.3";
     var a = null;
@@ -6846,7 +7646,10 @@ KJUR.asn1.cms.ContentType = function (d) {
 };
 YAHOO.lang.extend(KJUR.asn1.cms.ContentType, KJUR.asn1.cms.Attribute);
 KJUR.asn1.cms.MessageDigest = function (d) {
-    var b = KJUR, e = b.asn1, g = e.DEROctetString, i = e.cms;
+    var b = KJUR,
+        e = b.asn1,
+        g = e.DEROctetString,
+        i = e.cms;
     i.MessageDigest.superclass.constructor.call(this);
     this.attrTypeOid = "1.2.840.113549.1.9.4";
     if (d !== undefined) {
@@ -6854,7 +7657,9 @@ KJUR.asn1.cms.MessageDigest = function (d) {
             var h = d.eciObj.eContentValueHex;
             var c = d.hashAlg;
             var a = b.crypto.Util.hashHex(h, c);
-            var f = new g({hex: a});
+            var f = new g({
+                hex: a
+            });
             f.getEncodedHex();
             this.valueList = [f]
         } else {
@@ -6866,7 +7671,8 @@ KJUR.asn1.cms.MessageDigest = function (d) {
 };
 YAHOO.lang.extend(KJUR.asn1.cms.MessageDigest, KJUR.asn1.cms.Attribute);
 KJUR.asn1.cms.SigningTime = function (e) {
-    var d = KJUR, c = d.asn1;
+    var d = KJUR,
+        c = d.asn1;
     c.cms.SigningTime.superclass.constructor.call(this);
     this.attrTypeOid = "1.2.840.113549.1.9.5";
     if (e !== undefined) {
@@ -6874,14 +7680,18 @@ KJUR.asn1.cms.SigningTime = function (e) {
         try {
             a.getEncodedHex()
         } catch (b) {
-            throw"SigningTime.getEncodedHex() failed/" + b
+            throw "SigningTime.getEncodedHex() failed/" + b
         }
         this.valueList = [a]
     }
 };
 YAHOO.lang.extend(KJUR.asn1.cms.SigningTime, KJUR.asn1.cms.Attribute);
 KJUR.asn1.cms.SigningCertificate = function (f) {
-    var c = KJUR, b = c.asn1, a = b.DERSequence, e = b.cms, d = c.crypto;
+    var c = KJUR,
+        b = c.asn1,
+        a = b.DERSequence,
+        e = b.cms,
+        d = c.crypto;
     e.SigningCertificate.superclass.constructor.call(this);
     this.attrTypeOid = "1.2.840.113549.1.9.16.2.12";
     this.setCerts = function (n) {
@@ -6889,15 +7699,23 @@ KJUR.asn1.cms.SigningCertificate = function (f) {
         for (var k = 0; k < n.length; k++) {
             var h = pemtohex(n[k]);
             var g = c.crypto.Util.hashHex(h, "sha1");
-            var o = new b.DEROctetString({hex: g});
+            var o = new b.DEROctetString({
+                hex: g
+            });
             o.getEncodedHex();
-            var m = new e.IssuerAndSerialNumber({cert: n[k]});
+            var m = new e.IssuerAndSerialNumber({
+                cert: n[k]
+            });
             m.getEncodedHex();
-            var p = new a({array: [o, m]});
+            var p = new a({
+                array: [o, m]
+            });
             p.getEncodedHex();
             l.push(p)
         }
-        var j = new a({array: l});
+        var j = new a({
+            array: l
+        });
         j.getEncodedHex();
         this.valueList = [j]
     };
@@ -6909,7 +7727,12 @@ KJUR.asn1.cms.SigningCertificate = function (f) {
 };
 YAHOO.lang.extend(KJUR.asn1.cms.SigningCertificate, KJUR.asn1.cms.Attribute);
 KJUR.asn1.cms.SigningCertificateV2 = function (h) {
-    var d = KJUR, c = d.asn1, b = c.DERSequence, g = c.x509, f = c.cms, e = d.crypto;
+    var d = KJUR,
+        c = d.asn1,
+        b = c.DERSequence,
+        g = c.x509,
+        f = c.cms,
+        e = d.crypto;
     f.SigningCertificateV2.superclass.constructor.call(this);
     this.attrTypeOid = "1.2.840.113549.1.9.16.2.47";
     this.setCerts = function (r, k) {
@@ -6918,20 +7741,30 @@ KJUR.asn1.cms.SigningCertificateV2 = function (h) {
             var l = pemtohex(r[n]);
             var t = [];
             if (k !== "sha256") {
-                t.push(new g.AlgorithmIdentifier({name: k}))
+                t.push(new g.AlgorithmIdentifier({
+                    name: k
+                }))
             }
             var j = e.Util.hashHex(l, k);
-            var s = new c.DEROctetString({hex: j});
+            var s = new c.DEROctetString({
+                hex: j
+            });
             s.getEncodedHex();
             t.push(s);
-            var o = new f.IssuerAndSerialNumber({cert: r[n]});
+            var o = new f.IssuerAndSerialNumber({
+                cert: r[n]
+            });
             o.getEncodedHex();
             t.push(o);
-            var q = new b({array: t});
+            var q = new b({
+                array: t
+            });
             q.getEncodedHex();
             p.push(q)
         }
-        var m = new b({array: p});
+        var m = new b({
+            array: p
+        });
         m.getEncodedHex();
         this.valueList = [m]
     };
@@ -6947,7 +7780,13 @@ KJUR.asn1.cms.SigningCertificateV2 = function (h) {
 };
 YAHOO.lang.extend(KJUR.asn1.cms.SigningCertificateV2, KJUR.asn1.cms.Attribute);
 KJUR.asn1.cms.IssuerAndSerialNumber = function (e) {
-    var b = KJUR, g = b.asn1, f = g.DERInteger, i = g.cms, d = g.x509, a = d.X500Name, c = X509;
+    var b = KJUR,
+        g = b.asn1,
+        f = g.DERInteger,
+        i = g.cms,
+        d = g.x509,
+        a = d.X500Name,
+        c = X509;
     i.IssuerAndSerialNumber.superclass.constructor.call(this);
     var j = null;
     var h = null;
@@ -6959,10 +7798,14 @@ KJUR.asn1.cms.IssuerAndSerialNumber = function (e) {
         this.dIssuer = new a();
         this.dIssuer.hTLV = o;
         var m = k.getSerialNumberHex();
-        this.dSerial = new f({hex: m})
+        this.dSerial = new f({
+            hex: m
+        })
     };
     this.getEncodedHex = function () {
-        var k = new g.DERSequence({array: [this.dIssuer, this.dSerial]});
+        var k = new g.DERSequence({
+            array: [this.dIssuer, this.dSerial]
+        });
         this.hTLV = k.getEncodedHex();
         return this.hTLV
     };
@@ -6989,7 +7832,9 @@ KJUR.asn1.cms.IssuerAndSerialNumber = function (e) {
 };
 YAHOO.lang.extend(KJUR.asn1.cms.IssuerAndSerialNumber, KJUR.asn1.ASN1Object);
 KJUR.asn1.cms.AttributeList = function (d) {
-    var b = KJUR, a = b.asn1, c = a.cms;
+    var b = KJUR,
+        a = b.asn1,
+        c = a.cms;
     c.AttributeList.superclass.constructor.call(this);
     this.list = new Array();
     this.sortFlag = true;
@@ -7010,7 +7855,10 @@ KJUR.asn1.cms.AttributeList = function (d) {
         if (typeof this.hTLV == "string") {
             return this.hTLV
         }
-        var e = new a.DERSet({array: this.list, sortflag: this.sortFlag});
+        var e = new a.DERSet({
+            array: this.list,
+            sortflag: this.sortFlag
+        });
         this.hTLV = e.getEncodedHex();
         return this.hTLV
     };
@@ -7022,11 +7870,23 @@ KJUR.asn1.cms.AttributeList = function (d) {
 };
 YAHOO.lang.extend(KJUR.asn1.cms.AttributeList, KJUR.asn1.ASN1Object);
 KJUR.asn1.cms.SignerInfo = function (e) {
-    var a = KJUR, h = a.asn1, b = h.DERTaggedObject, n = h.cms, j = n.AttributeList, g = n.ContentType,
-        k = n.EncapsulatedContentInfo, c = n.MessageDigest, l = n.SignedData, d = h.x509, m = d.AlgorithmIdentifier,
-        f = a.crypto, i = KEYUTIL;
+    var a = KJUR,
+        h = a.asn1,
+        b = h.DERTaggedObject,
+        n = h.cms,
+        j = n.AttributeList,
+        g = n.ContentType,
+        k = n.EncapsulatedContentInfo,
+        c = n.MessageDigest,
+        l = n.SignedData,
+        d = h.x509,
+        m = d.AlgorithmIdentifier,
+        f = a.crypto,
+        i = KEYUTIL;
     n.SignerInfo.superclass.constructor.call(this);
-    this.dCMSVersion = new h.DERInteger({"int": 1});
+    this.dCMSVersion = new h.DERInteger({
+        "int": 1
+    });
     this.dSignerIdentifier = null;
     this.dDigestAlgorithm = null;
     this.dSignedAttrs = new j();
@@ -7036,14 +7896,21 @@ KJUR.asn1.cms.SignerInfo = function (e) {
     this.setSignerIdentifier = function (p) {
         if (typeof p == "string" && p.indexOf("CERTIFICATE") != -1 && p.indexOf("BEGIN") != -1 && p.indexOf("END") != -1) {
             var o = p;
-            this.dSignerIdentifier = new n.IssuerAndSerialNumber({cert: p})
+            this.dSignerIdentifier = new n.IssuerAndSerialNumber({
+                cert: p
+            })
         }
     };
     this.setForContentAndHash = function (o) {
         if (o !== undefined) {
             if (o.eciObj instanceof k) {
-                this.dSignedAttrs.add(new g({oid: "1.2.840.113549.1.7.1"}));
-                this.dSignedAttrs.add(new c({eciObj: o.eciObj, hashAlg: o.hashAlg}))
+                this.dSignedAttrs.add(new g({
+                    oid: "1.2.840.113549.1.7.1"
+                }));
+                this.dSignedAttrs.add(new c({
+                    eciObj: o.eciObj,
+                    hashAlg: o.hashAlg
+                }))
             }
             if (o.sdObj !== undefined && o.sdObj instanceof l) {
                 if (o.sdObj.digestAlgNameList.join(":").indexOf(o.hashAlg) == -1) {
@@ -7051,19 +7918,27 @@ KJUR.asn1.cms.SignerInfo = function (e) {
                 }
             }
             if (typeof o.hashAlg == "string") {
-                this.dDigestAlgorithm = new m({name: o.hashAlg})
+                this.dDigestAlgorithm = new m({
+                    name: o.hashAlg
+                })
             }
         }
     };
     this.sign = function (t, p) {
-        this.dSigAlg = new m({name: p});
+        this.dSigAlg = new m({
+            name: p
+        });
         var q = this.dSignedAttrs.getEncodedHex();
         var o = i.getKey(t);
-        var s = new f.Signature({alg: p});
+        var s = new f.Signature({
+            alg: p
+        });
         s.init(o);
         s.updateHex(q);
         var r = s.sign();
-        this.dSig = new h.DEROctetString({hex: r})
+        this.dSig = new h.DEROctetString({
+            hex: r
+        })
     };
     this.addUnsigned = function (o) {
         this.hTLV = null;
@@ -7072,36 +7947,57 @@ KJUR.asn1.cms.SignerInfo = function (e) {
     };
     this.getEncodedHex = function () {
         if (this.dSignedAttrs instanceof j && this.dSignedAttrs.length() == 0) {
-            throw"SignedAttrs length = 0 (empty)"
+            throw "SignedAttrs length = 0 (empty)"
         }
-        var o = new b({obj: this.dSignedAttrs, tag: "a0", explicit: false});
+        var o = new b({
+            obj: this.dSignedAttrs,
+            tag: "a0",
+            explicit: false
+        });
         var r = null;
         if (this.dUnsignedAttrs.length() > 0) {
-            r = new b({obj: this.dUnsignedAttrs, tag: "a1", explicit: false})
+            r = new b({
+                obj: this.dUnsignedAttrs,
+                tag: "a1",
+                explicit: false
+            })
         }
-        var q = [this.dCMSVersion, this.dSignerIdentifier, this.dDigestAlgorithm, o, this.dSigAlg, this.dSig,];
+        var q = [this.dCMSVersion, this.dSignerIdentifier, this.dDigestAlgorithm, o, this.dSigAlg, this.dSig, ];
         if (r != null) {
             q.push(r)
         }
-        var p = new h.DERSequence({array: q});
+        var p = new h.DERSequence({
+            array: q
+        });
         this.hTLV = p.getEncodedHex();
         return this.hTLV
     }
 };
 YAHOO.lang.extend(KJUR.asn1.cms.SignerInfo, KJUR.asn1.ASN1Object);
 KJUR.asn1.cms.EncapsulatedContentInfo = function (g) {
-    var c = KJUR, b = c.asn1, e = b.DERTaggedObject, a = b.DERSequence, h = b.DERObjectIdentifier, d = b.DEROctetString,
+    var c = KJUR,
+        b = c.asn1,
+        e = b.DERTaggedObject,
+        a = b.DERSequence,
+        h = b.DERObjectIdentifier,
+        d = b.DEROctetString,
         f = b.cms;
     f.EncapsulatedContentInfo.superclass.constructor.call(this);
-    this.dEContentType = new h({name: "data"});
+    this.dEContentType = new h({
+        name: "data"
+    });
     this.dEContent = null;
     this.isDetached = false;
     this.eContentValueHex = null;
     this.setContentType = function (i) {
         if (i.match(/^[0-2][.][0-9.]+$/)) {
-            this.dEContentType = new h({oid: i})
+            this.dEContentType = new h({
+                oid: i
+            })
         } else {
-            this.dEContentType = new h({name: i})
+            this.dEContentType = new h({
+                name: i
+            })
         }
     };
     this.setContentValue = function (i) {
@@ -7123,22 +8019,34 @@ KJUR.asn1.cms.EncapsulatedContentInfo = function (g) {
     };
     this.getEncodedHex = function () {
         if (typeof this.eContentValueHex != "string") {
-            throw"eContentValue not yet set"
+            throw "eContentValue not yet set"
         }
-        var k = new d({hex: this.eContentValueHex});
-        this.dEContent = new e({obj: k, tag: "a0", explicit: true});
+        var k = new d({
+            hex: this.eContentValueHex
+        });
+        this.dEContent = new e({
+            obj: k,
+            tag: "a0",
+            explicit: true
+        });
         var i = [this.dEContentType];
         if (!this.isDetached) {
             i.push(this.dEContent)
         }
-        var j = new a({array: i});
+        var j = new a({
+            array: i
+        });
         this.hTLV = j.getEncodedHex();
         return this.hTLV
     }
 };
 YAHOO.lang.extend(KJUR.asn1.cms.EncapsulatedContentInfo, KJUR.asn1.ASN1Object);
 KJUR.asn1.cms.ContentInfo = function (f) {
-    var c = KJUR, b = c.asn1, d = b.DERTaggedObject, a = b.DERSequence, e = b.x509;
+    var c = KJUR,
+        b = c.asn1,
+        d = b.DERTaggedObject,
+        a = b.DERSequence,
+        e = b.x509;
     KJUR.asn1.cms.ContentInfo.superclass.constructor.call(this);
     this.dContentType = null;
     this.dContent = null;
@@ -7148,8 +8056,14 @@ KJUR.asn1.cms.ContentInfo = function (f) {
         }
     };
     this.getEncodedHex = function () {
-        var h = new d({obj: this.dContent, tag: "a0", explicit: true});
-        var g = new a({array: [this.dContentType, h]});
+        var h = new d({
+            obj: this.dContent,
+            tag: "a0",
+            explicit: true
+        });
+        var g = new a({
+            array: [this.dContentType, h]
+        });
         this.hTLV = g.getEncodedHex();
         return this.hTLV
     };
@@ -7164,11 +8078,23 @@ KJUR.asn1.cms.ContentInfo = function (f) {
 };
 YAHOO.lang.extend(KJUR.asn1.cms.ContentInfo, KJUR.asn1.ASN1Object);
 KJUR.asn1.cms.SignedData = function (e) {
-    var a = KJUR, h = a.asn1, j = h.ASN1Object, g = h.DERInteger, m = h.DERSet, f = h.DERSequence,
-        b = h.DERTaggedObject, l = h.cms, i = l.EncapsulatedContentInfo, d = l.SignerInfo, n = l.ContentInfo,
-        c = h.x509, k = c.AlgorithmIdentifier;
+    var a = KJUR,
+        h = a.asn1,
+        j = h.ASN1Object,
+        g = h.DERInteger,
+        m = h.DERSet,
+        f = h.DERSequence,
+        b = h.DERTaggedObject,
+        l = h.cms,
+        i = l.EncapsulatedContentInfo,
+        d = l.SignerInfo,
+        n = l.ContentInfo,
+        c = h.x509,
+        k = c.AlgorithmIdentifier;
     KJUR.asn1.cms.SignedData.superclass.constructor.call(this);
-    this.dCMSVersion = new g({"int": 1});
+    this.dCMSVersion = new g({
+        "int": 1
+    });
     this.dDigestAlgs = null;
     this.digestAlgNameList = [];
     this.dEncapContentInfo = new i();
@@ -7190,30 +8116,47 @@ KJUR.asn1.cms.SignedData = function (e) {
             var u = [];
             for (var t = 0; t < this.digestAlgNameList.length; t++) {
                 var s = this.digestAlgNameList[t];
-                var w = new k({name: s});
+                var w = new k({
+                    name: s
+                });
                 u.push(w)
             }
-            this.dDigestAlgs = new m({array: u})
+            this.dDigestAlgs = new m({
+                array: u
+            })
         }
         var p = [this.dCMSVersion, this.dDigestAlgs, this.dEncapContentInfo];
         if (this.dCerts == null) {
             if (this.certificateList.length > 0) {
-                var v = new m({array: this.certificateList});
-                this.dCerts = new b({obj: v, tag: "a0", explicit: false})
+                var v = new m({
+                    array: this.certificateList
+                });
+                this.dCerts = new b({
+                    obj: v,
+                    tag: "a0",
+                    explicit: false
+                })
             }
         }
         if (this.dCerts != null) {
             p.push(this.dCerts)
         }
-        var r = new m({array: this.signerInfoList});
+        var r = new m({
+            array: this.signerInfoList
+        });
         p.push(r);
-        var q = new f({array: p});
+        var q = new f({
+            array: p
+        });
         this.hTLV = q.getEncodedHex();
         return this.hTLV
     };
     this.getContentInfo = function () {
         this.getEncodedHex();
-        var o = new n({type: "signed-data", obj: this});
+        var o = new n({
+            type: "signed-data",
+            obj: this
+        });
         return o
     };
     this.getContentInfoEncodedHex = function () {
@@ -7226,13 +8169,23 @@ KJUR.asn1.cms.SignedData = function (e) {
     }
 };
 YAHOO.lang.extend(KJUR.asn1.cms.SignedData, KJUR.asn1.ASN1Object);
-KJUR.asn1.cms.CMSUtil = new function () {
-};
+KJUR.asn1.cms.CMSUtil = new function () {};
 KJUR.asn1.cms.CMSUtil.newSignedData = function (d) {
-    var b = KJUR, j = b.asn1, q = j.cms, f = q.SignerInfo, n = q.SignedData, o = q.SigningTime,
-        a = q.SigningCertificate, p = q.SigningCertificateV2, c = j.cades, e = c.SignaturePolicyIdentifier;
+    var b = KJUR,
+        j = b.asn1,
+        q = j.cms,
+        f = q.SignerInfo,
+        n = q.SignedData,
+        o = q.SigningTime,
+        a = q.SigningCertificate,
+        p = q.SigningCertificateV2,
+        c = j.cades,
+        e = c.SignaturePolicyIdentifier;
     var m = new n();
     m.dEncapContentInfo.setContentValue(d.content);
+    if (typeof d.detached == "boolean") {
+        m.dEncapContentInfo.isDetached = d.detached
+    }
     if (typeof d.certs == "object") {
         for (var h = 0; h < d.certs.length; h++) {
             m.addCertificatesByPEM(d.certs[h])
@@ -7243,7 +8196,11 @@ KJUR.asn1.cms.CMSUtil.newSignedData = function (d) {
         var k = d.signerInfos[h];
         var g = new f();
         g.setSignerIdentifier(k.signerCert);
-        g.setForContentAndHash({sdObj: m, eciObj: m.dEncapContentInfo, hashAlg: k.hashAlg});
+        g.setForContentAndHash({
+            sdObj: m,
+            eciObj: m.dEncapContentInfo,
+            hashAlg: k.hashAlg
+        });
         for (attrName in k.sAttr) {
             var r = k.sAttr[attrName];
             if (attrName == "SigningTime") {
@@ -7269,12 +8226,26 @@ KJUR.asn1.cms.CMSUtil.newSignedData = function (d) {
     return m
 };
 KJUR.asn1.cms.CMSUtil.verifySignedData = function (n) {
-    var C = KJUR, p = C.asn1, s = p.cms, D = s.SignerInfo, q = s.SignedData, y = s.SigningTime,
-        b = s.SigningCertificate, d = s.SigningCertificateV2, A = p.cades, u = A.SignaturePolicyIdentifier,
-        i = C.lang.String.isHex, v = ASN1HEX, h = v.getVbyList, a = v.getTLVbyList, t = v.getIdxbyList,
-        z = v.getChildIdx, c = v.getTLV, B = v.oidname, j = C.crypto.Util.hashHex;
-    if (n.cms === undefined && !i(n.cms)) {
-    }
+    var C = KJUR,
+        p = C.asn1,
+        s = p.cms,
+        D = s.SignerInfo,
+        q = s.SignedData,
+        y = s.SigningTime,
+        b = s.SigningCertificate,
+        d = s.SigningCertificateV2,
+        A = p.cades,
+        u = A.SignaturePolicyIdentifier,
+        i = C.lang.String.isHex,
+        v = ASN1HEX,
+        h = v.getVbyList,
+        a = v.getTLVbyList,
+        t = v.getIdxbyList,
+        z = v.getChildIdx,
+        c = v.getTLV,
+        B = v.oidname,
+        j = C.crypto.Util.hashHex;
+    if (n.cms === undefined && !i(n.cms)) {}
     var E = n.cms;
     var g = function (J, H) {
         var G;
@@ -7303,7 +8274,9 @@ KJUR.asn1.cms.CMSUtil.verifySignedData = function (n) {
         F.signerInfoIdxList = L;
         for (var G = 0; G < L.length; G++) {
             var K = L[G];
-            var J = {idx: K};
+            var J = {
+                idx: K
+            };
             k(I, J);
             F.signerInfos.push(J)
         }
@@ -7319,7 +8292,7 @@ KJUR.asn1.cms.CMSUtil.verifySignedData = function (n) {
         var G = z(I, F);
         var K = G.length;
         if (K < 6) {
-            throw"malformed SignerInfo"
+            throw "malformed SignerInfo"
         }
         J.sigalg = B(h(I, F, [K - 2, 0], "06"));
         J.sigval = h(I, F, [K - 1], "04")
@@ -7409,7 +8382,9 @@ KJUR.asn1.cms.CMSUtil.verifySignedData = function (n) {
         var M = "31" + c(F, I.idxSignedAttrs).substr(2);
         I.signedattrshex = M;
         var J = R.certs[I.certkey_idx].getPublicKey();
-        var P = new KJUR.crypto.Signature({alg: H});
+        var P = new KJUR.crypto.Signature({
+            alg: H
+        });
         P.init(J);
         P.updateHex(M);
         var O = P.verify(I.sigval);
@@ -7422,9 +8397,11 @@ KJUR.asn1.cms.CMSUtil.verifySignedData = function (n) {
             I.isValid = true
         }
     };
-    var m = function () {
+    var m = function () {};
+    var r = {
+        isValid: false,
+        parse: {}
     };
-    var r = {isValid: false, parse: {}};
     w(E, r.parse);
     o(E, r);
     return r
@@ -7439,7 +8416,11 @@ if (typeof KJUR.asn1.tsp == "undefined" || !KJUR.asn1.tsp) {
     KJUR.asn1.tsp = {}
 }
 KJUR.asn1.tsp.Accuracy = function (f) {
-    var c = KJUR, b = c.asn1, e = b.DERInteger, a = b.DERSequence, d = b.DERTaggedObject;
+    var c = KJUR,
+        b = c.asn1,
+        e = b.DERInteger,
+        a = b.DERSequence,
+        d = b.DERTaggedObject;
     b.tsp.Accuracy.superclass.constructor.call(this);
     this.seconds = null;
     this.millis = null;
@@ -7450,20 +8431,36 @@ KJUR.asn1.tsp.Accuracy = function (f) {
         var m = null;
         var g = [];
         if (this.seconds != null) {
-            i = new e({"int": this.seconds});
+            i = new e({
+                "int": this.seconds
+            });
             g.push(i)
         }
         if (this.millis != null) {
-            var l = new e({"int": this.millis});
-            k = new d({obj: l, tag: "80", explicit: false});
+            var l = new e({
+                "int": this.millis
+            });
+            k = new d({
+                obj: l,
+                tag: "80",
+                explicit: false
+            });
             g.push(k)
         }
         if (this.micros != null) {
-            var j = new e({"int": this.micros});
-            m = new d({obj: j, tag: "81", explicit: false});
+            var j = new e({
+                "int": this.micros
+            });
+            m = new d({
+                obj: j,
+                tag: "81",
+                explicit: false
+            });
             g.push(m)
         }
-        var h = new a({array: g});
+        var h = new a({
+            array: g
+        });
         this.hTLV = h.getEncodedHex();
         return this.hTLV
     };
@@ -7481,7 +8478,12 @@ KJUR.asn1.tsp.Accuracy = function (f) {
 };
 YAHOO.lang.extend(KJUR.asn1.tsp.Accuracy, KJUR.asn1.ASN1Object);
 KJUR.asn1.tsp.MessageImprint = function (g) {
-    var c = KJUR, b = c.asn1, a = b.DERSequence, d = b.DEROctetString, f = b.x509, e = f.AlgorithmIdentifier;
+    var c = KJUR,
+        b = c.asn1,
+        a = b.DERSequence,
+        d = b.DEROctetString,
+        f = b.x509,
+        e = f.AlgorithmIdentifier;
     b.tsp.MessageImprint.superclass.constructor.call(this);
     this.dHashAlg = null;
     this.dHashValue = null;
@@ -7489,24 +8491,38 @@ KJUR.asn1.tsp.MessageImprint = function (g) {
         if (typeof this.hTLV == "string") {
             return this.hTLV
         }
-        var h = new a({array: [this.dHashAlg, this.dHashValue]});
+        var h = new a({
+            array: [this.dHashAlg, this.dHashValue]
+        });
         return h.getEncodedHex()
     };
     if (g !== undefined) {
         if (typeof g.hashAlg == "string") {
-            this.dHashAlg = new e({name: g.hashAlg})
+            this.dHashAlg = new e({
+                name: g.hashAlg
+            })
         }
         if (typeof g.hashValue == "string") {
-            this.dHashValue = new d({hex: g.hashValue})
+            this.dHashValue = new d({
+                hex: g.hashValue
+            })
         }
     }
 };
 YAHOO.lang.extend(KJUR.asn1.tsp.MessageImprint, KJUR.asn1.ASN1Object);
 KJUR.asn1.tsp.TimeStampReq = function (c) {
-    var a = KJUR, f = a.asn1, d = f.DERSequence, e = f.DERInteger, g = f.DERBoolean, i = f.DERObjectIdentifier,
-        h = f.tsp, b = h.MessageImprint;
+    var a = KJUR,
+        f = a.asn1,
+        d = f.DERSequence,
+        e = f.DERInteger,
+        g = f.DERBoolean,
+        i = f.DERObjectIdentifier,
+        h = f.tsp,
+        b = h.MessageImprint;
     h.TimeStampReq.superclass.constructor.call(this);
-    this.dVersion = new e({"int": 1});
+    this.dVersion = new e({
+        "int": 1
+    });
     this.dMessageImprint = null;
     this.dPolicy = null;
     this.dNonce = null;
@@ -7522,7 +8538,7 @@ KJUR.asn1.tsp.TimeStampReq = function (c) {
     };
     this.getEncodedHex = function () {
         if (this.dMessageImprint == null) {
-            throw"messageImprint shall be specified"
+            throw "messageImprint shall be specified"
         }
         var j = [this.dVersion, this.dMessageImprint];
         if (this.dPolicy != null) {
@@ -7534,7 +8550,9 @@ KJUR.asn1.tsp.TimeStampReq = function (c) {
         if (this.certReq) {
             j.push(new g())
         }
-        var k = new d({array: j});
+        var k = new d({
+            array: j
+        });
         this.hTLV = k.getEncodedHex();
         return this.hTLV
     };
@@ -7555,10 +8573,21 @@ KJUR.asn1.tsp.TimeStampReq = function (c) {
 };
 YAHOO.lang.extend(KJUR.asn1.tsp.TimeStampReq, KJUR.asn1.ASN1Object);
 KJUR.asn1.tsp.TSTInfo = function (e) {
-    var c = KJUR, i = c.asn1, f = i.DERSequence, h = i.DERInteger, k = i.DERBoolean, g = i.DERGeneralizedTime,
-        l = i.DERObjectIdentifier, j = i.tsp, d = j.MessageImprint, b = j.Accuracy, a = i.x509.X500Name;
+    var c = KJUR,
+        i = c.asn1,
+        f = i.DERSequence,
+        h = i.DERInteger,
+        k = i.DERBoolean,
+        g = i.DERGeneralizedTime,
+        l = i.DERObjectIdentifier,
+        j = i.tsp,
+        d = j.MessageImprint,
+        b = j.Accuracy,
+        a = i.x509.X500Name;
     j.TSTInfo.superclass.constructor.call(this);
-    this.dVersion = new h({"int": 1});
+    this.dVersion = new h({
+        "int": 1
+    });
     this.dPolicy = null;
     this.dMessageImprint = null;
     this.dSerialNumber = null;
@@ -7570,19 +8599,19 @@ KJUR.asn1.tsp.TSTInfo = function (e) {
     this.getEncodedHex = function () {
         var m = [this.dVersion];
         if (this.dPolicy == null) {
-            throw"policy shall be specified."
+            throw "policy shall be specified."
         }
         m.push(this.dPolicy);
         if (this.dMessageImprint == null) {
-            throw"messageImprint shall be specified."
+            throw "messageImprint shall be specified."
         }
         m.push(this.dMessageImprint);
         if (this.dSerialNumber == null) {
-            throw"serialNumber shall be specified."
+            throw "serialNumber shall be specified."
         }
         m.push(this.dSerialNumber);
         if (this.dGenTime == null) {
-            throw"genTime shall be specified."
+            throw "genTime shall be specified."
         }
         m.push(this.dGenTime);
         if (this.dAccuracy != null) {
@@ -7597,16 +8626,20 @@ KJUR.asn1.tsp.TSTInfo = function (e) {
         if (this.dTsa != null) {
             m.push(this.dTsa)
         }
-        var n = new f({array: m});
+        var n = new f({
+            array: m
+        });
         this.hTLV = n.getEncodedHex();
         return this.hTLV
     };
     if (e !== undefined) {
         if (typeof e.policy == "string") {
             if (!e.policy.match(/^[0-9.]+$/)) {
-                throw"policy shall be oid like 0.1.4.134"
+                throw "policy shall be oid like 0.1.4.134"
             }
-            this.dPolicy = new l({oid: e.policy})
+            this.dPolicy = new l({
+                oid: e.policy
+            })
         }
         if (e.messageImprint !== undefined) {
             this.dMessageImprint = new d(e.messageImprint)
@@ -7633,19 +8666,26 @@ KJUR.asn1.tsp.TSTInfo = function (e) {
 };
 YAHOO.lang.extend(KJUR.asn1.tsp.TSTInfo, KJUR.asn1.ASN1Object);
 KJUR.asn1.tsp.TimeStampResp = function (g) {
-    var e = KJUR, d = e.asn1, c = d.DERSequence, f = d.ASN1Object, a = d.tsp, b = a.PKIStatusInfo;
+    var e = KJUR,
+        d = e.asn1,
+        c = d.DERSequence,
+        f = d.ASN1Object,
+        a = d.tsp,
+        b = a.PKIStatusInfo;
     a.TimeStampResp.superclass.constructor.call(this);
     this.dStatus = null;
     this.dTST = null;
     this.getEncodedHex = function () {
         if (this.dStatus == null) {
-            throw"status shall be specified"
+            throw "status shall be specified"
         }
         var h = [this.dStatus];
         if (this.dTST != null) {
             h.push(this.dTST)
         }
-        var i = new c({array: h});
+        var i = new c({
+            array: h
+        });
         this.hTLV = i.getEncodedHex();
         return this.hTLV
     };
@@ -7660,14 +8700,20 @@ KJUR.asn1.tsp.TimeStampResp = function (g) {
 };
 YAHOO.lang.extend(KJUR.asn1.tsp.TimeStampResp, KJUR.asn1.ASN1Object);
 KJUR.asn1.tsp.PKIStatusInfo = function (h) {
-    var g = KJUR, f = g.asn1, e = f.DERSequence, a = f.tsp, d = a.PKIStatus, c = a.PKIFreeText, b = a.PKIFailureInfo;
+    var g = KJUR,
+        f = g.asn1,
+        e = f.DERSequence,
+        a = f.tsp,
+        d = a.PKIStatus,
+        c = a.PKIFreeText,
+        b = a.PKIFailureInfo;
     a.PKIStatusInfo.superclass.constructor.call(this);
     this.dStatus = null;
     this.dStatusString = null;
     this.dFailureInfo = null;
     this.getEncodedHex = function () {
         if (this.dStatus == null) {
-            throw"status shall be specified"
+            throw "status shall be specified"
         }
         var i = [this.dStatus];
         if (this.dStatusString != null) {
@@ -7676,7 +8722,9 @@ KJUR.asn1.tsp.PKIStatusInfo = function (h) {
         if (this.dFailureInfo != null) {
             i.push(this.dFailureInfo)
         }
-        var j = new e({array: i});
+        var j = new e({
+            array: i
+        });
         this.hTLV = j.getEncodedHex();
         return this.hTLV
     };
@@ -7685,7 +8733,9 @@ KJUR.asn1.tsp.PKIStatusInfo = function (h) {
             this.dStatus = new d(h.status)
         }
         if (typeof h.statstr == "object") {
-            this.dStatusString = new c({array: h.statstr})
+            this.dStatusString = new c({
+                array: h.statstr
+            })
         }
         if (typeof h.failinfo == "object") {
             this.dFailureInfo = new b(h.failinfo)
@@ -7694,7 +8744,11 @@ KJUR.asn1.tsp.PKIStatusInfo = function (h) {
 };
 YAHOO.lang.extend(KJUR.asn1.tsp.PKIStatusInfo, KJUR.asn1.ASN1Object);
 KJUR.asn1.tsp.PKIStatus = function (h) {
-    var d = KJUR, c = d.asn1, g = c.DERInteger, a = c.tsp, b = a.PKIStatus;
+    var d = KJUR,
+        c = d.asn1,
+        g = c.DERInteger,
+        a = c.tsp,
+        b = a.PKIStatus;
     a.PKIStatus.superclass.constructor.call(this);
     var f = null;
     this.getEncodedHex = function () {
@@ -7705,9 +8759,11 @@ KJUR.asn1.tsp.PKIStatus = function (h) {
         if (h.name !== undefined) {
             var e = b.valueList;
             if (e[h.name] === undefined) {
-                throw"name undefined: " + h.name
+                throw "name undefined: " + h.name
             }
-            this.dStatus = new g({"int": e[h.name]})
+            this.dStatus = new g({
+                "int": e[h.name]
+            })
         } else {
             this.dStatus = new g(h)
         }
@@ -7723,15 +8779,23 @@ KJUR.asn1.tsp.PKIStatus.valueList = {
     revocationNotification: 5
 };
 KJUR.asn1.tsp.PKIFreeText = function (f) {
-    var e = KJUR, d = e.asn1, b = d.DERSequence, c = d.DERUTF8String, a = d.tsp;
+    var e = KJUR,
+        d = e.asn1,
+        b = d.DERSequence,
+        c = d.DERUTF8String,
+        a = d.tsp;
     a.PKIFreeText.superclass.constructor.call(this);
     this.textList = [];
     this.getEncodedHex = function () {
         var g = [];
         for (var j = 0; j < this.textList.length; j++) {
-            g.push(new c({str: this.textList[j]}))
+            g.push(new c({
+                str: this.textList[j]
+            }))
         }
-        var h = new b({array: g});
+        var h = new b({
+            array: g
+        });
         this.hTLV = h.getEncodedHex();
         return this.hTLV
     };
@@ -7743,12 +8807,16 @@ KJUR.asn1.tsp.PKIFreeText = function (f) {
 };
 YAHOO.lang.extend(KJUR.asn1.tsp.PKIFreeText, KJUR.asn1.ASN1Object);
 KJUR.asn1.tsp.PKIFailureInfo = function (g) {
-    var d = KJUR, c = d.asn1, f = c.DERBitString, a = c.tsp, b = a.PKIFailureInfo;
+    var d = KJUR,
+        c = d.asn1,
+        f = c.DERBitString,
+        a = c.tsp,
+        b = a.PKIFailureInfo;
     b.superclass.constructor.call(this);
     this.value = null;
     this.getEncodedHex = function () {
         if (this.value == null) {
-            throw"value shall be specified"
+            throw "value shall be specified"
         }
         var h = new Number(this.value).toString(2);
         var i = new f();
@@ -7760,7 +8828,7 @@ KJUR.asn1.tsp.PKIFailureInfo = function (g) {
         if (typeof g.name == "string") {
             var e = b.valueList;
             if (e[g.name] === undefined) {
-                throw"name undefined: " + g.name
+                throw "name undefined: " + g.name
             }
             this.value = e[g.name]
         } else {
@@ -7783,20 +8851,30 @@ KJUR.asn1.tsp.PKIFailureInfo.valueList = {
 };
 KJUR.asn1.tsp.AbstractTSAAdapter = function (a) {
     this.getTSTHex = function (c, b) {
-        throw"not implemented yet"
+        throw "not implemented yet"
     }
 };
 KJUR.asn1.tsp.SimpleTSAAdapter = function (e) {
-    var d = KJUR, c = d.asn1, a = c.tsp, b = d.crypto.Util.hashHex;
+    var d = KJUR,
+        c = d.asn1,
+        a = c.tsp,
+        b = d.crypto.Util.hashHex;
     a.SimpleTSAAdapter.superclass.constructor.call(this);
     this.params = null;
     this.serial = 0;
     this.getTSTHex = function (g, f) {
         var i = b(g, f);
-        this.params.tstInfo.messageImprint = {hashAlg: f, hashValue: i};
-        this.params.tstInfo.serialNumber = {"int": this.serial++};
+        this.params.tstInfo.messageImprint = {
+            hashAlg: f,
+            hashValue: i
+        };
+        this.params.tstInfo.serialNumber = {
+            "int": this.serial++
+        };
         var h = Math.floor(Math.random() * 1000000000);
-        this.params.tstInfo.nonce = {"int": h};
+        this.params.tstInfo.nonce = {
+            "int": h
+        };
         var j = a.TSPUtil.newTimeStampToken(this.params);
         return j.getContentInfoEncodedHex()
     };
@@ -7806,12 +8884,18 @@ KJUR.asn1.tsp.SimpleTSAAdapter = function (e) {
 };
 YAHOO.lang.extend(KJUR.asn1.tsp.SimpleTSAAdapter, KJUR.asn1.tsp.AbstractTSAAdapter);
 KJUR.asn1.tsp.FixedTSAAdapter = function (e) {
-    var d = KJUR, c = d.asn1, a = c.tsp, b = d.crypto.Util.hashHex;
+    var d = KJUR,
+        c = d.asn1,
+        a = c.tsp,
+        b = d.crypto.Util.hashHex;
     a.FixedTSAAdapter.superclass.constructor.call(this);
     this.params = null;
     this.getTSTHex = function (g, f) {
         var h = b(g, f);
-        this.params.tstInfo.messageImprint = {hashAlg: f, hashValue: h};
+        this.params.tstInfo.messageImprint = {
+            hashAlg: f,
+            hashValue: h
+        };
         var i = a.TSPUtil.newTimeStampToken(this.params);
         return i.getContentInfoEncodedHex()
     };
@@ -7820,14 +8904,19 @@ KJUR.asn1.tsp.FixedTSAAdapter = function (e) {
     }
 };
 YAHOO.lang.extend(KJUR.asn1.tsp.FixedTSAAdapter, KJUR.asn1.tsp.AbstractTSAAdapter);
-KJUR.asn1.tsp.TSPUtil = new function () {
-};
+KJUR.asn1.tsp.TSPUtil = new function () {};
 KJUR.asn1.tsp.TSPUtil.newTimeStampToken = function (c) {
-    var b = KJUR, h = b.asn1, m = h.cms, k = h.tsp, a = h.tsp.TSTInfo;
+    var b = KJUR,
+        h = b.asn1,
+        m = h.cms,
+        k = h.tsp,
+        a = h.tsp.TSTInfo;
     var j = new m.SignedData();
     var g = new a(c.tstInfo);
     var f = g.getEncodedHex();
-    j.dEncapContentInfo.setContentValue({hex: f});
+    j.dEncapContentInfo.setContentValue({
+        hex: f
+    });
     j.dEncapContentInfo.setContentType("tstinfo");
     if (typeof c.certs == "object") {
         for (var e = 0; e < c.certs.length; e++) {
@@ -7836,8 +8925,14 @@ KJUR.asn1.tsp.TSPUtil.newTimeStampToken = function (c) {
     }
     var d = j.signerInfoList[0];
     d.setSignerIdentifier(c.signerCert);
-    d.setForContentAndHash({sdObj: j, eciObj: j.dEncapContentInfo, hashAlg: c.hashAlg});
-    var l = new m.SigningCertificate({array: [c.signerCert]});
+    d.setForContentAndHash({
+        sdObj: j,
+        eciObj: j.dEncapContentInfo,
+        hashAlg: c.hashAlg
+    });
+    var l = new m.SigningCertificate({
+        array: [c.signerCert]
+    });
     d.dSignedAttrs.add(l);
     d.sign(c.signerPrvKey, c.sigAlg);
     return j
@@ -7851,7 +8946,7 @@ KJUR.asn1.tsp.TSPUtil.parseTimeStampReq = function (m) {
     j.certreq = false;
     var a = h(m, 0);
     if (a.length < 2) {
-        throw"TimeStampReq must have at least 2 items"
+        throw "TimeStampReq must have at least 2 items"
     }
     var e = b(m, a[1]);
     j.mi = KJUR.asn1.tsp.TSPUtil.parseMessageImprint(e);
@@ -7878,7 +8973,7 @@ KJUR.asn1.tsp.TSPUtil.parseMessageImprint = function (c) {
     var g = m.getIdxbyList;
     var k = {};
     if (c.substr(0, 2) != "30") {
-        throw"head of messageImprint hex shall be '30'"
+        throw "head of messageImprint hex shall be '30'"
     }
     var a = j(c, 0);
     var l = g(c, 0, [0, 0]);
@@ -7886,7 +8981,7 @@ KJUR.asn1.tsp.TSPUtil.parseMessageImprint = function (c) {
     var d = m.hextooidstr(e);
     var h = KJUR.asn1.x509.OID.oid2name(d);
     if (h == "") {
-        throw"hashAlg name undefined: " + d
+        throw "hashAlg name undefined: " + d
     }
     var b = h;
     var f = g(c, 0, [1]);
@@ -7904,50 +8999,73 @@ if (typeof KJUR.asn1.cades == "undefined" || !KJUR.asn1.cades) {
     KJUR.asn1.cades = {}
 }
 KJUR.asn1.cades.SignaturePolicyIdentifier = function (f) {
-    var b = KJUR, h = b.asn1, i = h.DERObjectIdentifier, g = h.DERSequence, e = h.cades, c = e.OtherHashAlgAndValue;
+    var b = KJUR,
+        h = b.asn1,
+        i = h.DERObjectIdentifier,
+        g = h.DERSequence,
+        e = h.cades,
+        c = e.OtherHashAlgAndValue;
     e.SignaturePolicyIdentifier.superclass.constructor.call(this);
     this.attrTypeOid = "1.2.840.113549.1.9.16.2.15";
     if (f !== undefined) {
         if (typeof f.oid == "string" && typeof f.hash == "object") {
-            var d = new i({oid: f.oid});
+            var d = new i({
+                oid: f.oid
+            });
             var a = new c(f.hash);
-            var j = new g({array: [d, a]});
+            var j = new g({
+                array: [d, a]
+            });
             this.valueList = [j]
         }
     }
 };
 YAHOO.lang.extend(KJUR.asn1.cades.SignaturePolicyIdentifier, KJUR.asn1.cms.Attribute);
 KJUR.asn1.cades.OtherHashAlgAndValue = function (e) {
-    var a = KJUR, g = a.asn1, f = g.DERSequence, h = g.DEROctetString, d = g.x509, i = d.AlgorithmIdentifier,
-        c = g.cades, b = c.OtherHashAlgAndValue;
+    var a = KJUR,
+        g = a.asn1,
+        f = g.DERSequence,
+        h = g.DEROctetString,
+        d = g.x509,
+        i = d.AlgorithmIdentifier,
+        c = g.cades,
+        b = c.OtherHashAlgAndValue;
     b.superclass.constructor.call(this);
     this.dAlg = null;
     this.dHash = null;
     this.getEncodedHex = function () {
-        var j = new f({array: [this.dAlg, this.dHash]});
+        var j = new f({
+            array: [this.dAlg, this.dHash]
+        });
         this.hTLV = j.getEncodedHex();
         return this.hTLV
     };
     if (e !== undefined) {
         if (typeof e.alg == "string" && typeof e.hash == "string") {
-            this.dAlg = new i({name: e.alg});
-            this.dHash = new h({hex: e.hash})
+            this.dAlg = new i({
+                name: e.alg
+            });
+            this.dHash = new h({
+                hex: e.hash
+            })
         }
     }
 };
 YAHOO.lang.extend(KJUR.asn1.cades.OtherHashAlgAndValue, KJUR.asn1.ASN1Object);
 KJUR.asn1.cades.SignatureTimeStamp = function (h) {
-    var c = KJUR, b = c.asn1, e = b.ASN1Object, g = b.x509, a = b.cades;
+    var c = KJUR,
+        b = c.asn1,
+        e = b.ASN1Object,
+        g = b.x509,
+        a = b.cades;
     a.SignatureTimeStamp.superclass.constructor.call(this);
     this.attrTypeOid = "1.2.840.113549.1.9.16.2.14";
     this.tstHex = null;
     if (h !== undefined) {
         if (h.res !== undefined) {
-            if (typeof h.res == "string" && h.res.match(/^[0-9A-Fa-f]+$/)) {
-            } else {
-                if (h.res instanceof e) {
-                } else {
-                    throw"res param shall be ASN1Object or hex string"
+            if (typeof h.res == "string" && h.res.match(/^[0-9A-Fa-f]+$/)) {} else {
+                if (h.res instanceof e) {} else {
+                    throw "res param shall be ASN1Object or hex string"
                 }
             }
         }
@@ -7959,9 +9077,8 @@ KJUR.asn1.cades.SignatureTimeStamp = function (h) {
                 f.getEncodedHex();
                 this.valueList = [f]
             } else {
-                if (h.tst instanceof e) {
-                } else {
-                    throw"tst param shall be ASN1Object or hex string"
+                if (h.tst instanceof e) {} else {
+                    throw "tst param shall be ASN1Object or hex string"
                 }
             }
         }
@@ -7969,7 +9086,9 @@ KJUR.asn1.cades.SignatureTimeStamp = function (h) {
 };
 YAHOO.lang.extend(KJUR.asn1.cades.SignatureTimeStamp, KJUR.asn1.cms.Attribute);
 KJUR.asn1.cades.CompleteCertificateRefs = function (d) {
-    var c = KJUR, b = c.asn1, a = b.cades;
+    var c = KJUR,
+        b = c.asn1,
+        a = b.cades;
     a.CompleteCertificateRefs.superclass.constructor.call(this);
     this.attrTypeOid = "1.2.840.113549.1.9.16.2.21";
     this.setByArray = function (e) {
@@ -7987,7 +9106,10 @@ KJUR.asn1.cades.CompleteCertificateRefs = function (d) {
 };
 YAHOO.lang.extend(KJUR.asn1.cades.CompleteCertificateRefs, KJUR.asn1.cms.Attribute);
 KJUR.asn1.cades.OtherCertID = function (e) {
-    var c = KJUR, b = c.asn1, d = b.cms, a = b.cades;
+    var c = KJUR,
+        b = c.asn1,
+        d = b.cms,
+        a = b.cades;
     a.OtherCertID.superclass.constructor.call(this);
     this.hasIssuerSerial = true;
     this.dOtherCertHash = null;
@@ -8003,13 +9125,15 @@ KJUR.asn1.cades.OtherCertID = function (e) {
             return this.hTLV
         }
         if (this.dOtherCertHash == null) {
-            throw"otherCertHash not set"
+            throw "otherCertHash not set"
         }
         var f = [this.dOtherCertHash];
         if (this.dIssuerSerial != null) {
             f.push(this.dIssuerSerial)
         }
-        var g = new b.DERSequence({array: f});
+        var g = new b.DERSequence({
+            array: f
+        });
         this.hTLV = g.getEncodedHex();
         return this.hTLV
     };
@@ -8029,21 +9153,29 @@ KJUR.asn1.cades.OtherCertID = function (e) {
 };
 YAHOO.lang.extend(KJUR.asn1.cades.OtherCertID, KJUR.asn1.ASN1Object);
 KJUR.asn1.cades.OtherHash = function (f) {
-    var d = KJUR, c = d.asn1, e = c.cms, b = c.cades, g = b.OtherHashAlgAndValue, a = d.crypto.Util.hashHex;
+    var d = KJUR,
+        c = d.asn1,
+        e = c.cms,
+        b = c.cades,
+        g = b.OtherHashAlgAndValue,
+        a = d.crypto.Util.hashHex;
     b.OtherHash.superclass.constructor.call(this);
     this.alg = "sha256";
     this.dOtherHash = null;
     this.setByCertPEM = function (h) {
         if (h.indexOf("-----BEGIN ") == -1) {
-            throw"certPEM not to seem PEM format"
+            throw "certPEM not to seem PEM format"
         }
         var i = pemtohex(h);
         var j = a(i, this.alg);
-        this.dOtherHash = new g({alg: this.alg, hash: j})
+        this.dOtherHash = new g({
+            alg: this.alg,
+            hash: j
+        })
     };
     this.getEncodedHex = function () {
         if (this.dOtherHash == null) {
-            throw"OtherHash not set"
+            throw "OtherHash not set"
         }
         return this.dOtherHash.getEncodedHex()
     };
@@ -8053,9 +9185,11 @@ KJUR.asn1.cades.OtherHash = function (f) {
                 this.setByCertPEM(f)
             } else {
                 if (f.match(/^[0-9A-Fa-f]+$/)) {
-                    this.dOtherHash = new c.DEROctetString({hex: f})
+                    this.dOtherHash = new c.DEROctetString({
+                        hex: f
+                    })
                 } else {
-                    throw"unsupported string value for params"
+                    throw "unsupported string value for params"
                 }
             }
         } else {
@@ -8073,21 +9207,29 @@ KJUR.asn1.cades.OtherHash = function (f) {
     }
 };
 YAHOO.lang.extend(KJUR.asn1.cades.OtherHash, KJUR.asn1.ASN1Object);
-KJUR.asn1.cades.CAdESUtil = new function () {
-};
-KJUR.asn1.cades.CAdESUtil.addSigTS = function (c, b, a) {
-};
+KJUR.asn1.cades.CAdESUtil = new function () {};
+KJUR.asn1.cades.CAdESUtil.addSigTS = function (c, b, a) {};
 KJUR.asn1.cades.CAdESUtil.parseSignedDataForAddingUnsigned = function (e) {
-    var p = ASN1HEX, u = p.getChildIdx, b = p.getTLV, a = p.getTLVbyList, k = p.getIdxbyList, A = KJUR, g = A.asn1,
-        l = g.ASN1Object, j = g.cms, h = j.SignedData, v = g.cades, z = v.CAdESUtil;
+    var p = ASN1HEX,
+        u = p.getChildIdx,
+        b = p.getTLV,
+        a = p.getTLVbyList,
+        k = p.getIdxbyList,
+        A = KJUR,
+        g = A.asn1,
+        l = g.ASN1Object,
+        j = g.cms,
+        h = j.SignedData,
+        v = g.cades,
+        z = v.CAdESUtil;
     var m = {};
     if (a(e, 0, [0]) != "06092a864886f70d010702") {
-        throw"hex is not CMS SignedData"
+        throw "hex is not CMS SignedData"
     }
     var y = k(e, 0, [1, 0]);
     var B = u(e, y);
     if (B.length < 4) {
-        throw"num of SignedData elem shall be 4 at least"
+        throw "num of SignedData elem shall be 4 at least"
     }
     var d = B.shift();
     m.version = b(e, d);
@@ -8109,7 +9251,7 @@ KJUR.asn1.cades.CAdESUtil.parseSignedDataForAddingUnsigned = function (e) {
     }
     var t = o;
     if (e.substr(t, 2) != "31") {
-        throw"Can't find signerInfos"
+        throw "Can't find signerInfos"
     }
     var f = u(e, t);
     for (var q = 0; q < f.length; q++) {
@@ -8138,12 +9280,20 @@ KJUR.asn1.cades.CAdESUtil.parseSignedDataForAddingUnsigned = function (e) {
     return m
 };
 KJUR.asn1.cades.CAdESUtil.parseSignerInfoForAddingUnsigned = function (g, q, c) {
-    var p = ASN1HEX, s = p.getChildIdx, a = p.getTLV, l = p.getV, v = KJUR, h = v.asn1, n = h.ASN1Object, j = h.cms,
-        k = j.AttributeList, w = j.SignerInfo;
+    var p = ASN1HEX,
+        s = p.getChildIdx,
+        a = p.getTLV,
+        l = p.getV,
+        v = KJUR,
+        h = v.asn1,
+        n = h.ASN1Object,
+        j = h.cms,
+        k = j.AttributeList,
+        w = j.SignerInfo;
     var o = {};
     var t = s(g, q);
     if (t.length != 6) {
-        throw"not supported items for SignerInfo (!=6)"
+        throw "not supported items for SignerInfo (!=6)"
     }
     var d = t.shift();
     o.version = a(g, d);
@@ -8185,24 +9335,37 @@ if (typeof KJUR.asn1.csr == "undefined" || !KJUR.asn1.csr) {
     KJUR.asn1.csr = {}
 }
 KJUR.asn1.csr.CertificationRequest = function (d) {
-    var a = KJUR, f = a.asn1, b = f.DERBitString, e = f.DERSequence, k = f.csr, c = f.x509;
+    var a = KJUR,
+        f = a.asn1,
+        b = f.DERBitString,
+        e = f.DERSequence,
+        k = f.csr,
+        c = f.x509;
     k.CertificationRequest.superclass.constructor.call(this);
     var l = null;
     var j = null;
     var h = null;
     var i = null;
     var g = null;
-    this.sign = function (o, n) {
+    this.sign = function (p, n) {
         if (this.prvKey == null) {
             this.prvKey = n
         }
-        this.asn1SignatureAlg = new c.AlgorithmIdentifier({name: o});
-        sig = new a.crypto.Signature({alg: o});
-        sig.init(this.prvKey);
-        sig.updateHex(this.asn1CSRInfo.getEncodedHex());
-        this.hexSig = sig.sign();
-        this.asn1Sig = new b({hex: "00" + this.hexSig});
-        var m = new e({array: [this.asn1CSRInfo, this.asn1SignatureAlg, this.asn1Sig]});
+        this.asn1SignatureAlg = new c.AlgorithmIdentifier({
+            name: p
+        });
+        var o = new a.crypto.Signature({
+            alg: p
+        });
+        o.init(this.prvKey);
+        o.updateHex(this.asn1CSRInfo.getEncodedHex());
+        this.hexSig = o.sign();
+        this.asn1Sig = new b({
+            hex: "00" + this.hexSig
+        });
+        var m = new e({
+            array: [this.asn1CSRInfo, this.asn1SignatureAlg, this.asn1Sig]
+        });
         this.hTLV = m.getEncodedHex();
         this.isModified = false
     };
@@ -8213,7 +9376,7 @@ KJUR.asn1.csr.CertificationRequest = function (d) {
         if (this.isModified == false && this.hTLV != null) {
             return this.hTLV
         }
-        throw"not signed yet"
+        throw "not signed yet"
     };
     if (d !== undefined && d.csrinfo !== undefined) {
         this.asn1CSRInfo = d.csrinfo
@@ -8221,12 +9384,25 @@ KJUR.asn1.csr.CertificationRequest = function (d) {
 };
 YAHOO.lang.extend(KJUR.asn1.csr.CertificationRequest, KJUR.asn1.ASN1Object);
 KJUR.asn1.csr.CertificationRequestInfo = function (e) {
-    var b = KJUR, h = b.asn1, g = h.DERInteger, f = h.DERSequence, m = h.DERSet, j = h.DERNull, c = h.DERTaggedObject,
-        k = h.DERObjectIdentifier, l = h.csr, d = h.x509, a = d.X500Name, n = d.Extension, i = KEYUTIL;
+    var b = KJUR,
+        h = b.asn1,
+        g = h.DERInteger,
+        f = h.DERSequence,
+        m = h.DERSet,
+        j = h.DERNull,
+        c = h.DERTaggedObject,
+        k = h.DERObjectIdentifier,
+        l = h.csr,
+        d = h.x509,
+        a = d.X500Name,
+        n = d.Extension,
+        i = KEYUTIL;
     l.CertificationRequestInfo.superclass.constructor.call(this);
     this._initialize = function () {
         this.asn1Array = new Array();
-        this.asn1Version = new g({"int": 0});
+        this.asn1Version = new g({
+            "int": 0
+        });
         this.asn1Subject = null;
         this.asn1SubjPKey = null;
         this.extensionsArray = new Array()
@@ -8247,16 +9423,34 @@ KJUR.asn1.csr.CertificationRequestInfo = function (e) {
         this.asn1Array.push(this.asn1Subject);
         this.asn1Array.push(this.asn1SubjPKey);
         if (this.extensionsArray.length > 0) {
-            var s = new f({array: this.extensionsArray});
-            var r = new m({array: [s]});
-            var q = new f({array: [new k({oid: "1.2.840.113549.1.9.14"}), r]});
-            var p = new c({explicit: true, tag: "a0", obj: q});
+            var s = new f({
+                array: this.extensionsArray
+            });
+            var r = new m({
+                array: [s]
+            });
+            var q = new f({
+                array: [new k({
+                    oid: "1.2.840.113549.1.9.14"
+                }), r]
+            });
+            var p = new c({
+                explicit: true,
+                tag: "a0",
+                obj: q
+            });
             this.asn1Array.push(p)
         } else {
-            var p = new c({explicit: false, tag: "a0", obj: new j()});
+            var p = new c({
+                explicit: false,
+                tag: "a0",
+                obj: new j()
+            });
             this.asn1Array.push(p)
         }
-        var t = new f({array: this.asn1Array});
+        var t = new f({
+            array: this.asn1Array
+        });
         this.hTLV = t.getEncodedHex();
         this.isModified = false;
         return this.hTLV
@@ -8264,21 +9458,21 @@ KJUR.asn1.csr.CertificationRequestInfo = function (e) {
     this._initialize()
 };
 YAHOO.lang.extend(KJUR.asn1.csr.CertificationRequestInfo, KJUR.asn1.ASN1Object);
-KJUR.asn1.csr.CSRUtil = new function () {
-};
+KJUR.asn1.csr.CSRUtil = new function () {};
 KJUR.asn1.csr.CSRUtil.newCSRPEM = function (h) {
-    var c = KEYUTIL, b = KJUR.asn1.csr;
+    var c = KEYUTIL,
+        b = KJUR.asn1.csr;
     if (h.subject === undefined) {
-        throw"parameter subject undefined"
+        throw "parameter subject undefined"
     }
     if (h.sbjpubkey === undefined) {
-        throw"parameter sbjpubkey undefined"
+        throw "parameter sbjpubkey undefined"
     }
     if (h.sigalg === undefined) {
-        throw"parameter sigalg undefined"
+        throw "parameter sigalg undefined"
     }
     if (h.sbjprvkey === undefined) {
-        throw"parameter sbjpubkey undefined"
+        throw "parameter sbjpubkey undefined"
     }
     var d = new b.CertificationRequestInfo();
     d.setSubjectByParam(h.subject);
@@ -8290,27 +9484,43 @@ KJUR.asn1.csr.CSRUtil.newCSRPEM = function (h) {
             }
         }
     }
-    var f = new b.CertificationRequest({csrinfo: d});
+    var f = new b.CertificationRequest({
+        csrinfo: d
+    });
     var a = c.getKey(h.sbjprvkey);
     f.sign(h.sigalg, a);
     var g = f.getPEMString();
     return g
 };
-KJUR.asn1.csr.CSRUtil.getInfo = function (b) {
-    var d = ASN1HEX;
-    var e = d.getTLVbyList;
-    var a = {};
-    a.subject = {};
-    a.pubkey = {};
-    if (b.indexOf("-----BEGIN CERTIFICATE REQUEST") == -1) {
-        throw"argument is not PEM file"
+KJUR.asn1.csr.CSRUtil.getInfo = function (c) {
+    var f = ASN1HEX;
+    var g = f.getTLVbyList;
+    var b = {};
+    b.subject = {};
+    b.pubkey = {};
+    if (c.indexOf("-----BEGIN CERTIFICATE REQUEST") == -1) {
+        throw "argument is not PEM file"
     }
-    var c = pemtohex(b, "CERTIFICATE REQUEST");
-    a.subject.hex = e(c, 0, [0, 1]);
-    a.subject.name = X509.hex2dn(a.subject.hex);
-    a.pubkey.hex = e(c, 0, [0, 2]);
-    a.pubkey.obj = KEYUTIL.getKey(a.pubkey.hex, null, "pkcs8pub");
-    return a
+    var e = pemtohex(c, "CERTIFICATE REQUEST");
+    try {
+        b.subject.hex = g(e, 0, [0, 1])
+    } catch (d) {}
+    try {
+        b.subject.name = X509.hex2dn(b.subject.hex)
+    } catch (d) {}
+    b.pubkey.hex = g(e, 0, [0, 2]);
+    b.pubkey.obj = KEYUTIL.getKey(b.pubkey.hex, null, "pkcs8pub");
+    try {
+        b.ext = [];
+        var a = new X509();
+        a.parseExt(c);
+        b.ext.push({
+            subjectAltName: {
+                array: a.getExtSubjectAltName2()
+            }
+        })
+    } catch (d) {}
+    return b
 };
 if (typeof KJUR == "undefined" || !KJUR) {
     KJUR = {}
@@ -8323,8 +9533,18 @@ if (typeof KJUR.asn1.ocsp == "undefined" || !KJUR.asn1.ocsp) {
 }
 KJUR.asn1.ocsp.DEFAULT_HASH = "sha1";
 KJUR.asn1.ocsp.CertID = function (g) {
-    var d = KJUR, k = d.asn1, m = k.DEROctetString, j = k.DERInteger, h = k.DERSequence, f = k.x509,
-        n = f.AlgorithmIdentifier, o = k.ocsp, l = o.DEFAULT_HASH, i = d.crypto, e = i.Util.hashHex, c = X509,
+    var d = KJUR,
+        k = d.asn1,
+        m = k.DEROctetString,
+        j = k.DERInteger,
+        h = k.DERSequence,
+        f = k.x509,
+        n = f.AlgorithmIdentifier,
+        o = k.ocsp,
+        l = o.DEFAULT_HASH,
+        i = d.crypto,
+        e = i.Util.hashHex,
+        c = X509,
         q = ASN1HEX;
     o.CertID.superclass.constructor.call(this);
     this.dHashAlg = null;
@@ -8335,10 +9555,18 @@ KJUR.asn1.ocsp.CertID = function (g) {
         if (r === undefined) {
             r = l
         }
-        this.dHashAlg = new n({name: r});
-        this.dIssuerNameHash = new m({hex: t});
-        this.dIssuerKeyHash = new m({hex: s});
-        this.dSerialNumber = new j({hex: p})
+        this.dHashAlg = new n({
+            name: r
+        });
+        this.dIssuerNameHash = new m({
+            hex: t
+        });
+        this.dIssuerKeyHash = new m({
+            hex: s
+        });
+        this.dSerialNumber = new j({
+            hex: p
+        })
     };
     this.setByCert = function (x, t, v) {
         if (v === undefined) {
@@ -8358,10 +9586,12 @@ KJUR.asn1.ocsp.CertID = function (g) {
     };
     this.getEncodedHex = function () {
         if (this.dHashAlg === null && this.dIssuerNameHash === null && this.dIssuerKeyHash === null && this.dSerialNumber === null) {
-            throw"not yet set values"
+            throw "not yet set values"
         }
         var p = [this.dHashAlg, this.dIssuerNameHash, this.dIssuerKeyHash, this.dSerialNumber];
-        var r = new h({array: p});
+        var r = new h({
+            array: p
+        });
         this.hTLV = r.getEncodedHex();
         return this.hTLV
     };
@@ -8381,24 +9611,29 @@ KJUR.asn1.ocsp.CertID = function (g) {
                 }
                 this.setByValue(b.namehash, b.keyhash, b.serial, a)
             } else {
-                throw"invalid constructor arguments"
+                throw "invalid constructor arguments"
             }
         }
     }
 };
 YAHOO.lang.extend(KJUR.asn1.ocsp.CertID, KJUR.asn1.ASN1Object);
 KJUR.asn1.ocsp.Request = function (f) {
-    var c = KJUR, b = c.asn1, a = b.DERSequence, d = b.ocsp;
+    var c = KJUR,
+        b = c.asn1,
+        a = b.DERSequence,
+        d = b.ocsp;
     d.Request.superclass.constructor.call(this);
     this.dReqCert = null;
     this.dExt = null;
     this.getEncodedHex = function () {
         var g = [];
         if (this.dReqCert === null) {
-            throw"reqCert not set"
+            throw "reqCert not set"
         }
         g.push(this.dReqCert);
-        var h = new a({array: g});
+        var h = new a({
+            array: g
+        });
         this.hTLV = h.getEncodedHex();
         return this.hTLV
     };
@@ -8409,7 +9644,10 @@ KJUR.asn1.ocsp.Request = function (f) {
 };
 YAHOO.lang.extend(KJUR.asn1.ocsp.Request, KJUR.asn1.ASN1Object);
 KJUR.asn1.ocsp.TBSRequest = function (e) {
-    var c = KJUR, b = c.asn1, a = b.DERSequence, d = b.ocsp;
+    var c = KJUR,
+        b = c.asn1,
+        a = b.DERSequence,
+        d = b.ocsp;
     d.TBSRequest.superclass.constructor.call(this);
     this.version = 0;
     this.dRequestorName = null;
@@ -8426,17 +9664,21 @@ KJUR.asn1.ocsp.TBSRequest = function (e) {
     this.getEncodedHex = function () {
         var f = [];
         if (this.version !== 0) {
-            throw"not supported version: " + this.version
+            throw "not supported version: " + this.version
         }
         if (this.dRequestorName !== null) {
-            throw"requestorName not supported"
+            throw "requestorName not supported"
         }
-        var h = new a({array: this.dRequestList});
+        var h = new a({
+            array: this.dRequestList
+        });
         f.push(h);
         if (this.dRequestExt !== null) {
-            throw"requestExtensions not supported"
+            throw "requestExtensions not supported"
         }
-        var g = new a({array: f});
+        var g = new a({
+            array: f
+        });
         this.hTLV = g.getEncodedHex();
         return this.hTLV
     };
@@ -8448,7 +9690,10 @@ KJUR.asn1.ocsp.TBSRequest = function (e) {
 };
 YAHOO.lang.extend(KJUR.asn1.ocsp.TBSRequest, KJUR.asn1.ASN1Object);
 KJUR.asn1.ocsp.OCSPRequest = function (f) {
-    var c = KJUR, b = c.asn1, a = b.DERSequence, d = b.ocsp;
+    var c = KJUR,
+        b = c.asn1,
+        a = b.DERSequence,
+        d = b.ocsp;
     d.OCSPRequest.superclass.constructor.call(this);
     this.dTbsRequest = null;
     this.dOptionalSignature = null;
@@ -8457,12 +9702,14 @@ KJUR.asn1.ocsp.OCSPRequest = function (f) {
         if (this.dTbsRequest !== null) {
             g.push(this.dTbsRequest)
         } else {
-            throw"tbsRequest not set"
+            throw "tbsRequest not set"
         }
         if (this.dOptionalSignature !== null) {
-            throw"optionalSignature not supported"
+            throw "optionalSignature not supported"
         }
-        var h = new a({array: g});
+        var h = new a({
+            array: g
+        });
         this.hTLV = h.getEncodedHex();
         return this.hTLV
     };
@@ -8476,12 +9723,20 @@ KJUR.asn1.ocsp.OCSPRequest = function (f) {
 YAHOO.lang.extend(KJUR.asn1.ocsp.OCSPRequest, KJUR.asn1.ASN1Object);
 KJUR.asn1.ocsp.OCSPUtil = {};
 KJUR.asn1.ocsp.OCSPUtil.getRequestHex = function (a, b, h) {
-    var d = KJUR, c = d.asn1, e = c.ocsp;
+    var d = KJUR,
+        c = d.asn1,
+        e = c.ocsp;
     if (h === undefined) {
         h = e.DEFAULT_HASH
     }
-    var g = {alg: h, issuerCert: a, subjectCert: b};
-    var f = new e.OCSPRequest({reqList: [g]});
+    var g = {
+        alg: h,
+        issuerCert: a,
+        subjectCert: b
+    };
+    var f = new e.OCSPRequest({
+        reqList: [g]
+    });
     return f.getEncodedHex()
 };
 KJUR.asn1.ocsp.OCSPUtil.getOCSPResponseInfo = function (b) {
@@ -8494,8 +9749,7 @@ KJUR.asn1.ocsp.OCSPUtil.getOCSPResponseInfo = function (b) {
     try {
         var i = c(b, 0, [0], "0a");
         l.responseStatus = parseInt(i, 16)
-    } catch (e) {
-    }
+    } catch (e) {}
     if (l.responseStatus !== 0) {
         return l
     }
@@ -8513,20 +9767,17 @@ KJUR.asn1.ocsp.OCSPUtil.getOCSPResponseInfo = function (b) {
                 }
             }
         }
-    } catch (e) {
-    }
+    } catch (e) {}
     try {
         var a = d(b, 0, [1, 0, 1, 0, 0, 2, 0, 2]);
         l.thisUpdate = hextoutf8(f(b, a))
-    } catch (e) {
-    }
+    } catch (e) {}
     try {
         var j = d(b, 0, [1, 0, 1, 0, 0, 2, 0, 3]);
         if (b.substr(j, 2) === "a0") {
             l.nextUpdate = hextoutf8(c(b, j, [0]))
         }
-    } catch (e) {
-    }
+    } catch (e) {}
     return l
 };
 var KJUR;
@@ -8536,11 +9787,9 @@ if (typeof KJUR == "undefined" || !KJUR) {
 if (typeof KJUR.lang == "undefined" || !KJUR.lang) {
     KJUR.lang = {}
 }
-KJUR.lang.String = function () {
-};
+KJUR.lang.String = function () {};
 
-function Base64x() {
-}
+function Base64x() {}
 
 function stoBA(d) {
     var b = new Array();
@@ -8616,7 +9865,6 @@ function hextob64u(a) {
 function b64utohex(a) {
     return b64tohex(b64utob64(a))
 }
-
 var utf8tob64u, b64utoutf8;
 if (typeof Buffer === "function") {
     utf8tob64u = function (a) {
@@ -8690,7 +9938,7 @@ function hextopem(a, b) {
 
 function pemtohex(a, b) {
     if (a.indexOf("-----BEGIN ") == -1) {
-        throw"can't find PEM header: " + b
+        throw "can't find PEM header: " + b
     }
     if (b !== undefined) {
         a = a.replace(new RegExp("^[^]*-----BEGIN " + b + "-----"), "");
@@ -8704,10 +9952,10 @@ function pemtohex(a, b) {
 
 function hextoArrayBuffer(d) {
     if (d.length % 2 != 0) {
-        throw"input is not even length"
+        throw "input is not even length"
     }
     if (d.match(/^[0-9A-Fa-f]+$/) == null) {
-        throw"input is not hexadecimal"
+        throw "input is not hexadecimal"
     }
     var b = new ArrayBuffer(d.length / 2);
     var a = new DataView(b);
@@ -8755,7 +10003,7 @@ function zulutomsec(n) {
         }
         return Date.UTC(l, j, m, e, f, i, b)
     }
-    throw"unsupported zulu format: " + n
+    throw "unsupported zulu format: " + n
 }
 
 function zulutosec(a) {
@@ -8772,7 +10020,7 @@ function datetozulu(g, e, f) {
     var a = g.getUTCFullYear();
     if (e) {
         if (a < 1950 || 2049 < a) {
-            throw"not proper year for UTCTime: " + a
+            throw "not proper year for UTCTime: " + a
         }
         b = ("" + a).slice(-2)
     } else {
@@ -8827,7 +10075,7 @@ function ipv6tohex(g) {
 
 function hextoipv6(e) {
     if (!e.match(/^[0-9A-Fa-f]{32}$/)) {
-        throw"malformed IPv6 address octet"
+        throw "malformed IPv6 address octet"
     }
     e = e.toLowerCase();
     var b = e.match(/.{1,4}/g);
@@ -8925,7 +10173,6 @@ function newline_toDos(a) {
     a = a.replace(/\n/mg, "\r\n");
     return a
 }
-
 KJUR.lang.String.isInteger = function (a) {
     if (a.match(/^[0-9]+$/)) {
         return true
@@ -8986,17 +10233,16 @@ function intarystrtohex(b) {
         var c = b.split(/,/).map(function (g, e, h) {
             var f = parseInt(g);
             if (f < 0 || 255 < f) {
-                throw"integer not in range 0-255"
+                throw "integer not in range 0-255"
             }
             var d = ("00" + f.toString(16)).slice(-2);
             return d
         }).join("");
         return c
     } catch (a) {
-        throw"malformed integer array string: " + a
+        throw "malformed integer array string: " + a
     }
 }
-
 var strdiffidx = function (c, a) {
     var d = c.length;
     if (c.length > a.length) {
@@ -9080,7 +10326,7 @@ KJUR.crypto.Util = new function () {
     };
     this.getDigestInfoHex = function (a, b) {
         if (typeof this.DIGESTINFOHEAD[b] == "undefined") {
-            throw"alg not supported in Util.DIGESTINFOHEAD: " + b
+            throw "alg not supported in Util.DIGESTINFOHEAD: " + b
         }
         return this.DIGESTINFOHEAD[b] + a
     };
@@ -9088,7 +10334,7 @@ KJUR.crypto.Util = new function () {
         var c = this.getDigestInfoHex(h, a);
         var d = j / 4;
         if (c.length + 22 > d) {
-            throw"key is too short for SigAlg: keylen=" + j + "," + a
+            throw "key is too short for SigAlg: keylen=" + j + "," + a
         }
         var b = "0001";
         var k = "00" + c;
@@ -9101,40 +10347,52 @@ KJUR.crypto.Util = new function () {
         return e
     };
     this.hashString = function (a, c) {
-        var b = new KJUR.crypto.MessageDigest({alg: c});
+        var b = new KJUR.crypto.MessageDigest({
+            alg: c
+        });
         return b.digestString(a)
     };
     this.hashHex = function (b, c) {
-        var a = new KJUR.crypto.MessageDigest({alg: c});
+        var a = new KJUR.crypto.MessageDigest({
+            alg: c
+        });
         return a.digestHex(b)
     };
     this.sha1 = function (a) {
-        var b = new KJUR.crypto.MessageDigest({alg: "sha1", prov: "cryptojs"});
-        return b.digestString(a)
+        return this.hashString(a, "sha1")
     };
     this.sha256 = function (a) {
-        var b = new KJUR.crypto.MessageDigest({alg: "sha256", prov: "cryptojs"});
-        return b.digestString(a)
+        return this.hashString(a, "sha256")
     };
     this.sha256Hex = function (a) {
-        var b = new KJUR.crypto.MessageDigest({alg: "sha256", prov: "cryptojs"});
-        return b.digestHex(a)
+        return this.hashHex(a, "sha256")
     };
     this.sha512 = function (a) {
-        var b = new KJUR.crypto.MessageDigest({alg: "sha512", prov: "cryptojs"});
-        return b.digestString(a)
+        return this.hashString(a, "sha512")
     };
     this.sha512Hex = function (a) {
-        var b = new KJUR.crypto.MessageDigest({alg: "sha512", prov: "cryptojs"});
-        return b.digestHex(a)
+        return this.hashHex(a, "sha512")
+    };
+    this.isKey = function (a) {
+        if (a instanceof RSAKey || a instanceof KJUR.crypto.DSA || a instanceof KJUR.crypto.ECDSA) {
+            return true
+        } else {
+            return false
+        }
     }
 };
 KJUR.crypto.Util.md5 = function (a) {
-    var b = new KJUR.crypto.MessageDigest({alg: "md5", prov: "cryptojs"});
+    var b = new KJUR.crypto.MessageDigest({
+        alg: "md5",
+        prov: "cryptojs"
+    });
     return b.digestString(a)
 };
 KJUR.crypto.Util.ripemd160 = function (a) {
-    var b = new KJUR.crypto.MessageDigest({alg: "ripemd160", prov: "cryptojs"});
+    var b = new KJUR.crypto.MessageDigest({
+        alg: "ripemd160",
+        prov: "cryptojs"
+    });
     return b.digestString(a)
 };
 KJUR.crypto.Util.SECURERANDOMGEN = new SecureRandom();
@@ -9169,7 +10427,7 @@ KJUR.crypto.Util.getRandomBigIntegerZeroToMax = function (b) {
 KJUR.crypto.Util.getRandomBigIntegerMinToMax = function (e, b) {
     var c = e.compareTo(b);
     if (c == 1) {
-        throw"biMin is greater than biMax"
+        throw "biMin is greater than biMax"
     }
     if (c == 0) {
         return e
@@ -9191,7 +10449,7 @@ KJUR.crypto.MessageDigest = function (c) {
             try {
                 this.md = KJUR.crypto.Util.CRYPTOJSMESSAGEDIGESTNAME[g].create()
             } catch (e) {
-                throw"setAlgAndProvider hash alg set fail alg=" + g + "/" + e
+                throw "setAlgAndProvider hash alg set fail alg=" + g + "/" + e
             }
             this.updateString = function (h) {
                 this.md.update(h)
@@ -9217,7 +10475,7 @@ KJUR.crypto.MessageDigest = function (c) {
             try {
                 this.md = new sjcl.hash.sha256()
             } catch (e) {
-                throw"setAlgAndProvider hash alg set fail alg=" + g + "/" + e
+                throw "setAlgAndProvider hash alg set fail alg=" + g + "/" + e
             }
             this.updateString = function (h) {
                 this.md.update(h)
@@ -9241,19 +10499,19 @@ KJUR.crypto.MessageDigest = function (c) {
         }
     };
     this.updateString = function (e) {
-        throw"updateString(str) not supported for this alg/prov: " + this.algName + "/" + this.provName
+        throw "updateString(str) not supported for this alg/prov: " + this.algName + "/" + this.provName
     };
     this.updateHex = function (e) {
-        throw"updateHex(hex) not supported for this alg/prov: " + this.algName + "/" + this.provName
+        throw "updateHex(hex) not supported for this alg/prov: " + this.algName + "/" + this.provName
     };
     this.digest = function () {
-        throw"digest() not supported for this alg/prov: " + this.algName + "/" + this.provName
+        throw "digest() not supported for this alg/prov: " + this.algName + "/" + this.provName
     };
     this.digestString = function (e) {
-        throw"digestString(str) not supported for this alg/prov: " + this.algName + "/" + this.provName
+        throw "digestString(str) not supported for this alg/prov: " + this.algName + "/" + this.provName
     };
     this.digestHex = function (e) {
-        throw"digestHex(hex) not supported for this alg/prov: " + this.algName + "/" + this.provName
+        throw "digestHex(hex) not supported for this alg/prov: " + this.algName + "/" + this.provName
     };
     if (c !== undefined) {
         if (c.alg !== undefined) {
@@ -9276,7 +10534,7 @@ KJUR.crypto.MessageDigest.getHashLength = function (c) {
     var b = KJUR.crypto.MessageDigest;
     var a = b.getCanonicalAlgName(c);
     if (b.HASHLENGTH[a] === undefined) {
-        throw"not supported algorithm: " + c
+        throw "not supported algorithm: " + c
     }
     return b.HASHLENGTH[a]
 };
@@ -9302,7 +10560,7 @@ KJUR.crypto.Mac = function (d) {
         }
         k = k.toLowerCase();
         if (k.substr(0, 4) != "hmac") {
-            throw"setAlgAndProvider unsupported HMAC alg: " + k
+            throw "setAlgAndProvider unsupported HMAC alg: " + k
         }
         if (i === undefined) {
             i = KJUR.crypto.Util.DEFAULTPROVIDER[k]
@@ -9314,7 +10572,7 @@ KJUR.crypto.Mac = function (d) {
                 var j = KJUR.crypto.Util.CRYPTOJSMESSAGEDIGESTNAME[g];
                 this.mac = CryptoJS.algo.HMAC.create(j, this.pass)
             } catch (h) {
-                throw"setAlgAndProvider hash alg set fail hashAlg=" + g + "/" + h
+                throw "setAlgAndProvider hash alg set fail hashAlg=" + g + "/" + h
             }
             this.updateString = function (l) {
                 this.mac.update(l)
@@ -9338,19 +10596,19 @@ KJUR.crypto.Mac = function (d) {
         }
     };
     this.updateString = function (g) {
-        throw"updateString(str) not supported for this alg/prov: " + this.algProv
+        throw "updateString(str) not supported for this alg/prov: " + this.algProv
     };
     this.updateHex = function (g) {
-        throw"updateHex(hex) not supported for this alg/prov: " + this.algProv
+        throw "updateHex(hex) not supported for this alg/prov: " + this.algProv
     };
     this.doFinal = function () {
-        throw"digest() not supported for this alg/prov: " + this.algProv
+        throw "digest() not supported for this alg/prov: " + this.algProv
     };
     this.doFinalString = function (g) {
-        throw"digestString(str) not supported for this alg/prov: " + this.algProv
+        throw "digestString(str) not supported for this alg/prov: " + this.algProv
     };
     this.doFinalHex = function (g) {
-        throw"digestHex(hex) not supported for this alg/prov: " + this.algProv
+        throw "digestHex(hex) not supported for this alg/prov: " + this.algProv
     };
     this.setPassword = function (h) {
         if (typeof h == "string") {
@@ -9362,12 +10620,12 @@ KJUR.crypto.Mac = function (d) {
             return
         }
         if (typeof h != "object") {
-            throw"KJUR.crypto.Mac unsupported password type: " + h
+            throw "KJUR.crypto.Mac unsupported password type: " + h
         }
         var g = null;
         if (h.hex !== undefined) {
             if (h.hex.length % 2 != 0 || !h.hex.match(/^[0-9A-Fa-f]+$/)) {
-                throw"Mac: wrong hex password: " + h.hex
+                throw "Mac: wrong hex password: " + h.hex
             }
             g = h.hex
         }
@@ -9384,7 +10642,7 @@ KJUR.crypto.Mac = function (d) {
             g = b64utohex(h.b64u)
         }
         if (g == null) {
-            throw"KJUR.crypto.Mac unsupported password type: " + h
+            throw "KJUR.crypto.Mac unsupported password type: " + h
         }
         this.pass = CryptoJS.enc.Hex.parse(g)
     };
@@ -9436,13 +10694,15 @@ KJUR.crypto.Signature = function (o) {
     this.setAlgAndProvider = function (u, t) {
         this._setAlgNames();
         if (t != "cryptojs/jsrsa") {
-            throw"provider not supported: " + t
+            throw "provider not supported: " + t
         }
         if (":md5:sha1:sha224:sha256:sha384:sha512:ripemd160:".indexOf(this.mdAlgName) != -1) {
             try {
-                this.md = new KJUR.crypto.MessageDigest({alg: this.mdAlgName})
+                this.md = new KJUR.crypto.MessageDigest({
+                    alg: this.mdAlgName
+                })
             } catch (s) {
-                throw"setAlgAndProvider hash alg set fail alg=" + this.mdAlgName + "/" + s
+                throw "setAlgAndProvider hash alg set fail alg=" + this.mdAlgName + "/" + s
             }
             this.init = function (w, x) {
                 var y = null;
@@ -9453,7 +10713,7 @@ KJUR.crypto.Signature = function (o) {
                         y = KEYUTIL.getKey(w, x)
                     }
                 } catch (v) {
-                    throw"init failed:" + v
+                    throw "init failed:" + v
                 }
                 if (y.isPrivate === true) {
                     this.prvKey = y;
@@ -9463,7 +10723,7 @@ KJUR.crypto.Signature = function (o) {
                         this.pubKey = y;
                         this.state = "VERIFY"
                     } else {
-                        throw"init failed.:" + y
+                        throw "init failed.:" + y
                     }
                 }
             };
@@ -9475,24 +10735,25 @@ KJUR.crypto.Signature = function (o) {
             };
             this.sign = function () {
                 this.sHashHex = this.md.digest();
-                if (typeof this.ecprvhex != "undefined" && typeof this.eccurvename != "undefined") {
-                    var v = new KJUR.crypto.ECDSA({curve: this.eccurvename});
-                    this.hSign = v.signHex(this.sHashHex, this.ecprvhex)
+                if (this.prvKey === undefined && this.ecprvhex !== undefined && this.eccurvename !== undefined && KJUR.crypto.ECDSA !== undefined) {
+                    this.prvKey = new KJUR.crypto.ECDSA({
+                        curve: this.eccurvename,
+                        prv: this.ecprvhex
+                    })
+                }
+                if (this.prvKey instanceof RSAKey && this.pubkeyAlgName === "rsaandmgf1") {
+                    this.hSign = this.prvKey.signWithMessageHashPSS(this.sHashHex, this.mdAlgName, this.pssSaltLen)
                 } else {
-                    if (this.prvKey instanceof RSAKey && this.pubkeyAlgName === "rsaandmgf1") {
-                        this.hSign = this.prvKey.signWithMessageHashPSS(this.sHashHex, this.mdAlgName, this.pssSaltLen)
+                    if (this.prvKey instanceof RSAKey && this.pubkeyAlgName === "rsa") {
+                        this.hSign = this.prvKey.signWithMessageHash(this.sHashHex, this.mdAlgName)
                     } else {
-                        if (this.prvKey instanceof RSAKey && this.pubkeyAlgName === "rsa") {
-                            this.hSign = this.prvKey.signWithMessageHash(this.sHashHex, this.mdAlgName)
+                        if (this.prvKey instanceof KJUR.crypto.ECDSA) {
+                            this.hSign = this.prvKey.signWithMessageHash(this.sHashHex)
                         } else {
-                            if (this.prvKey instanceof KJUR.crypto.ECDSA) {
+                            if (this.prvKey instanceof KJUR.crypto.DSA) {
                                 this.hSign = this.prvKey.signWithMessageHash(this.sHashHex)
                             } else {
-                                if (this.prvKey instanceof KJUR.crypto.DSA) {
-                                    this.hSign = this.prvKey.signWithMessageHash(this.sHashHex)
-                                } else {
-                                    throw"Signature: unsupported private key alg: " + this.pubkeyAlgName
-                                }
+                                throw "Signature: unsupported private key alg: " + this.pubkeyAlgName
                             }
                         }
                     }
@@ -9509,24 +10770,25 @@ KJUR.crypto.Signature = function (o) {
             };
             this.verify = function (v) {
                 this.sHashHex = this.md.digest();
-                if (typeof this.ecpubhex != "undefined" && typeof this.eccurvename != "undefined") {
-                    var w = new KJUR.crypto.ECDSA({curve: this.eccurvename});
-                    return w.verifyHex(this.sHashHex, v, this.ecpubhex)
+                if (this.pubKey === undefined && this.ecpubhex !== undefined && this.eccurvename !== undefined && KJUR.crypto.ECDSA !== undefined) {
+                    this.pubKey = new KJUR.crypto.ECDSA({
+                        curve: this.eccurvename,
+                        pub: this.ecpubhex
+                    })
+                }
+                if (this.pubKey instanceof RSAKey && this.pubkeyAlgName === "rsaandmgf1") {
+                    return this.pubKey.verifyWithMessageHashPSS(this.sHashHex, v, this.mdAlgName, this.pssSaltLen)
                 } else {
-                    if (this.pubKey instanceof RSAKey && this.pubkeyAlgName === "rsaandmgf1") {
-                        return this.pubKey.verifyWithMessageHashPSS(this.sHashHex, v, this.mdAlgName, this.pssSaltLen)
+                    if (this.pubKey instanceof RSAKey && this.pubkeyAlgName === "rsa") {
+                        return this.pubKey.verifyWithMessageHash(this.sHashHex, v)
                     } else {
-                        if (this.pubKey instanceof RSAKey && this.pubkeyAlgName === "rsa") {
+                        if (KJUR.crypto.ECDSA !== undefined && this.pubKey instanceof KJUR.crypto.ECDSA) {
                             return this.pubKey.verifyWithMessageHash(this.sHashHex, v)
                         } else {
-                            if (KJUR.crypto.ECDSA !== undefined && this.pubKey instanceof KJUR.crypto.ECDSA) {
+                            if (KJUR.crypto.DSA !== undefined && this.pubKey instanceof KJUR.crypto.DSA) {
                                 return this.pubKey.verifyWithMessageHash(this.sHashHex, v)
                             } else {
-                                if (KJUR.crypto.DSA !== undefined && this.pubKey instanceof KJUR.crypto.DSA) {
-                                    return this.pubKey.verifyWithMessageHash(this.sHashHex, v)
-                                } else {
-                                    throw"Signature: unsupported public key alg: " + this.pubkeyAlgName
-                                }
+                                throw "Signature: unsupported public key alg: " + this.pubkeyAlgName
                             }
                         }
                     }
@@ -9535,25 +10797,25 @@ KJUR.crypto.Signature = function (o) {
         }
     };
     this.init = function (s, t) {
-        throw"init(key, pass) not supported for this alg:prov=" + this.algProvName
+        throw "init(key, pass) not supported for this alg:prov=" + this.algProvName
     };
     this.updateString = function (s) {
-        throw"updateString(str) not supported for this alg:prov=" + this.algProvName
+        throw "updateString(str) not supported for this alg:prov=" + this.algProvName
     };
     this.updateHex = function (s) {
-        throw"updateHex(hex) not supported for this alg:prov=" + this.algProvName
+        throw "updateHex(hex) not supported for this alg:prov=" + this.algProvName
     };
     this.sign = function () {
-        throw"sign() not supported for this alg:prov=" + this.algProvName
+        throw "sign() not supported for this alg:prov=" + this.algProvName
     };
     this.signString = function (s) {
-        throw"digestString(str) not supported for this alg:prov=" + this.algProvName
+        throw "digestString(str) not supported for this alg:prov=" + this.algProvName
     };
     this.signHex = function (s) {
-        throw"digestHex(hex) not supported for this alg:prov=" + this.algProvName
+        throw "digestHex(hex) not supported for this alg:prov=" + this.algProvName
     };
     this.verify = function (s) {
-        throw"verify(hSigVal) not supported for this alg:prov=" + this.algProvName
+        throw "verify(hSigVal) not supported for this alg:prov=" + this.algProvName
     };
     this.initParams = o;
     if (o !== undefined) {
@@ -9573,20 +10835,19 @@ KJUR.crypto.Signature = function (o) {
         }
         if (o.prvkeypem !== undefined) {
             if (o.prvkeypas !== undefined) {
-                throw"both prvkeypem and prvkeypas parameters not supported"
+                throw "both prvkeypem and prvkeypas parameters not supported"
             } else {
                 try {
                     var q = KEYUTIL.getKey(o.prvkeypem);
                     this.init(q)
                 } catch (m) {
-                    throw"fatal error to load pem private key: " + m
+                    throw "fatal error to load pem private key: " + m
                 }
             }
         }
     }
 };
-KJUR.crypto.Cipher = function (a) {
-};
+KJUR.crypto.Cipher = function (a) {};
 KJUR.crypto.Cipher.encrypt = function (e, f, d) {
     if (f instanceof RSAKey && f.isPublic) {
         var c = KJUR.crypto.Cipher.getAlgByKeyAndName(f, d);
@@ -9600,9 +10861,9 @@ KJUR.crypto.Cipher.encrypt = function (e, f, d) {
         if (b !== null) {
             return f.encryptOAEP(e, "sha" + b[1])
         }
-        throw"Cipher.encrypt: unsupported algorithm for RSAKey: " + d
+        throw "Cipher.encrypt: unsupported algorithm for RSAKey: " + d
     } else {
-        throw"Cipher.encrypt: unsupported key or algorithm"
+        throw "Cipher.encrypt: unsupported key or algorithm"
     }
 };
 KJUR.crypto.Cipher.decrypt = function (e, f, d) {
@@ -9618,9 +10879,9 @@ KJUR.crypto.Cipher.decrypt = function (e, f, d) {
         if (b !== null) {
             return f.decryptOAEP(e, "sha" + b[1])
         }
-        throw"Cipher.decrypt: unsupported algorithm for RSAKey: " + d
+        throw "Cipher.decrypt: unsupported algorithm for RSAKey: " + d
     } else {
-        throw"Cipher.decrypt: unsupported key or algorithm"
+        throw "Cipher.decrypt: unsupported key or algorithm"
     }
 };
 KJUR.crypto.Cipher.getAlgByKeyAndName = function (b, a) {
@@ -9631,9 +10892,9 @@ KJUR.crypto.Cipher.getAlgByKeyAndName = function (b, a) {
         if (a === null || a === undefined) {
             return "RSA"
         }
-        throw"getAlgByKeyAndName: not supported algorithm name for RSAKey: " + a
+        throw "getAlgByKeyAndName: not supported algorithm name for RSAKey: " + a
     }
-    throw"getAlgByKeyAndName: not supported algorithm name: " + a
+    throw "getAlgByKeyAndName: not supported algorithm name: " + a
 };
 KJUR.crypto.OID = new function () {
     this.oidhex2name = {
@@ -9662,7 +10923,10 @@ KJUR.crypto.ECDSA = function (d) {
     var l = null;
     var b = null;
     var h = null;
-    var e = BigInteger, g = ECPointFp, j = KJUR.crypto.ECDSA, c = KJUR.crypto.ECParameterDB;
+    var e = BigInteger,
+        g = ECPointFp,
+        j = KJUR.crypto.ECDSA,
+        c = KJUR.crypto.ECParameterDB;
     var a = new SecureRandom();
     var k = null;
     this.type = "EC";
@@ -9690,7 +10954,6 @@ KJUR.crypto.ECDSA = function (d) {
         }
         return r
     }
-
     this.getBigRandom = function (m) {
         return new e(m.bitLength(), a).mod(m.subtract(e.ONE)).add(e.ONE)
     };
@@ -9711,11 +10974,11 @@ KJUR.crypto.ECDSA = function (d) {
     this.getPublicKeyXYHex = function () {
         var o = this.pubKeyHex;
         if (o.substr(0, 2) !== "04") {
-            throw"this method supports uncompressed format(04) only"
+            throw "this method supports uncompressed format(04) only"
         }
         var n = this.ecparams.keylen / 4;
         if (o.length !== 2 + n * 2) {
-            throw"malformed public key hex length"
+            throw "malformed public key hex length"
         }
         var m = {};
         m.x = o.substr(2, n);
@@ -9745,7 +11008,10 @@ KJUR.crypto.ECDSA = function (d) {
         var n = "04" + v + t;
         this.setPrivateKeyHex(q);
         this.setPublicKeyHex(n);
-        return {ecprvhex: q, ecpubhex: n}
+        return {
+            ecprvhex: q,
+            ecpubhex: n
+        }
     };
     this.signWithMessageHash = function (m) {
         return this.signHex(m, this.prvKeyHex)
@@ -9779,14 +11045,18 @@ KJUR.crypto.ECDSA = function (d) {
     this.verifyWithMessageHash = function (n, m) {
         return this.verifyHex(n, m, this.pubKeyHex)
     };
-    this.verifyHex = function (q, m, v) {
-        var p, n;
-        var u = j.parseSigHex(m);
-        p = u.r;
-        n = u.s;
-        var o = g.decodeFromHex(this.ecparams.curve, v);
-        var t = new e(q.substring(0, this.ecparams.keylen / 4), 16);
-        return this.verifyRaw(t, p, n, o)
+    this.verifyHex = function (o, t, n) {
+        try {
+            var m, w;
+            var p = j.parseSigHex(t);
+            m = p.r;
+            w = p.s;
+            var q = g.decodeFromHex(this.ecparams.curve, n);
+            var u = new e(o.substring(0, this.ecparams.keylen / 4), 16);
+            return this.verifyRaw(u, m, w, q)
+        } catch (v) {
+            return false
+        }
     };
     this.verify = function (u, v, n) {
         var p, m;
@@ -9799,7 +11069,7 @@ KJUR.crypto.ECDSA = function (d) {
                 p = v.r;
                 m = v.s
             } else {
-                throw"Invalid value for signature"
+                throw "Invalid value for signature"
             }
         }
         var o;
@@ -9809,7 +11079,7 @@ KJUR.crypto.ECDSA = function (d) {
             if (Bitcoin.Util.isArray(n)) {
                 o = g.decodeFrom(this.ecparams.curve, n)
             } else {
-                throw"Invalid format for pubkey value, must be byte array or ECPointFp"
+                throw "Invalid format for pubkey value, must be byte array or ECPointFp"
             }
         }
         var q = e.fromByteArrayUnsigned(u);
@@ -9863,25 +11133,34 @@ KJUR.crypto.ECDSA = function (d) {
         q += 2 + t[q + 1];
         var o = e.fromByteArrayUnsigned(p);
         var n = e.fromByteArrayUnsigned(m);
-        return {r: o, s: n}
+        return {
+            r: o,
+            s: n
+        }
     };
     this.parseSigCompact = function (q) {
         if (q.length !== 65) {
-            throw"Signature has the wrong length"
+            throw "Signature has the wrong length"
         }
         var m = q[0] - 27;
         if (m < 0 || m > 7) {
-            throw"Invalid signature type"
+            throw "Invalid signature type"
         }
         var t = this.ecparams.n;
         var p = e.fromByteArrayUnsigned(q.slice(1, 33)).mod(t);
         var o = e.fromByteArrayUnsigned(q.slice(33, 65)).mod(t);
-        return {r: p, s: o, i: m}
+        return {
+            r: p,
+            s: o,
+            i: m
+        }
     };
     this.readPKCS5PrvKeyHex = function (p) {
-        var r = ASN1HEX, q = j.getName, t = r.getVbyList;
+        var r = ASN1HEX,
+            q = j.getName,
+            t = r.getVbyList;
         if (r.isASN1HEX(p) === false) {
-            throw"not ASN.1 hex string"
+            throw "not ASN.1 hex string"
         }
         var m, o, s;
         try {
@@ -9889,14 +11168,13 @@ KJUR.crypto.ECDSA = function (d) {
             o = t(p, 0, [1], "04");
             try {
                 s = t(p, 0, [3, 0], "03").substr(2)
-            } catch (n) {
-            }
+            } catch (n) {}
         } catch (n) {
-            throw"malformed PKCS#1/5 plain ECC private key"
+            throw "malformed PKCS#1/5 plain ECC private key"
         }
         this.curveName = q(m);
         if (this.curveName === undefined) {
-            throw"unsupported curve name"
+            throw "unsupported curve name"
         }
         this.setNamedCurve(this.curveName);
         this.setPublicKeyHex(s);
@@ -9908,7 +11186,7 @@ KJUR.crypto.ECDSA = function (d) {
         var m = KJUR.crypto.ECDSA.getName;
         var r = u.getVbyList;
         if (u.isASN1HEX(p) === false) {
-            throw"not ASN.1 hex string"
+            throw "not ASN.1 hex string"
         }
         var n, t, q, o;
         try {
@@ -9917,14 +11195,13 @@ KJUR.crypto.ECDSA = function (d) {
             q = r(p, 0, [2, 0, 1], "04");
             try {
                 o = r(p, 0, [2, 0, 2, 0], "03").substr(2)
-            } catch (s) {
-            }
+            } catch (s) {}
         } catch (s) {
-            throw"malformed PKCS#8 plain ECC private key"
+            throw "malformed PKCS#8 plain ECC private key"
         }
         this.curveName = m(t);
         if (this.curveName === undefined) {
-            throw"unsupported curve name"
+            throw "unsupported curve name"
         }
         this.setNamedCurve(this.curveName);
         this.setPublicKeyHex(o);
@@ -9936,7 +11213,7 @@ KJUR.crypto.ECDSA = function (d) {
         var q = KJUR.crypto.ECDSA.getName;
         var t = r.getVbyList;
         if (r.isASN1HEX(p) === false) {
-            throw"not ASN.1 hex string"
+            throw "not ASN.1 hex string"
         }
         var o, m, s;
         try {
@@ -9944,11 +11221,11 @@ KJUR.crypto.ECDSA = function (d) {
             m = t(p, 0, [0, 1], "06");
             s = t(p, 0, [1], "03").substr(2)
         } catch (n) {
-            throw"malformed PKCS#8 ECC public key"
+            throw "malformed PKCS#8 ECC public key"
         }
         this.curveName = q(m);
         if (this.curveName === null) {
-            throw"unsupported curve name"
+            throw "unsupported curve name"
         }
         this.setNamedCurve(this.curveName);
         this.setPublicKeyHex(s)
@@ -9961,18 +11238,18 @@ KJUR.crypto.ECDSA = function (d) {
         var p = j.getName;
         var s = q.getVbyList;
         if (q.isASN1HEX(o) === false) {
-            throw"not ASN.1 hex string"
+            throw "not ASN.1 hex string"
         }
         var m, r;
         try {
             m = s(o, 0, [0, t, 0, 1], "06");
             r = s(o, 0, [0, t, 1], "03").substr(2)
         } catch (n) {
-            throw"malformed X.509 certificate ECC public key"
+            throw "malformed X.509 certificate ECC public key"
         }
         this.curveName = p(m);
         if (this.curveName === null) {
-            throw"unsupported curve name"
+            throw "unsupported curve name"
         }
         this.setNamedCurve(this.curveName);
         this.setPublicKeyHex(r)
@@ -9999,28 +11276,37 @@ KJUR.crypto.ECDSA.parseSigHex = function (a) {
     var b = KJUR.crypto.ECDSA.parseSigHexInHexRS(a);
     var d = new BigInteger(b.r, 16);
     var c = new BigInteger(b.s, 16);
-    return {r: d, s: c}
+    return {
+        r: d,
+        s: c
+    }
 };
 KJUR.crypto.ECDSA.parseSigHexInHexRS = function (f) {
-    var j = ASN1HEX, i = j.getChildIdx, g = j.getV;
+    var j = ASN1HEX,
+        i = j.getChildIdx,
+        g = j.getV;
+    j.checkStrictDER(f, 0);
     if (f.substr(0, 2) != "30") {
-        throw"signature is not a ASN.1 sequence"
+        throw new Error("signature is not a ASN.1 sequence")
     }
     var h = i(f, 0);
     if (h.length != 2) {
-        throw"number of signature ASN.1 sequence elements seem wrong"
+        throw new Error("signature shall have two elements")
     }
     var e = h[0];
     var d = h[1];
     if (f.substr(e, 2) != "02") {
-        throw"1st item of sequene of signature is not ASN.1 integer"
+        throw new Error("1st item not ASN.1 integer")
     }
     if (f.substr(d, 2) != "02") {
-        throw"2nd item of sequene of signature is not ASN.1 integer"
+        throw new Error("2nd item not ASN.1 integer")
     }
     var c = g(f, e);
     var b = g(f, d);
-    return {r: c, s: b}
+    return {
+        r: c,
+        s: b
+    }
 };
 KJUR.crypto.ECDSA.asn1SigToConcatSig = function (c) {
     var d = KJUR.crypto.ECDSA.parseSigHexInHexRS(c);
@@ -10039,16 +11325,16 @@ KJUR.crypto.ECDSA.asn1SigToConcatSig = function (c) {
         a = "00" + a
     }
     if (b.length % 32 != 0) {
-        throw"unknown ECDSA sig r length error"
+        throw "unknown ECDSA sig r length error"
     }
     if (a.length % 32 != 0) {
-        throw"unknown ECDSA sig s length error"
+        throw "unknown ECDSA sig s length error"
     }
     return b + a
 };
 KJUR.crypto.ECDSA.concatSigToASN1Sig = function (a) {
     if ((((a.length / 2) * 8) % (16 * 8)) != 0) {
-        throw"unknown ECDSA concatinated r-s sig  length error"
+        throw "unknown ECDSA concatinated r-s sig  length error"
     }
     var c = a.substr(0, a.length / 2);
     var b = a.substr(a.length / 2);
@@ -10061,9 +11347,15 @@ KJUR.crypto.ECDSA.hexRSSigToASN1Sig = function (b, a) {
 };
 KJUR.crypto.ECDSA.biRSSigToASN1Sig = function (f, d) {
     var c = KJUR.asn1;
-    var b = new c.DERInteger({bigint: f});
-    var a = new c.DERInteger({bigint: d});
-    var e = new c.DERSequence({array: [b, a]});
+    var b = new c.DERInteger({
+        bigint: f
+    });
+    var a = new c.DERInteger({
+        bigint: d
+    });
+    var e = new c.DERSequence({
+        array: [b, a]
+    });
     return e.getEncodedHex()
 };
 KJUR.crypto.ECDSA.getName = function (a) {
@@ -10109,7 +11401,6 @@ KJUR.crypto.ECParameterDB = new function () {
     function a(d) {
         return new BigInteger(d, 16)
     }
-
     this.getByName = function (e) {
         var d = e;
         if (typeof c[d] != "undefined") {
@@ -10118,7 +11409,7 @@ KJUR.crypto.ECParameterDB = new function () {
         if (typeof b[d] != "undefined") {
             return b[d]
         }
-        throw"unregistered EC curve name: " + d
+        throw "unregistered EC curve name: " + d
     };
     this.regist = function (A, l, o, g, m, e, j, f, k, u, d, x) {
         b[A] = {};
@@ -10215,7 +11506,17 @@ KJUR.crypto.DSA = function () {
         var h = new BigInteger(l, 16);
         var a = (f.modPow(e, c)).mod(b);
         var n = (e.modInverse(b).multiply(h.add(j.multiply(a)))).mod(b);
-        var m = KJUR.asn1.ASN1Util.jsonToASN1HEX({seq: [{"int": {bigint: a}}, {"int": {bigint: n}}]});
+        var m = KJUR.asn1.ASN1Util.jsonToASN1HEX({
+            seq: [{
+                "int": {
+                    bigint: a
+                }
+            }, {
+                "int": {
+                    bigint: n
+                }
+            }]
+        });
         return m
     };
     this.verifyWithMessageHash = function (h, f) {
@@ -10229,10 +11530,10 @@ KJUR.crypto.DSA = function () {
         var o = h.substr(0, b.bitLength() / 4);
         var k = new BigInteger(o, 16);
         if (BigInteger.ZERO.compareTo(a) > 0 || a.compareTo(b) > 0) {
-            throw"invalid DSA signature"
+            throw "invalid DSA signature"
         }
         if (BigInteger.ZERO.compareTo(t) >= 0 || t.compareTo(b) > 0) {
-            throw"invalid DSA signature"
+            throw "invalid DSA signature"
         }
         var m = t.modInverse(b);
         var e = k.multiply(m).mod(b);
@@ -10246,7 +11547,7 @@ KJUR.crypto.DSA = function () {
             var c = new BigInteger(ASN1HEX.getVbyList(a, 0, [1], "02"), 16);
             return [d, c]
         } catch (b) {
-            throw"malformed ASN.1 DSA signature"
+            throw "malformed ASN.1 DSA signature"
         }
     };
     this.readPKCS5PrvKeyHex = function (c) {
@@ -10254,7 +11555,7 @@ KJUR.crypto.DSA = function () {
         var j = ASN1HEX;
         var d = j.getVbyList;
         if (j.isASN1HEX(c) === false) {
-            throw"not ASN.1 hex string"
+            throw "not ASN.1 hex string"
         }
         try {
             b = d(c, 0, [1], "02");
@@ -10264,7 +11565,7 @@ KJUR.crypto.DSA = function () {
             i = d(c, 0, [5], "02")
         } catch (e) {
             console.log("EXCEPTION:" + e);
-            throw"malformed PKCS#1/5 plain DSA private key"
+            throw "malformed PKCS#1/5 plain DSA private key"
         }
         this.setPrivateHex(b, a, f, g, i)
     };
@@ -10273,7 +11574,7 @@ KJUR.crypto.DSA = function () {
         var e = ASN1HEX;
         var i = e.getVbyList;
         if (e.isASN1HEX(d) === false) {
-            throw"not ASN.1 hex string"
+            throw "not ASN.1 hex string"
         }
         try {
             f = i(d, 0, [1, 1, 0], "02");
@@ -10282,7 +11583,7 @@ KJUR.crypto.DSA = function () {
             g = i(d, 0, [2, 0], "02")
         } catch (a) {
             console.log("EXCEPTION:" + a);
-            throw"malformed PKCS#8 plain DSA private key"
+            throw "malformed PKCS#8 plain DSA private key"
         }
         this.setPrivateHex(f, c, b, null, g)
     };
@@ -10291,7 +11592,7 @@ KJUR.crypto.DSA = function () {
         var e = ASN1HEX;
         var i = e.getVbyList;
         if (e.isASN1HEX(d) === false) {
-            throw"not ASN.1 hex string"
+            throw "not ASN.1 hex string"
         }
         try {
             f = i(d, 0, [0, 1, 0], "02");
@@ -10300,7 +11601,7 @@ KJUR.crypto.DSA = function () {
             g = i(d, 0, [1, 0], "02")
         } catch (a) {
             console.log("EXCEPTION:" + a);
-            throw"malformed PKCS#8 DSA public key"
+            throw "malformed PKCS#8 DSA public key"
         }
         this.setPublicHex(f, c, b, g)
     };
@@ -10312,7 +11613,7 @@ KJUR.crypto.DSA = function () {
         var j = ASN1HEX;
         var d = j.getVbyList;
         if (j.isASN1HEX(c) === false) {
-            throw"not ASN.1 hex string"
+            throw "not ASN.1 hex string"
         }
         try {
             b = d(c, 0, [0, f, 0, 1, 0], "02");
@@ -10321,7 +11622,7 @@ KJUR.crypto.DSA = function () {
             i = d(c, 0, [0, f, 1, 0], "02")
         } catch (e) {
             console.log("EXCEPTION:" + e);
-            throw"malformed X.509 certificate DSA public key"
+            throw "malformed X.509 certificate DSA public key"
         }
         this.setPublicHex(b, a, g, i)
     }
@@ -10344,7 +11645,9 @@ var KEYUTIL = function () {
         t.key = w;
         t.iv = p;
         t.ciphertext = r;
-        var v = s.decrypt(t, w, {iv: p});
+        var v = s.decrypt(t, w, {
+            iv: p
+        });
         return CryptoJS.enc.Hex.stringify(v)
     };
     var l = function (p, r, q) {
@@ -10360,17 +11663,44 @@ var KEYUTIL = function () {
         var s = CryptoJS.enc.Hex.parse(y);
         var x = CryptoJS.enc.Hex.parse(v);
         var p = CryptoJS.enc.Hex.parse(q);
-        var w = t.encrypt(s, x, {iv: p});
+        var w = t.encrypt(s, x, {
+            iv: p
+        });
         var r = CryptoJS.enc.Hex.parse(w.toString());
         var u = CryptoJS.enc.Base64.stringify(r);
         return u
     };
     var i = {
-        "AES-256-CBC": {proc: d, eproc: l, keylen: 32, ivlen: 16},
-        "AES-192-CBC": {proc: d, eproc: l, keylen: 24, ivlen: 16},
-        "AES-128-CBC": {proc: d, eproc: l, keylen: 16, ivlen: 16},
-        "DES-EDE3-CBC": {proc: e, eproc: o, keylen: 24, ivlen: 8},
-        "DES-CBC": {proc: a, eproc: f, keylen: 8, ivlen: 8}
+        "AES-256-CBC": {
+            proc: d,
+            eproc: l,
+            keylen: 32,
+            ivlen: 16
+        },
+        "AES-192-CBC": {
+            proc: d,
+            eproc: l,
+            keylen: 24,
+            ivlen: 16
+        },
+        "AES-128-CBC": {
+            proc: d,
+            eproc: l,
+            keylen: 16,
+            ivlen: 16
+        },
+        "DES-EDE3-CBC": {
+            proc: e,
+            eproc: o,
+            keylen: 24,
+            ivlen: 8
+        },
+        "DES-CBC": {
+            proc: a,
+            eproc: f,
+            keylen: 8,
+            ivlen: 8
+        }
     };
     var c = function (p) {
         return i[p]["proc"]
@@ -10416,7 +11746,7 @@ var KEYUTIL = function () {
         var u = i[q]["keylen"] + i[q]["ivlen"];
         var x = "";
         var w = null;
-        for (; ;) {
+        for (;;) {
             var s = CryptoJS.algo.MD5.create();
             if (w != null) {
                 s.update(w)
@@ -10447,13 +11777,17 @@ var KEYUTIL = function () {
         return t
     };
     return {
-        version: "1.0.0", parsePKCS5PEM: function (p) {
+        version: "1.0.0",
+        parsePKCS5PEM: function (p) {
             return n(p)
-        }, getKeyAndUnusedIvByPasscodeAndIvsalt: function (q, p, r) {
+        },
+        getKeyAndUnusedIvByPasscodeAndIvsalt: function (q, p, r) {
             return j(q, p, r)
-        }, decryptKeyB64: function (p, r, q, s) {
+        },
+        decryptKeyB64: function (p, r, q, s) {
             return b(p, r, q, s)
-        }, getDecryptedKeyHex: function (y, x) {
+        },
+        getDecryptedKeyHex: function (y, x) {
             var q = n(y);
             var t = q.type;
             var r = q.cipher;
@@ -10463,13 +11797,14 @@ var KEYUTIL = function () {
             var v = w.keyhex;
             var u = b(s, r, v, p);
             return u
-        }, getEncryptedPKCS5PEMFromPrvKeyHex: function (x, s, A, t, r) {
+        },
+        getEncryptedPKCS5PEMFromPrvKeyHex: function (x, s, A, t, r) {
             var p = "";
             if (typeof t == "undefined" || t == null) {
                 t = "AES-256-CBC"
             }
             if (typeof i[t] == "undefined") {
-                throw"KEYUTIL unsupported algorithm: " + t
+                throw "KEYUTIL unsupported algorithm: " + t
             }
             if (typeof r == "undefined" || r == null) {
                 var v = i[t]["ivlen"];
@@ -10487,62 +11822,68 @@ var KEYUTIL = function () {
             p += q;
             p += "\r\n-----END " + x + " PRIVATE KEY-----\r\n";
             return p
-        }, parseHexOfEncryptedPKCS8: function (y) {
+        },
+        parseHexOfEncryptedPKCS8: function (y) {
             var B = ASN1HEX;
             var z = B.getChildIdx;
             var w = B.getV;
             var t = {};
             var r = z(y, 0);
             if (r.length != 2) {
-                throw"malformed format: SEQUENCE(0).items != 2: " + r.length
+                throw "malformed format: SEQUENCE(0).items != 2: " + r.length
             }
             t.ciphertext = w(y, r[1]);
             var A = z(y, r[0]);
             if (A.length != 2) {
-                throw"malformed format: SEQUENCE(0.0).items != 2: " + A.length
+                throw "malformed format: SEQUENCE(0.0).items != 2: " + A.length
             }
             if (w(y, A[0]) != "2a864886f70d01050d") {
-                throw"this only supports pkcs5PBES2"
+                throw "this only supports pkcs5PBES2"
             }
             var p = z(y, A[1]);
             if (A.length != 2) {
-                throw"malformed format: SEQUENCE(0.0.1).items != 2: " + p.length
+                throw "malformed format: SEQUENCE(0.0.1).items != 2: " + p.length
             }
             var q = z(y, p[1]);
             if (q.length != 2) {
-                throw"malformed format: SEQUENCE(0.0.1.1).items != 2: " + q.length
+                throw "malformed format: SEQUENCE(0.0.1.1).items != 2: " + q.length
             }
             if (w(y, q[0]) != "2a864886f70d0307") {
-                throw"this only supports TripleDES"
+                throw "this only supports TripleDES"
             }
             t.encryptionSchemeAlg = "TripleDES";
             t.encryptionSchemeIV = w(y, q[1]);
             var s = z(y, p[0]);
             if (s.length != 2) {
-                throw"malformed format: SEQUENCE(0.0.1.0).items != 2: " + s.length
+                throw "malformed format: SEQUENCE(0.0.1.0).items != 2: " + s.length
             }
             if (w(y, s[0]) != "2a864886f70d01050c") {
-                throw"this only supports pkcs5PBKDF2"
+                throw "this only supports pkcs5PBKDF2"
             }
             var x = z(y, s[1]);
             if (x.length < 2) {
-                throw"malformed format: SEQUENCE(0.0.1.0.1).items < 2: " + x.length
+                throw "malformed format: SEQUENCE(0.0.1.0.1).items < 2: " + x.length
             }
             t.pbkdf2Salt = w(y, x[0]);
             var u = w(y, x[1]);
             try {
                 t.pbkdf2Iter = parseInt(u, 16)
             } catch (v) {
-                throw"malformed format pbkdf2Iter: " + u
+                throw "malformed format pbkdf2Iter: " + u
             }
             return t
-        }, getPBKDF2KeyHexFromParam: function (u, p) {
+        },
+        getPBKDF2KeyHexFromParam: function (u, p) {
             var t = CryptoJS.enc.Hex.parse(u.pbkdf2Salt);
             var q = u.pbkdf2Iter;
-            var s = CryptoJS.PBKDF2(p, t, {keySize: 192 / 32, iterations: q});
+            var s = CryptoJS.PBKDF2(p, t, {
+                keySize: 192 / 32,
+                iterations: q
+            });
             var r = CryptoJS.enc.Hex.stringify(s);
             return r
-        }, _getPlainPKCS8HexFromEncryptedPKCS8PEM: function (x, y) {
+        },
+        _getPlainPKCS8HexFromEncryptedPKCS8PEM: function (x, y) {
             var r = pemtohex(x, "ENCRYPTED PRIVATE KEY");
             var p = this.parseHexOfEncryptedPKCS8(r);
             var u = KEYUTIL.getPBKDF2KeyHexFromParam(p, y);
@@ -10550,50 +11891,56 @@ var KEYUTIL = function () {
             v.ciphertext = CryptoJS.enc.Hex.parse(p.ciphertext);
             var t = CryptoJS.enc.Hex.parse(u);
             var s = CryptoJS.enc.Hex.parse(p.encryptionSchemeIV);
-            var w = CryptoJS.TripleDES.decrypt(v, t, {iv: s});
+            var w = CryptoJS.TripleDES.decrypt(v, t, {
+                iv: s
+            });
             var q = CryptoJS.enc.Hex.stringify(w);
             return q
-        }, getKeyFromEncryptedPKCS8PEM: function (s, q) {
+        },
+        getKeyFromEncryptedPKCS8PEM: function (s, q) {
             var p = this._getPlainPKCS8HexFromEncryptedPKCS8PEM(s, q);
             var r = this.getKeyFromPlainPrivatePKCS8Hex(p);
             return r
-        }, parsePlainPrivatePKCS8Hex: function (s) {
+        },
+        parsePlainPrivatePKCS8Hex: function (s) {
             var v = ASN1HEX;
             var u = v.getChildIdx;
             var t = v.getV;
             var q = {};
             q.algparam = null;
             if (s.substr(0, 2) != "30") {
-                throw"malformed plain PKCS8 private key(code:001)"
+                throw "malformed plain PKCS8 private key(code:001)"
             }
             var r = u(s, 0);
             if (r.length != 3) {
-                throw"malformed plain PKCS8 private key(code:002)"
+                throw "malformed plain PKCS8 private key(code:002)"
             }
             if (s.substr(r[1], 2) != "30") {
-                throw"malformed PKCS8 private key(code:003)"
+                throw "malformed PKCS8 private key(code:003)"
             }
             var p = u(s, r[1]);
             if (p.length != 2) {
-                throw"malformed PKCS8 private key(code:004)"
+                throw "malformed PKCS8 private key(code:004)"
             }
             if (s.substr(p[0], 2) != "06") {
-                throw"malformed PKCS8 private key(code:005)"
+                throw "malformed PKCS8 private key(code:005)"
             }
             q.algoid = t(s, p[0]);
             if (s.substr(p[1], 2) == "06") {
                 q.algparam = t(s, p[1])
             }
             if (s.substr(r[2], 2) != "04") {
-                throw"malformed PKCS8 private key(code:006)"
+                throw "malformed PKCS8 private key(code:006)"
             }
             q.keyidx = v.getVidx(s, r[2]);
             return q
-        }, getKeyFromPlainPrivatePKCS8PEM: function (q) {
+        },
+        getKeyFromPlainPrivatePKCS8PEM: function (q) {
             var p = pemtohex(q, "PRIVATE KEY");
             var r = this.getKeyFromPlainPrivatePKCS8Hex(p);
             return r
-        }, getKeyFromPlainPrivatePKCS8Hex: function (p) {
+        },
+        getKeyFromPlainPrivatePKCS8Hex: function (p) {
             var q = this.parsePlainPrivatePKCS8Hex(p);
             var r;
             if (q.algoid == "2a864886f70d010101") {
@@ -10605,13 +11952,14 @@ var KEYUTIL = function () {
                     if (q.algoid == "2a8648ce3d0201") {
                         r = new KJUR.crypto.ECDSA()
                     } else {
-                        throw"unsupported private key algorithm"
+                        throw "unsupported private key algorithm"
                     }
                 }
             }
             r.readPKCS8PrvKeyHex(p);
             return r
-        }, _getKeyFromPublicPKCS8Hex: function (q) {
+        },
+        _getKeyFromPublicPKCS8Hex: function (q) {
             var p;
             var r = ASN1HEX.getVbyList(q, 0, [0, 0], "06");
             if (r === "2a864886f70d010101") {
@@ -10623,34 +11971,36 @@ var KEYUTIL = function () {
                     if (r === "2a8648ce3d0201") {
                         p = new KJUR.crypto.ECDSA()
                     } else {
-                        throw"unsupported PKCS#8 public key hex"
+                        throw "unsupported PKCS#8 public key hex"
                     }
                 }
             }
             p.readPKCS8PubKeyHex(q);
             return p
-        }, parsePublicRawRSAKeyHex: function (r) {
+        },
+        parsePublicRawRSAKeyHex: function (r) {
             var u = ASN1HEX;
             var t = u.getChildIdx;
             var s = u.getV;
             var p = {};
             if (r.substr(0, 2) != "30") {
-                throw"malformed RSA key(code:001)"
+                throw "malformed RSA key(code:001)"
             }
             var q = t(r, 0);
             if (q.length != 2) {
-                throw"malformed RSA key(code:002)"
+                throw "malformed RSA key(code:002)"
             }
             if (r.substr(q[0], 2) != "02") {
-                throw"malformed RSA key(code:003)"
+                throw "malformed RSA key(code:003)"
             }
             p.n = s(r, q[0]);
             if (r.substr(q[1], 2) != "02") {
-                throw"malformed RSA key(code:004)"
+                throw "malformed RSA key(code:004)"
             }
             p.e = s(r, q[1]);
             return p
-        }, parsePublicPKCS8Hex: function (t) {
+        },
+        parsePublicPKCS8Hex: function (t) {
             var v = ASN1HEX;
             var u = v.getChildIdx;
             var s = v.getV;
@@ -10658,18 +12008,18 @@ var KEYUTIL = function () {
             q.algparam = null;
             var r = u(t, 0);
             if (r.length != 2) {
-                throw"outer DERSequence shall have 2 elements: " + r.length
+                throw "outer DERSequence shall have 2 elements: " + r.length
             }
             var w = r[0];
             if (t.substr(w, 2) != "30") {
-                throw"malformed PKCS8 public key(code:001)"
+                throw "malformed PKCS8 public key(code:001)"
             }
             var p = u(t, w);
             if (p.length != 2) {
-                throw"malformed PKCS8 public key(code:002)"
+                throw "malformed PKCS8 public key(code:002)"
             }
             if (t.substr(p[0], 2) != "06") {
-                throw"malformed PKCS8 public key(code:003)"
+                throw "malformed PKCS8 public key(code:003)"
             }
             q.algoid = s(t, p[0]);
             if (t.substr(p[1], 2) == "06") {
@@ -10683,7 +12033,7 @@ var KEYUTIL = function () {
                 }
             }
             if (t.substr(r[1], 2) != "03") {
-                throw"malformed PKCS8 public key(code:004)"
+                throw "malformed PKCS8 public key(code:004)"
             }
             q.key = s(t, r[1]).substr(2);
             return q
@@ -10691,8 +12041,16 @@ var KEYUTIL = function () {
     }
 }();
 KEYUTIL.getKey = function (l, k, n) {
-    var G = ASN1HEX, L = G.getChildIdx, v = G.getV, d = G.getVbyList, c = KJUR.crypto, i = c.ECDSA, C = c.DSA,
-        w = RSAKey, M = pemtohex, F = KEYUTIL;
+    var G = ASN1HEX,
+        L = G.getChildIdx,
+        v = G.getV,
+        d = G.getVbyList,
+        c = KJUR.crypto,
+        i = c.ECDSA,
+        C = c.DSA,
+        w = RSAKey,
+        M = pemtohex,
+        F = KEYUTIL;
     if (typeof w != "undefined" && l instanceof w) {
         return l
     }
@@ -10703,10 +12061,16 @@ KEYUTIL.getKey = function (l, k, n) {
         return l
     }
     if (l.curve !== undefined && l.xy !== undefined && l.d === undefined) {
-        return new i({pub: l.xy, curve: l.curve})
+        return new i({
+            pub: l.xy,
+            curve: l.curve
+        })
     }
     if (l.curve !== undefined && l.d !== undefined) {
-        return new i({prv: l.d, curve: l.curve})
+        return new i({
+            prv: l.d,
+            curve: l.curve
+        })
     }
     if (l.kty === undefined && l.n !== undefined && l.e !== undefined && l.d === undefined) {
         var P = new w();
@@ -10749,7 +12113,9 @@ KEYUTIL.getKey = function (l, k, n) {
         return P
     }
     if (l.kty === "EC" && l.crv !== undefined && l.x !== undefined && l.y !== undefined && l.d === undefined) {
-        var j = new i({curve: l.crv});
+        var j = new i({
+            curve: l.crv
+        });
         var t = j.ecparams.keylen / 4;
         var B = ("0000000000" + b64utohex(l.x)).slice(-t);
         var z = ("0000000000" + b64utohex(l.y)).slice(-t);
@@ -10758,7 +12124,9 @@ KEYUTIL.getKey = function (l, k, n) {
         return j
     }
     if (l.kty === "EC" && l.crv !== undefined && l.x !== undefined && l.y !== undefined && l.d !== undefined) {
-        var j = new i({curve: l.crv});
+        var j = new i({
+            curve: l.crv
+        });
         var t = j.ecparams.keylen / 4;
         var B = ("0000000000" + b64utohex(l.x)).slice(-t);
         var z = ("0000000000" + b64utohex(l.y)).slice(-t);
@@ -10769,7 +12137,9 @@ KEYUTIL.getKey = function (l, k, n) {
         return j
     }
     if (n === "pkcs5prv") {
-        var J = l, G = ASN1HEX, N, P;
+        var J = l,
+            G = ASN1HEX,
+            N, P;
         N = L(J, 0);
         if (N.length === 9) {
             P = new w();
@@ -10783,7 +12153,7 @@ KEYUTIL.getKey = function (l, k, n) {
                     P = new i();
                     P.readPKCS5PrvKeyHex(J)
                 } else {
-                    throw"unsupported PKCS#1/5 hexadecimal key"
+                    throw "unsupported PKCS#1/5 hexadecimal key"
                 }
             }
         }
@@ -10843,9 +12213,11 @@ KEYUTIL.getKey = function (l, k, n) {
         if (KJUR.crypto.OID.oidhex2name[f] !== undefined) {
             e = KJUR.crypto.OID.oidhex2name[f]
         } else {
-            throw"undefined OID(hex) in KJUR.crypto.OID: " + f
+            throw "undefined OID(hex) in KJUR.crypto.OID: " + f
         }
-        var j = new i({curve: e});
+        var j = new i({
+            curve: e
+        });
         j.setPublicKeyHex(A);
         j.setPrivateKeyHex(P);
         j.isPublic = false;
@@ -10865,7 +12237,7 @@ KEYUTIL.getKey = function (l, k, n) {
     if (l.indexOf("-END ENCRYPTED PRIVATE KEY-") != -1) {
         return F.getKeyFromEncryptedPKCS8PEM(l, k)
     }
-    throw"not supported argument"
+    throw "not supported argument"
 };
 KEYUTIL.generateKeypair = function (a, c) {
     if (a == "RSA") {
@@ -10873,7 +12245,7 @@ KEYUTIL.generateKeypair = function (a, c) {
         var h = new RSAKey();
         h.generate(b, "10001");
         h.isPrivate = true;
-        h.isPublic = false;     // = true; ---> = false;
+        h.isPublic = true;
         var f = new RSAKey();
         var e = h.n.toString(16);
         var i = h.e.toString(16);
@@ -10887,14 +12259,20 @@ KEYUTIL.generateKeypair = function (a, c) {
     } else {
         if (a == "EC") {
             var d = c;
-            var g = new KJUR.crypto.ECDSA({curve: d});
+            var g = new KJUR.crypto.ECDSA({
+                curve: d
+            });
             var j = g.generateKeyPairHex();
-            var h = new KJUR.crypto.ECDSA({curve: d});
+            var h = new KJUR.crypto.ECDSA({
+                curve: d
+            });
             h.setPublicKeyHex(j.ecpubhex);
             h.setPrivateKeyHex(j.ecprvhex);
             h.isPrivate = true;
             h.isPublic = false;
-            var f = new KJUR.crypto.ECDSA({curve: d});
+            var f = new KJUR.crypto.ECDSA({
+                curve: d
+            });
             f.setPublicKeyHex(j.ecpubhex);
             f.isPrivate = false;
             f.isPublic = true;
@@ -10903,29 +12281,115 @@ KEYUTIL.generateKeypair = function (a, c) {
             k.pubKeyObj = f;
             return k
         } else {
-            throw"unknown algorithm: " + a
+            throw "unknown algorithm: " + a
         }
     }
 };
 KEYUTIL.getPEM = function (b, D, y, m, q, j) {
-    var F = KJUR, k = F.asn1, z = k.DERObjectIdentifier, f = k.DERInteger, l = k.ASN1Util.newObject, a = k.x509,
-        C = a.SubjectPublicKeyInfo, e = F.crypto, u = e.DSA, r = e.ECDSA, n = RSAKey;
+    var F = KJUR,
+        k = F.asn1,
+        z = k.DERObjectIdentifier,
+        f = k.DERInteger,
+        l = k.ASN1Util.newObject,
+        a = k.x509,
+        C = a.SubjectPublicKeyInfo,
+        e = F.crypto,
+        u = e.DSA,
+        r = e.ECDSA,
+        n = RSAKey;
 
     function A(s) {
-        var G = l({seq: [{"int": 0}, {"int": {bigint: s.n}}, {"int": s.e}, {"int": {bigint: s.d}}, {"int": {bigint: s.p}}, {"int": {bigint: s.q}}, {"int": {bigint: s.dmp1}}, {"int": {bigint: s.dmq1}}, {"int": {bigint: s.coeff}}]});
+        var G = l({
+            seq: [{
+                "int": 0
+            }, {
+                "int": {
+                    bigint: s.n
+                }
+            }, {
+                "int": s.e
+            }, {
+                "int": {
+                    bigint: s.d
+                }
+            }, {
+                "int": {
+                    bigint: s.p
+                }
+            }, {
+                "int": {
+                    bigint: s.q
+                }
+            }, {
+                "int": {
+                    bigint: s.dmp1
+                }
+            }, {
+                "int": {
+                    bigint: s.dmq1
+                }
+            }, {
+                "int": {
+                    bigint: s.coeff
+                }
+            }]
+        });
         return G
     }
 
     function B(G) {
-        var s = l({seq: [{"int": 1}, {octstr: {hex: G.prvKeyHex}}, {tag: ["a0", true, {oid: {name: G.curveName}}]}, {tag: ["a1", true, {bitstr: {hex: "00" + G.pubKeyHex}}]}]});
+        var s = l({
+            seq: [{
+                "int": 1
+            }, {
+                octstr: {
+                    hex: G.prvKeyHex
+                }
+            }, {
+                tag: ["a0", true, {
+                    oid: {
+                        name: G.curveName
+                    }
+                }]
+            }, {
+                tag: ["a1", true, {
+                    bitstr: {
+                        hex: "00" + G.pubKeyHex
+                    }
+                }]
+            }]
+        });
         return s
     }
 
     function x(s) {
-        var G = l({seq: [{"int": 0}, {"int": {bigint: s.p}}, {"int": {bigint: s.q}}, {"int": {bigint: s.g}}, {"int": {bigint: s.y}}, {"int": {bigint: s.x}}]});
+        var G = l({
+            seq: [{
+                "int": 0
+            }, {
+                "int": {
+                    bigint: s.p
+                }
+            }, {
+                "int": {
+                    bigint: s.q
+                }
+            }, {
+                "int": {
+                    bigint: s.g
+                }
+            }, {
+                "int": {
+                    bigint: s.y
+                }
+            }, {
+                "int": {
+                    bigint: s.x
+                }
+            }]
+        });
         return G
     }
-
     if (((n !== undefined && b instanceof n) || (u !== undefined && b instanceof u) || (r !== undefined && b instanceof r)) && b.isPublic == true && (D === undefined || D == "PKCS8PUB")) {
         var E = new C(b);
         var w = E.getEncodedHex();
@@ -10937,7 +12401,9 @@ KEYUTIL.getPEM = function (b, D, y, m, q, j) {
         return hextopem(w, "RSA PRIVATE KEY")
     }
     if (D == "PKCS1PRV" && r !== undefined && b instanceof r && (y === undefined || y == null) && b.isPrivate == true) {
-        var i = new z({name: b.curveName});
+        var i = new z({
+            name: b.curveName
+        });
         var v = i.getEncodedHex();
         var h = B(b);
         var t = h.getEncodedHex();
@@ -10977,7 +12443,45 @@ KEYUTIL.getPEM = function (b, D, y, m, q, j) {
     }
     var o = function (G, s) {
         var I = c(G, s);
-        var H = new l({seq: [{seq: [{oid: {name: "pkcs5PBES2"}}, {seq: [{seq: [{oid: {name: "pkcs5PBKDF2"}}, {seq: [{octstr: {hex: I.pbkdf2Salt}}, {"int": I.pbkdf2Iter}]}]}, {seq: [{oid: {name: "des-EDE3-CBC"}}, {octstr: {hex: I.encryptionSchemeIV}}]}]}]}, {octstr: {hex: I.ciphertext}}]});
+        var H = new l({
+            seq: [{
+                seq: [{
+                    oid: {
+                        name: "pkcs5PBES2"
+                    }
+                }, {
+                    seq: [{
+                        seq: [{
+                            oid: {
+                                name: "pkcs5PBKDF2"
+                            }
+                        }, {
+                            seq: [{
+                                octstr: {
+                                    hex: I.pbkdf2Salt
+                                }
+                            }, {
+                                "int": I.pbkdf2Iter
+                            }]
+                        }]
+                    }, {
+                        seq: [{
+                            oid: {
+                                name: "des-EDE3-CBC"
+                            }
+                        }, {
+                            octstr: {
+                                hex: I.encryptionSchemeIV
+                            }
+                        }]
+                    }]
+                }]
+            }, {
+                octstr: {
+                    hex: I.ciphertext
+                }
+            }]
+        });
         return H.getEncodedHex()
     };
     var c = function (N, O) {
@@ -10985,9 +12489,14 @@ KEYUTIL.getPEM = function (b, D, y, m, q, j) {
         var M = CryptoJS.lib.WordArray.random(8);
         var L = "DES-EDE3-CBC";
         var s = CryptoJS.lib.WordArray.random(8);
-        var I = CryptoJS.PBKDF2(O, M, {keySize: 192 / 32, iterations: H});
+        var I = CryptoJS.PBKDF2(O, M, {
+            keySize: 192 / 32,
+            iterations: H
+        });
         var J = CryptoJS.enc.Hex.parse(N);
-        var K = CryptoJS.TripleDES.encrypt(J, I, {iv: s}) + "";
+        var K = CryptoJS.TripleDES.encrypt(J, I, {
+            iv: s
+        }) + "";
         var G = {};
         G.ciphertext = K;
         G.pbkdf2Salt = CryptoJS.enc.Hex.stringify(M);
@@ -10999,7 +12508,23 @@ KEYUTIL.getPEM = function (b, D, y, m, q, j) {
     if (D == "PKCS8PRV" && n != undefined && b instanceof n && b.isPrivate == true) {
         var g = A(b);
         var d = g.getEncodedHex();
-        var E = l({seq: [{"int": 0}, {seq: [{oid: {name: "rsaEncryption"}}, {"null": true}]}, {octstr: {hex: d}}]});
+        var E = l({
+            seq: [{
+                "int": 0
+            }, {
+                seq: [{
+                    oid: {
+                        name: "rsaEncryption"
+                    }
+                }, {
+                    "null": true
+                }]
+            }, {
+                octstr: {
+                    hex: d
+                }
+            }]
+        });
         var w = E.getEncodedHex();
         if (y === undefined || y == null) {
             return hextopem(w, "PRIVATE KEY")
@@ -11009,9 +12534,41 @@ KEYUTIL.getPEM = function (b, D, y, m, q, j) {
         }
     }
     if (D == "PKCS8PRV" && r !== undefined && b instanceof r && b.isPrivate == true) {
-        var g = new l({seq: [{"int": 1}, {octstr: {hex: b.prvKeyHex}}, {tag: ["a1", true, {bitstr: {hex: "00" + b.pubKeyHex}}]}]});
+        var g = new l({
+            seq: [{
+                "int": 1
+            }, {
+                octstr: {
+                    hex: b.prvKeyHex
+                }
+            }, {
+                tag: ["a1", true, {
+                    bitstr: {
+                        hex: "00" + b.pubKeyHex
+                    }
+                }]
+            }]
+        });
         var d = g.getEncodedHex();
-        var E = l({seq: [{"int": 0}, {seq: [{oid: {name: "ecPublicKey"}}, {oid: {name: b.curveName}}]}, {octstr: {hex: d}}]});
+        var E = l({
+            seq: [{
+                "int": 0
+            }, {
+                seq: [{
+                    oid: {
+                        name: "ecPublicKey"
+                    }
+                }, {
+                    oid: {
+                        name: b.curveName
+                    }
+                }]
+            }, {
+                octstr: {
+                    hex: d
+                }
+            }]
+        });
         var w = E.getEncodedHex();
         if (y === undefined || y == null) {
             return hextopem(w, "PRIVATE KEY")
@@ -11021,9 +12578,39 @@ KEYUTIL.getPEM = function (b, D, y, m, q, j) {
         }
     }
     if (D == "PKCS8PRV" && u !== undefined && b instanceof u && b.isPrivate == true) {
-        var g = new f({bigint: b.x});
+        var g = new f({
+            bigint: b.x
+        });
         var d = g.getEncodedHex();
-        var E = l({seq: [{"int": 0}, {seq: [{oid: {name: "dsa"}}, {seq: [{"int": {bigint: b.p}}, {"int": {bigint: b.q}}, {"int": {bigint: b.g}}]}]}, {octstr: {hex: d}}]});
+        var E = l({
+            seq: [{
+                "int": 0
+            }, {
+                seq: [{
+                    oid: {
+                        name: "dsa"
+                    }
+                }, {
+                    seq: [{
+                        "int": {
+                            bigint: b.p
+                        }
+                    }, {
+                        "int": {
+                            bigint: b.q
+                        }
+                    }, {
+                        "int": {
+                            bigint: b.g
+                        }
+                    }]
+                }]
+            }, {
+                octstr: {
+                    hex: d
+                }
+            }]
+        });
         var w = E.getEncodedHex();
         if (y === undefined || y == null) {
             return hextopem(w, "PRIVATE KEY")
@@ -11032,7 +12619,7 @@ KEYUTIL.getPEM = function (b, D, y, m, q, j) {
             return hextopem(t, "ENCRYPTED PRIVATE KEY")
         }
     }
-    throw"unsupported object nor format"
+    throw "unsupported object nor format"
 };
 KEYUTIL.getKeyFromCSRPEM = function (b) {
     var a = pemtohex(b, "CERTIFICATE REQUEST");
@@ -11051,21 +12638,32 @@ KEYUTIL.parseCSRHex = function (d) {
     var b = {};
     var g = d;
     if (g.substr(0, 2) != "30") {
-        throw"malformed CSR(code:001)"
+        throw "malformed CSR(code:001)"
     }
     var e = f(g, 0);
     if (e.length < 1) {
-        throw"malformed CSR(code:002)"
+        throw "malformed CSR(code:002)"
     }
     if (g.substr(e[0], 2) != "30") {
-        throw"malformed CSR(code:003)"
+        throw "malformed CSR(code:003)"
     }
     var a = f(g, e[0]);
     if (a.length < 3) {
-        throw"malformed CSR(code:004)"
+        throw "malformed CSR(code:004)"
     }
     b.p8pubkeyhex = c(g, a[2]);
     return b
+};
+KEYUTIL.getKeyID = function (f) {
+    var c = KEYUTIL;
+    var e = ASN1HEX;
+    if (typeof f === "string" && f.indexOf("BEGIN ") != -1) {
+        f = c.getKey(f)
+    }
+    var d = pemtohex(c.getPEM(f));
+    var b = e.getIdxbyList(d, 0, [1]);
+    var a = e.getV(d, b).substring(2);
+    return KJUR.crypto.Util.hashHex(a, "sha1")
 };
 KEYUTIL.getJWKFromKey = function (d) {
     var b = {};
@@ -11090,7 +12688,7 @@ KEYUTIL.getJWKFromKey = function (d) {
             if (d instanceof KJUR.crypto.ECDSA && d.isPrivate) {
                 var a = d.getShortNISTPCurveName();
                 if (a !== "P-256" && a !== "P-384") {
-                    throw"unsupported curve name for JWT: " + a
+                    throw "unsupported curve name for JWT: " + a
                 }
                 var c = d.getPublicKeyXYHex();
                 b.kty = "EC";
@@ -11103,7 +12701,7 @@ KEYUTIL.getJWKFromKey = function (d) {
                 if (d instanceof KJUR.crypto.ECDSA && d.isPublic) {
                     var a = d.getShortNISTPCurveName();
                     if (a !== "P-256" && a !== "P-384") {
-                        throw"unsupported curve name for JWT: " + a
+                        throw "unsupported curve name for JWT: " + a
                     }
                     var c = d.getPublicKeyXYHex();
                     b.kty = "EC";
@@ -11115,7 +12713,7 @@ KEYUTIL.getJWKFromKey = function (d) {
             }
         }
     }
-    throw"not supported key object"
+    throw "not supported key object"
 };
 RSAKey.getPosArrayOfChildrenFromHex = function (a) {
     return ASN1HEX.getChildIdx(a, 0)
@@ -11151,7 +12749,7 @@ RSAKey.prototype.readPKCS8PrvKeyHex = function (e) {
     var m = ASN1HEX;
     var g = m.getVbyList;
     if (m.isASN1HEX(e) === false) {
-        throw"not ASN.1 hex string"
+        throw "not ASN.1 hex string"
     }
     try {
         c = g(e, 0, [2, 0, 1], "02");
@@ -11163,7 +12761,7 @@ RSAKey.prototype.readPKCS8PrvKeyHex = function (e) {
         d = g(e, 0, [2, 0, 7], "02");
         k = g(e, 0, [2, 0, 8], "02")
     } catch (i) {
-        throw"malformed PKCS#8 plain RSA private key"
+        throw "malformed PKCS#8 plain RSA private key"
     }
     this.setPrivateEx(c, j, l, b, a, f, d, k)
 };
@@ -11171,11 +12769,11 @@ RSAKey.prototype.readPKCS5PubKeyHex = function (c) {
     var e = ASN1HEX;
     var b = e.getV;
     if (e.isASN1HEX(c) === false) {
-        throw"keyHex is not ASN.1 hex string"
+        throw "keyHex is not ASN.1 hex string"
     }
     var a = e.getChildIdx(c, 0);
     if (a.length !== 2 || c.substr(a[0], 2) !== "02" || c.substr(a[1], 2) !== "02") {
-        throw"wrong hex for PKCS#5 public key"
+        throw "wrong hex for PKCS#5 public key"
     }
     var f = b(c, a[0]);
     var d = b(c, a[1]);
@@ -11184,10 +12782,10 @@ RSAKey.prototype.readPKCS5PubKeyHex = function (c) {
 RSAKey.prototype.readPKCS8PubKeyHex = function (b) {
     var c = ASN1HEX;
     if (c.isASN1HEX(b) === false) {
-        throw"not ASN.1 hex string"
+        throw "not ASN.1 hex string"
     }
     if (c.getTLVbyList(b, 0, [0, 0]) !== "06092a864886f70d010101") {
-        throw"not PKCS8 RSA public key"
+        throw "not PKCS8 RSA public key"
     }
     var a = c.getTLVbyList(b, 0, [1, 0]);
     this.readPKCS5PubKeyHex(a)
@@ -11217,7 +12815,6 @@ function _zeroPaddingOfSignature(e, d) {
     }
     return c + e
 }
-
 RSAKey.prototype.sign = function (d, a) {
     var b = function (e) {
         return KJUR.crypto.Util.hashString(e, a)
@@ -11234,14 +12831,14 @@ RSAKey.prototype.signWithMessageHash = function (e, c) {
 };
 
 function pss_mgf1_str(c, a, e) {
-    var b = "", d = 0;
+    var b = "",
+        d = 0;
     while (b.length < a) {
         b += hextorstr(e(rstrtohex(c + String.fromCharCode.apply(String, [(d & 4278190080) >> 24, (d & 16711680) >> 16, (d & 65280) >> 8, d & 255]))));
         d += 1
     }
     return b
 }
-
 RSAKey.prototype.signPSS = function (e, a, d) {
     var c = function (f) {
         return KJUR.crypto.Util.hashHex(f, a)
@@ -11268,12 +12865,12 @@ RSAKey.prototype.signWithMessageHashPSS = function (l, a, k) {
             k = c - g - 2
         } else {
             if (k < -2) {
-                throw"invalid salt length"
+                throw "invalid salt length"
             }
         }
     }
     if (c < (g + k + 2)) {
-        throw"data too long"
+        throw "data too long"
     }
     var f = "";
     if (k > 0) {
@@ -11325,7 +12922,6 @@ function _rsasign_getAlgNameAndHashFromHexDisgestInfo(f) {
     }
     return []
 }
-
 RSAKey.prototype.verify = function (f, j) {
     j = j.replace(_RE_HEXDECONLY, "");
     j = j.replace(/[ \n]+/g, "");
@@ -11348,8 +12944,9 @@ RSAKey.prototype.verify = function (f, j) {
     return (h == c)
 };
 RSAKey.prototype.verifyWithMessageHash = function (e, a) {
-    a = a.replace(_RE_HEXDECONLY, "");
-    a = a.replace(/[ \n]+/g, "");
+    if (a.length != Math.ceil(this.n.bitLength() / 4)) {
+        return false
+    }
     var b = parseBigInt(a, 16);
     if (b.bitLength() > this.n.bitLength()) {
         return 0
@@ -11375,10 +12972,10 @@ RSAKey.prototype.verifyPSS = function (c, b, a, f) {
     return this.verifyWithMessageHashPSS(d, b, a, f)
 };
 RSAKey.prototype.verifyWithMessageHashPSS = function (f, s, l, c) {
-    var k = new BigInteger(s, 16);
-    if (k.bitLength() > this.n.bitLength()) {
+    if (s.length != Math.ceil(this.n.bitLength() / 4)) {
         return false
     }
+    var k = new BigInteger(s, 16);
     var r = function (i) {
         return KJUR.crypto.Util.hashHex(i, l)
     };
@@ -11394,12 +12991,12 @@ RSAKey.prototype.verifyWithMessageHashPSS = function (f, s, l, c) {
             c = m - h - 2
         } else {
             if (c < -2) {
-                throw"invalid salt length"
+                throw "invalid salt length"
             }
         }
     }
     if (m < (h + c + 2)) {
-        throw"data too long"
+        throw "data too long"
     }
     var a = this.doPublic(k).toByteArray();
     for (q = 0; q < a.length; q += 1) {
@@ -11409,14 +13006,14 @@ RSAKey.prototype.verifyWithMessageHashPSS = function (f, s, l, c) {
         a.unshift(0)
     }
     if (a[m - 1] !== 188) {
-        throw"encoded message does not end in 0xbc"
+        throw "encoded message does not end in 0xbc"
     }
     a = String.fromCharCode.apply(String, a);
     var d = a.substr(0, m - h - 1);
     var e = a.substr(d.length, h);
     var p = (65280 >> (8 * m - g)) & 255;
     if ((d.charCodeAt(0) & p) !== 0) {
-        throw"bits beyond keysize not zero"
+        throw "bits beyond keysize not zero"
     }
     var n = pss_mgf1_str(e, d.length, r);
     var o = [];
@@ -11427,11 +13024,11 @@ RSAKey.prototype.verifyWithMessageHashPSS = function (f, s, l, c) {
     var b = m - h - c - 2;
     for (q = 0; q < b; q += 1) {
         if (o[q] !== 0) {
-            throw"leftmost octets not zero"
+            throw "leftmost octets not zero"
         }
     }
     if (o[b] !== 1) {
-        throw"0x01 marker not found"
+        throw "0x01 marker not found"
     }
     return e === hextorstr(r(rstrtohex("\x00\x00\x00\x00\x00\x00\x00\x00" + j + String.fromCharCode.apply(String, o.slice(-c)))))
 };
@@ -11440,8 +13037,17 @@ RSAKey.SALT_LEN_MAX = -2;
 RSAKey.SALT_LEN_RECOVER = -2;
 
 function X509() {
-    var k = ASN1HEX, j = k.getChildIdx, h = k.getV, b = k.getTLV, f = k.getVbyList, c = k.getTLVbyList,
-        g = k.getIdxbyList, d = k.getVidx, i = k.oidname, a = X509, e = pemtohex;
+    var k = ASN1HEX,
+        j = k.getChildIdx,
+        h = k.getV,
+        b = k.getTLV,
+        f = k.getVbyList,
+        c = k.getTLVbyList,
+        g = k.getIdxbyList,
+        d = k.getVidx,
+        i = k.oidname,
+        a = X509,
+        e = pemtohex;
     this.hex = null;
     this.version = 0;
     this.foffset = 0;
@@ -11511,31 +13117,47 @@ function X509() {
         var o = this.getSignatureAlgorithmName();
         var l = this.getSignatureValueHex();
         var m = c(this.hex, 0, [0], "30");
-        var p = new KJUR.crypto.Signature({alg: o});
+        var p = new KJUR.crypto.Signature({
+            alg: o
+        });
         p.init(n);
         p.updateHex(m);
         return p.verify(l)
     };
-    this.parseExt = function () {
-        if (this.version !== 3) {
-            return -1
-        }
-        var p = g(this.hex, 0, [0, 7, 0], "30");
-        var m = j(this.hex, p);
-        this.aExtInfo = new Array();
-        for (var n = 0; n < m.length; n++) {
-            var q = {};
-            q.critical = false;
-            var l = j(this.hex, m[n]);
-            var r = 0;
-            if (l.length === 3) {
-                q.critical = true;
-                r = 1
+    this.parseExt = function (u) {
+        var n, l, p;
+        if (u === undefined) {
+            p = this.hex;
+            if (this.version !== 3) {
+                return -1
             }
-            q.oid = k.hextooidstr(f(this.hex, m[n], [0], "06"));
-            var o = g(this.hex, m[n], [1 + r]);
-            q.vidx = d(this.hex, o);
-            this.aExtInfo.push(q)
+            n = g(p, 0, [0, 7, 0], "30");
+            l = j(p, n)
+        } else {
+            p = pemtohex(u);
+            var q = g(p, 0, [0, 3, 0, 0], "06");
+            if (h(p, q) != "2a864886f70d01090e") {
+                this.aExtInfo = new Array();
+                return
+            }
+            n = g(p, 0, [0, 3, 0, 1, 0], "30");
+            l = j(p, n);
+            this.hex = p
+        }
+        this.aExtInfo = new Array();
+        for (var o = 0; o < l.length; o++) {
+            var s = {};
+            s.critical = false;
+            var r = j(p, l[o]);
+            var m = 0;
+            if (r.length === 3) {
+                s.critical = true;
+                m = 1
+            }
+            s.oid = k.hextooidstr(f(p, l[o], [0], "06"));
+            var t = g(p, l[o], [1 + m]);
+            s.vidx = d(p, t);
+            this.aExtInfo.push(s)
         }
     };
     this.getExtInfo = function (n) {
@@ -11564,14 +13186,19 @@ function X509() {
             return {}
         }
         if (l === "0101ff") {
-            return {cA: true}
+            return {
+                cA: true
+            }
         }
         if (l.substr(0, 8) === "0101ff02") {
             var o = h(l, 6);
             var m = parseInt(o, 16);
-            return {cA: true, pathLen: m}
+            return {
+                cA: true,
+                pathLen: m
+            }
         }
-        throw"basicConstraints parse error"
+        throw "basicConstraints parse error"
     };
     this.getExtKeyUsageBin = function () {
         var o = this.getExtInfo("keyUsage");
@@ -11580,7 +13207,7 @@ function X509() {
         }
         var m = h(this.hex, o.vidx);
         if (m.length % 2 != 0 || m.length <= 2) {
-            throw"malformed key usage value"
+            throw "malformed key usage value"
         }
         var l = parseInt(m.substr(0, 2));
         var n = parseInt(m.substr(2), 16).toString(2);
@@ -11691,8 +13318,7 @@ function X509() {
                 var r = f(this.hex, m[o], [0, 0, 0], "86");
                 var p = hextoutf8(r);
                 l.push(p)
-            } catch (n) {
-            }
+            } catch (n) {}
         }
         return l
     };
@@ -11701,7 +13327,10 @@ function X509() {
         if (p === undefined) {
             return p
         }
-        var l = {ocsp: [], caissuer: []};
+        var l = {
+            ocsp: [],
+            caissuer: []
+        };
         var m = j(this.hex, p.vidx);
         for (var n = 0; n < m.length; n++) {
             var q = f(this.hex, m[n], [0], "06");
@@ -11753,8 +13382,7 @@ function X509() {
         try {
             g(this.hex, 0, [0, 7], "a3");
             this.parseExt()
-        } catch (m) {
-        }
+        } catch (m) {}
     };
     this.getInfo = function () {
         var m = X509;
@@ -11858,13 +13486,12 @@ function X509() {
         return B
     }
 }
-
 X509.hex2dn = function (f, b) {
     if (b === undefined) {
         b = 0
     }
     if (f.substr(b, 2) !== "30") {
-        throw"malformed DN"
+        throw "malformed DN"
     }
     var c = new Array();
     var d = ASN1HEX.getChildIdx(f, b);
@@ -11881,7 +13508,7 @@ X509.hex2rdn = function (f, b) {
         b = 0
     }
     if (f.substr(b, 2) !== "31") {
-        throw"malformed RDN"
+        throw "malformed RDN"
     }
     var c = new Array();
     var d = ASN1HEX.getChildIdx(f, b);
@@ -11900,7 +13527,7 @@ X509.hex2attrTypeValue = function (d, i) {
         i = 0
     }
     if (d.substr(i, 2) !== "30") {
-        throw"malformed attribute type and value"
+        throw "malformed attribute type and value"
     }
     var g = j.getChildIdx(d, i);
     if (g.length !== 2 || d.substr(g[0], 2) !== "06") {
@@ -11947,14 +13574,16 @@ if (typeof KJUR.jws == "undefined" || !KJUR.jws) {
     KJUR.jws = {}
 }
 KJUR.jws.JWS = function () {
-    var b = KJUR, a = b.jws.JWS, c = a.isSafeJSONString;
+    var b = KJUR,
+        a = b.jws.JWS,
+        c = a.isSafeJSONString;
     this.parseJWS = function (g, j) {
         if ((this.parsedJWS !== undefined) && (j || (this.parsedJWS.sigvalH !== undefined))) {
             return
         }
         var i = g.match(/^([^.]+)\.([^.]+)\.([^.]+)$/);
         if (i == null) {
-            throw"JWS signature is not a form of 'Head.Payload.SigValue'."
+            throw "JWS signature is not a form of 'Head.Payload.SigValue'."
         }
         var k = i[1];
         var e = i[2];
@@ -11976,80 +13605,103 @@ KJUR.jws.JWS = function () {
         this.parsedJWS.headS = d;
         this.parsedJWS.payloadS = m;
         if (!c(d, this.parsedJWS, "headP")) {
-            throw"malformed JSON string for JWS Head: " + d
+            throw "malformed JSON string for JWS Head: " + d
         }
     }
 };
-KJUR.jws.JWS.sign = function (i, v, y, z, a) {
-    var w = KJUR, m = w.jws, q = m.JWS, g = q.readSafeJSONString, p = q.isSafeJSONString, d = w.crypto, k = d.ECDSA,
-        o = d.Mac, c = d.Signature, t = JSON;
-    var s, j, n;
-    if (typeof v != "string" && typeof v != "object") {
-        throw"spHeader must be JSON string or object: " + v
+KJUR.jws.JWS.sign = function (j, w, z, A, a) {
+    var x = KJUR,
+        n = x.jws,
+        r = n.JWS,
+        h = r.readSafeJSONString,
+        q = r.isSafeJSONString,
+        d = x.crypto,
+        l = d.ECDSA,
+        p = d.Mac,
+        c = d.Signature,
+        u = JSON;
+    var t, k, o;
+    if (typeof w != "string" && typeof w != "object") {
+        throw "spHeader must be JSON string or object: " + w
     }
-    if (typeof v == "object") {
-        j = v;
-        s = t.stringify(j)
+    if (typeof w == "object") {
+        k = w;
+        t = u.stringify(k)
     }
-    if (typeof v == "string") {
-        s = v;
-        if (!p(s)) {
-            throw"JWS Head is not safe JSON string: " + s
+    if (typeof w == "string") {
+        t = w;
+        if (!q(t)) {
+            throw "JWS Head is not safe JSON string: " + t
         }
-        j = g(s)
+        k = h(t)
     }
-    n = y;
-    if (typeof y == "object") {
-        n = t.stringify(y)
+    o = z;
+    if (typeof z == "object") {
+        o = u.stringify(z)
     }
-    if ((i == "" || i == null) && j.alg !== undefined) {
-        i = j.alg
+    if ((j == "" || j == null) && k.alg !== undefined) {
+        j = k.alg
     }
-    if ((i != "" && i != null) && j.alg === undefined) {
-        j.alg = i;
-        s = t.stringify(j)
+    if ((j != "" && j != null) && k.alg === undefined) {
+        k.alg = j;
+        t = u.stringify(k)
     }
-    if (i !== j.alg) {
-        throw"alg and sHeader.alg doesn't match: " + i + "!=" + j.alg
+    if (j !== k.alg) {
+        throw "alg and sHeader.alg doesn't match: " + j + "!=" + k.alg
     }
-    var r = null;
-    if (q.jwsalg2sigalg[i] === undefined) {
-        throw"unsupported alg name: " + i
+    var s = null;
+    if (r.jwsalg2sigalg[j] === undefined) {
+        throw "unsupported alg name: " + j
     } else {
-        r = q.jwsalg2sigalg[i]
+        s = r.jwsalg2sigalg[j]
     }
-    var e = utf8tob64u(s);
-    var l = utf8tob64u(n);
-    var b = e + "." + l;
-    var x = "";
-    if (r.substr(0, 4) == "Hmac") {
-        if (z === undefined) {
-            throw"mac key shall be specified for HS* alg"
+    var e = utf8tob64u(t);
+    var m = utf8tob64u(o);
+    var b = e + "." + m;
+    var y = "";
+    if (s.substr(0, 4) == "Hmac") {
+        if (A === undefined) {
+            throw "mac key shall be specified for HS* alg"
         }
-        var h = new o({alg: r, prov: "cryptojs", pass: z});
-        h.updateString(b);
-        x = h.doFinal()
+        var i = new p({
+            alg: s,
+            prov: "cryptojs",
+            pass: A
+        });
+        i.updateString(b);
+        y = i.doFinal()
     } else {
-        if (r.indexOf("withECDSA") != -1) {
-            var f = new c({alg: r});
-            f.init(z, a);
+        if (s.indexOf("withECDSA") != -1) {
+            var f = new c({
+                alg: s
+            });
+            f.init(A, a);
             f.updateString(b);
-            hASN1Sig = f.sign();
-            x = KJUR.crypto.ECDSA.asn1SigToConcatSig(hASN1Sig)
+            var g = f.sign();
+            y = KJUR.crypto.ECDSA.asn1SigToConcatSig(g)
         } else {
-            if (r != "none") {
-                var f = new c({alg: r});
-                f.init(z, a);
+            if (s != "none") {
+                var f = new c({
+                    alg: s
+                });
+                f.init(A, a);
                 f.updateString(b);
-                x = f.sign()
+                y = f.sign()
             }
         }
     }
-    var u = hextob64u(x);
-    return b + "." + u
+    var v = hextob64u(y);
+    return b + "." + v
 };
 KJUR.jws.JWS.verify = function (w, B, n) {
-    var x = KJUR, q = x.jws, t = q.JWS, i = t.readSafeJSONString, e = x.crypto, p = e.ECDSA, s = e.Mac, d = e.Signature,
+    var x = KJUR,
+        q = x.jws,
+        t = q.JWS,
+        i = t.readSafeJSONString,
+        e = x.crypto,
+        p = e.ECDSA,
+        s = e.Mac,
+        d = e.Signature,
         m;
     if (typeof RSAKey !== undefined) {
         m = RSAKey
@@ -12066,7 +13718,7 @@ KJUR.jws.JWS.verify = function (w, B, n) {
     var k = null;
     var z = null;
     if (l.alg === undefined) {
-        throw"algorithm not specified in header"
+        throw "algorithm not specified in header"
     } else {
         k = l.alg;
         z = k.substr(0, 2)
@@ -12074,42 +13726,44 @@ KJUR.jws.JWS.verify = function (w, B, n) {
     if (n != null && Object.prototype.toString.call(n) === "[object Array]" && n.length > 0) {
         var b = ":" + n.join(":") + ":";
         if (b.indexOf(":" + k + ":") == -1) {
-            throw"algorithm '" + k + "' not accepted in the list"
+            throw "algorithm '" + k + "' not accepted in the list"
         }
     }
     if (k != "none" && B === null) {
-        throw"key shall be specified to verify."
+        throw "key shall be specified to verify."
     }
     if (typeof B == "string" && B.indexOf("-----BEGIN ") != -1) {
         B = KEYUTIL.getKey(B)
     }
     if (z == "RS" || z == "PS") {
         if (!(B instanceof m)) {
-            throw"key shall be a RSAKey obj for RS* and PS* algs"
+            throw "key shall be a RSAKey obj for RS* and PS* algs"
         }
     }
     if (z == "ES") {
         if (!(B instanceof p)) {
-            throw"key shall be a ECDSA obj for ES* algs"
+            throw "key shall be a ECDSA obj for ES* algs"
         }
     }
-    if (k == "none") {
-    }
+    if (k == "none") {}
     var u = null;
     if (t.jwsalg2sigalg[l.alg] === undefined) {
-        throw"unsupported alg name: " + k
+        throw "unsupported alg name: " + k
     } else {
         u = t.jwsalg2sigalg[k]
     }
     if (u == "none") {
-        throw"not supported"
+        throw "not supported"
     } else {
         if (u.substr(0, 4) == "Hmac") {
             var o = null;
             if (B === undefined) {
-                throw"hexadecimal key shall be specified for HMAC"
+                throw "hexadecimal key shall be specified for HMAC"
             }
-            var j = new s({alg: u, pass: B});
+            var j = new s({
+                alg: u,
+                pass: B
+            });
             j.updateString(c);
             o = j.doFinal();
             return A == o
@@ -12121,12 +13775,16 @@ KJUR.jws.JWS.verify = function (w, B, n) {
                 } catch (v) {
                     return false
                 }
-                var g = new d({alg: u});
+                var g = new d({
+                    alg: u
+                });
                 g.init(B);
                 g.updateString(c);
                 return g.verify(h)
             } else {
-                var g = new d({alg: u});
+                var g = new d({
+                    alg: u
+                });
                 g.init(B);
                 g.updateString(c);
                 return g.verify(A)
@@ -12139,7 +13797,7 @@ KJUR.jws.JWS.parse = function (g) {
     var b = {};
     var f, e, d;
     if (c.length != 2 && c.length != 3) {
-        throw"malformed sJWS: wrong number of '.' splitted elements"
+        throw "malformed sJWS: wrong number of '.' splitted elements"
     }
     f = c[0];
     e = c[1];
@@ -12160,7 +13818,12 @@ KJUR.jws.JWS.parse = function (g) {
     return b
 };
 KJUR.jws.JWS.verifyJWT = function (e, l, r) {
-    var d = KJUR, j = d.jws, o = j.JWS, n = o.readSafeJSONString, p = o.inArray, f = o.includedArray;
+    var d = KJUR,
+        j = d.jws,
+        o = j.JWS,
+        n = o.readSafeJSONString,
+        p = o.inArray,
+        f = o.includedArray;
     var k = e.split(".");
     var c = k[0];
     var i = k[1];
@@ -12172,7 +13835,7 @@ KJUR.jws.JWS.verifyJWT = function (e, l, r) {
         return false
     }
     if (r.alg === undefined) {
-        throw"acceptField.alg shall be specified"
+        throw "acceptField.alg shall be specified"
     }
     if (!p(h.alg, r.alg)) {
         return false
@@ -12317,18 +13980,18 @@ KJUR.jws.JWS.readSafeJSONString = function (b) {
 KJUR.jws.JWS.getEncodedSignatureValueFromJWS = function (b) {
     var a = b.match(/^[^.]+\.[^.]+\.([^.]+)$/);
     if (a == null) {
-        throw"JWS signature is not a form of 'Head.Payload.SigValue'."
+        throw "JWS signature is not a form of 'Head.Payload.SigValue'."
     }
     return a[1]
 };
 KJUR.jws.JWS.getJWKthumbprint = function (d) {
     if (d.kty !== "RSA" && d.kty !== "EC" && d.kty !== "oct") {
-        throw"unsupported algorithm for JWK Thumprint"
+        throw "unsupported algorithm for JWK Thumprint"
     }
     var a = "{";
     if (d.kty === "RSA") {
         if (typeof d.n != "string" || typeof d.e != "string") {
-            throw"wrong n and e value for RSA key"
+            throw "wrong n and e value for RSA key"
         }
         a += '"e":"' + d.e + '",';
         a += '"kty":"' + d.kty + '",';
@@ -12336,7 +13999,7 @@ KJUR.jws.JWS.getJWKthumbprint = function (d) {
     } else {
         if (d.kty === "EC") {
             if (typeof d.crv != "string" || typeof d.x != "string" || typeof d.y != "string") {
-                throw"wrong crv, x and y value for EC key"
+                throw "wrong crv, x and y value for EC key"
             }
             a += '"crv":"' + d.crv + '",';
             a += '"kty":"' + d.kty + '",';
@@ -12345,7 +14008,7 @@ KJUR.jws.JWS.getJWKthumbprint = function (d) {
         } else {
             if (d.kty === "oct") {
                 if (typeof d.k != "string") {
-                    throw"wrong k value for oct(symmetric) key"
+                    throw "wrong k value for oct(symmetric) key"
                 }
                 a += '"kty":"' + d.kty + '",';
                 a += '"k":"' + d.k + '"}'
@@ -12359,7 +14022,9 @@ KJUR.jws.JWS.getJWKthumbprint = function (d) {
 };
 KJUR.jws.IntDate = {};
 KJUR.jws.IntDate.get = function (c) {
-    var b = KJUR.jws.IntDate, d = b.getNow, a = b.getZulu;
+    var b = KJUR.jws.IntDate,
+        d = b.getNow,
+        a = b.getZulu;
     if (c == "now") {
         return d()
     } else {
@@ -12387,7 +14052,7 @@ KJUR.jws.IntDate.get = function (c) {
             }
         }
     }
-    throw"unsupported format: " + c
+    throw "unsupported format: " + c
 };
 KJUR.jws.IntDate.getZulu = function (a) {
     return zulutosec(a)
@@ -12401,9 +14066,12 @@ KJUR.jws.IntDate.intDate2UTCString = function (a) {
     return b.toUTCString()
 };
 KJUR.jws.IntDate.intDate2Zulu = function (e) {
-    var i = new Date(e * 1000), h = ("0000" + i.getUTCFullYear()).slice(-4),
-        g = ("00" + (i.getUTCMonth() + 1)).slice(-2), b = ("00" + i.getUTCDate()).slice(-2),
-        a = ("00" + i.getUTCHours()).slice(-2), c = ("00" + i.getUTCMinutes()).slice(-2),
+    var i = new Date(e * 1000),
+        h = ("0000" + i.getUTCFullYear()).slice(-4),
+        g = ("00" + (i.getUTCMonth() + 1)).slice(-2),
+        b = ("00" + i.getUTCDate()).slice(-2),
+        a = ("00" + i.getUTCHours()).slice(-2),
+        c = ("00" + i.getUTCMinutes()).slice(-2),
         f = ("00" + i.getUTCSeconds()).slice(-2);
     return h + g + b + a + c + f + "Z"
 };
@@ -12414,7 +14082,10 @@ if (typeof KJUR.jws == "undefined" || !KJUR.jws) {
     KJUR.jws = {}
 }
 KJUR.jws.JWSJS = function () {
-    var c = KJUR, b = c.jws, a = b.JWS, d = a.readSafeJSONString;
+    var c = KJUR,
+        b = c.jws,
+        a = b.JWS,
+        d = a.readSafeJSONString;
     this.aHeader = [];
     this.sPayload = "";
     this.aSignature = [];
@@ -12427,7 +14098,7 @@ KJUR.jws.JWSJS = function () {
         this.init();
         var e = f.split(".");
         if (e.length != 3) {
-            throw"malformed input JWS"
+            throw "malformed input JWS"
         }
         this.aHeader.push(e[0]);
         this.sPayload = e[1];
@@ -12435,11 +14106,11 @@ KJUR.jws.JWSJS = function () {
     };
     this.addSignature = function (e, h, m, k) {
         if (this.sPayload === undefined || this.sPayload === null) {
-            throw"there's no JSON-JS signature to add."
+            throw "there's no JSON-JS signature to add."
         }
         var l = this.aHeader.length;
         if (this.aHeader.length != this.aSignature.length) {
-            throw"aHeader.length != aSignature.length"
+            throw "aHeader.length != aSignature.length"
         }
         try {
             var f = KJUR.jws.JWS.sign(e, h, this.sPayload, m, k);
@@ -12455,7 +14126,7 @@ KJUR.jws.JWSJS = function () {
             if (this.aSignature.length > l) {
                 this.aSignature.pop()
             }
-            throw"addSignature failed: " + i
+            throw "addSignature failed: " + i
         }
     };
     this.verifyAll = function (h) {
@@ -12493,7 +14164,7 @@ KJUR.jws.JWSJS = function () {
         if (typeof g === "string") {
             var f = d(g);
             if (f == null) {
-                throw"argument is not safe JSON object string"
+                throw "argument is not safe JSON object string"
             }
             this.aHeader = f.headers;
             this.sPayload = f.payload;
@@ -12503,25 +14174,29 @@ KJUR.jws.JWSJS = function () {
                 if (g.headers.length > 0) {
                     this.aHeader = g.headers
                 } else {
-                    throw"malformed header"
+                    throw "malformed header"
                 }
                 if (typeof g.payload === "string") {
                     this.sPayload = g.payload
                 } else {
-                    throw"malformed signatures"
+                    throw "malformed signatures"
                 }
                 if (g.signatures.length > 0) {
-                    this.aSignatures = g.signatures
+                    this.aSignature = g.signatures
                 } else {
-                    throw"malformed signatures"
+                    throw "malformed signatures"
                 }
             } catch (e) {
-                throw"malformed JWS-JS JSON object: " + e
+                throw "malformed JWS-JS JSON object: " + e
             }
         }
     };
     this.getJSON = function () {
-        return {headers: this.aHeader, payload: this.sPayload, signatures: this.aSignature}
+        return {
+            headers: this.aHeader,
+            payload: this.sPayload,
+            signatures: this.aSignature
+        }
     };
     this.isEmpty = function () {
         if (this.aHeader.length == 0) {
