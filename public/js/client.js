@@ -87,7 +87,7 @@ else {
                     //* //////////////////////
                 }
                 else {
-                    //* generating RSA key pair`
+                    //* generating RSA key pair
                     const keypair = KEYUTIL.generateKeypair("RSA", 2048);
                     console.log(keypair);
 
