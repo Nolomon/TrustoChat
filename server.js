@@ -8,12 +8,10 @@ server.listen(process.env.PORT || 4000);
 
 
 // connected users / sockets
-//var connectedUsers = new Map();
 var onlineUsers = [];
 
 // Connect to mongo
 mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, function(err, client){
-    //console.log("mongo.connect execution #"+cnt1++);
     if(err) throw err;
     console.log('MongoDB connected... Bitch!'); // good job
 
@@ -85,9 +83,10 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
             });
         });
 
-    //? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //!                                     Need Synchronization !!!                                             //
-    //? ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
         //* Update user online status
         users.updateOne({userID: username},{$set:{status:'online'}});
 
@@ -103,7 +102,6 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
         // Handle input events
         socket.on('sigmsg', (sigmsg)=>{
-            //console.log("input to server #"+cnt3++);
             // Check for userID and message
             if(sigmsg.userID != '' && sigmsg.message != ''){  // Should let all checks be in server since client is open for modification
                 // Insert message

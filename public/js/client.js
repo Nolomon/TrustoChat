@@ -10,7 +10,7 @@ var onlineUsersPanel = document.getElementById('users-sidebar');
 
 var username = prompt("Please enter your username:");
 profile.innerText = username;
-if (username == null || username == "") window.location.reload(false); 
+if (username == null || username == "") window.location.reload(); 
 else {
     // Set default status
     var statusDefault = status.textContent;
@@ -27,9 +27,8 @@ else {
     }
 
     // Connect to socket.io
-    //console.log(username);
     //local: 127.0.0.1
-    var socket = io('http://192.168.1.100:4000', { query: { username: username } }); ////////////////////           HERE!!!!          /////////////////////////////////////////////////
+    var socket = io('http://192.168.1.100:4000', { query: { username: username } });
 
     // Check for connection
     if (socket !== undefined) {
@@ -51,7 +50,7 @@ else {
                     let valid = false;
                     do {
                         prvkey = prompt("Please paste your private key here:");
-                        if(prvkey==undefined) window.location.reload(true);
+                        if(prvkey==undefined) window.location.reload();
 
                         //? 1. Is it a key??
                         let prvkeyObj;
@@ -68,7 +67,7 @@ else {
                         //? 2. Is the public portion correct??
                         if (prvkeyObj.isPrivate && prvkeyObj.e === pubkeyObj.e) {
                             valid = true;
-                            for(const k of Object.keys(prvkeyObj.n)){
+                            for(const k of Object.keys(prvkeyObj.n)){ // checking for the modulus n
                                 if( typeof prvkeyObj.n[k] === 'function') continue;
                                 if (prvkeyObj.n[k] !== pubkeyObj.n[k]){
                                     valid = false;
@@ -89,6 +88,7 @@ else {
                 else {
                     //* generating RSA key pair
                     const keypair = KEYUTIL.generateKeypair("RSA", 2048);
+                    console.log('RSA key pair generated:');
                     console.log(keypair);
 
                     //* generate TBSCertificate
@@ -111,7 +111,6 @@ else {
                     cert.sign();
                     certPEM = cert.getPEMString();
                     userCerts.set(username, certPEM);
-                    // console.log("certificate is stored as:\n\n"+userCerts.get(username));
 
                     ////// send user info to server
                     socket.emit('userInfo', {
@@ -127,12 +126,6 @@ else {
             }
         });
 
-        // // get other users certificates
-        // socket.on('certificate', (usercert)=>{
-        //     userCerts.set(usercert.userID, usercert.cert);
-        //     //console.log(usercert);
-        // });
-
         //* Handle Server Output (incoming messages)
         let outputCnt = 1;
         socket.on('output', (data) => {
@@ -146,20 +139,12 @@ else {
                     message.setAttribute('class', 'chat-message');
                     message.textContent = data[x].userID + ": " + data[x].message;
 
-                    /////// SINGATURE VERIFICATION  ////////
-                    //console.log(userCerts.get(data[x].userID));
+                    //* ///// SINGATURE VERIFICATION  ////////
                     const pubKey = KEYUTIL.getKey(userCerts.get(data[x].userID));
                     if (pubKey.verify(data[x].message, data[x].signature)) message.textContent += "\n\n    [VERIFIED]";
                     else message.textContent += "\n\n    [MODIFIED]";
 
                     messages.appendChild(message);
-                    /////////////////       JSRSASIGN EXAMPLE       /////////////////////
-                    // message = document.createElement('div');
-                    // message.setAttribute('class', 'chat-message');
-                    // message.textContent = data[x].userID + ' SHA512:    '
-                    // + (new KJUR.crypto.MessageDigest({"alg": "sha512", "prov": "cryptojs"})).digestString(data[x].message);
-                    // messages.appendChild(message);
-                    ///////////////
                 }
             }
         });
@@ -182,8 +167,6 @@ else {
             const encryptedHash = sig.signString(textarea.value);
             const sigmsg = { userID: username, message: textarea.value, signature: encryptedHash };
             socket.emit('sigmsg', sigmsg);
-
-            //event.preventDefault(); // prevents page reloading
         });
 
         // Handle Chat Clear
