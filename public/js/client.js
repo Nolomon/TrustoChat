@@ -4,12 +4,13 @@ var messages = document.getElementById('messages');
 var textarea = document.getElementById('textarea');
 var clearBtn = document.getElementById('clear');
 var sendBtn = document.getElementById('sendBtn');
-var profile = document.getElementById('profile');
-var onlineUsersPanel = document.getElementById('users-sidebar');
+var userLabel = document.getElementById('userLabel');
+var onlineUsersPanel = document.getElementById('onlineDiv');
+var searchInput = document.getElementById("searchInput");
 
 
 var username = prompt("Please enter your username:");
-profile.innerText = username;
+userLabel.innerText = username;
 if (username == null || username == "") window.location.reload(); 
 else {
     // Set default status
@@ -33,6 +34,10 @@ else {
     // Check for connection
     if (socket !== undefined) {
         console.log('Connected to socket.');
+        // TIME OUT EVENT
+        socket.on('connect_timeout', (timeout) => {
+            console.log('TIMEOUT AFTER '+timeout+'ms');
+        });
 
         //* username check
         var prvkey; // user private key
@@ -124,6 +129,9 @@ else {
 
                 }
             }
+
+            // Enable User Search
+            searchInput.disabled = false;
         });
 
         //* Handle Server Output (incoming messages)
@@ -161,7 +169,7 @@ else {
         });
         // Handle Server Input
         sendBtn.addEventListener('click', (event) => {
-            // Sign message and emit to server input
+            // Sign message and emit to server
             const sig = new KJUR.crypto.Signature({ "alg": "SHA512withRSA" });
             sig.init(prvkey);
             const encryptedHash = sig.signString(textarea.value);
@@ -218,6 +226,9 @@ else {
             }
             socket.emit('onlineRefresh');   // Update onlineUsersPanel (server will take 6000ms)
         });
+
+        //* User Search
+        //searchInput.oninput
 
     }
 

@@ -11,12 +11,21 @@
             <h1 class="title">
                 TrustoChat 
             </h1>
-            <div id="users-sidebar">
-                online users
+            <div id="left-sidebar">
+                <label id="onlineLabel">online users</label>
+                <div id="onlineDiv">
+
+                </div>
             </div>
             <div id="messages">messages</div>
-            <div id="profile">
-                username
+            <div id="right-sidebar">
+                <label id="userLabel"></label>
+                <div id="searchPanel">
+                    <input type="text" id="searchInput" placeholder="search users" disabled>
+                    <div id="searchResults">
+
+                    </div>
+                </div>
             </div>
             <div id="message-input">
                 <textarea id="textarea" placeholder="Enter message here..." disabled></textarea>

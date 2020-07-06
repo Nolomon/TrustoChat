@@ -15,13 +15,41 @@
     grid-column: 1/-1;
     place-self: center;
 }
-#users-sidebar{
+
+#right-sidebar{
     display:grid;
-    grid-template-rows: 1fr 9fr;
+    grid-template-rows: 50px auto;
+    border: unset;
 }
+#searchPanel{
+    border: unset;
+    padding: 0;
+    margin-top: 10px;
+}
+#searchResults{
+    overflow-y: auto;
+    max-height: 100px;
+    margin-top: 10px;
+    
+}
+
+#left-sidebar{
+    display:grid;
+    grid-template-rows: 50px auto;
+}
+#onlineLabel{
+    border: unset;
+}
+#onlineDiv{
+    all: unset;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
 #messages{
     grid-column: 2/3;
-
+    overflow-y: auto;
+    max-height: 200px;
 }
 #message-input{
     border: unset;

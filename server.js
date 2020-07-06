@@ -1,4 +1,5 @@
 const express = require('express');
+const {performance} = require('perf_hooks');
 const app = express();
 app.use(express.static(__dirname+'/public'));
 const server = require('http').createServer(app);
@@ -24,7 +25,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
     // Connect to Socket.io
     io.on('connection', (socket)=>{ //* CLIENT STARTING POINT  A function to be executed whenever a client connects to the server
-
+        var t0 = performance.now();
         // socekt registeration
         const username = socket.handshake.query.username;
         console.log(username+' connected.');
@@ -45,7 +46,11 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
                 cert: data.cert,
                 passHash: null,
                 status: 'online'
-            },()=>console.log('USER '+username+' REGISTERED!'));
+            },()=>{
+                let t1 = performance.now();
+                console.log(username+' inserted after '+(t1-t0)+'ms');
+                console.log('USER '+username+' REGISTERED!')
+            });
         });
 
         function checkUserInfo(){
@@ -133,6 +138,8 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
         // Handle Disconnect
         socket.on("disconnect", ()=>{
+            let t1 = performance.now();
+            console.log(username+' took '+(t1-t0)+'ms before disconnecting.');
             const onIndex = onlineUsers.indexOf(username);
             if(onIndex>-1) onlineUsers.splice(onIndex,1);
             users.updateOne({userID: username},{$set:{status:'offline'}});
