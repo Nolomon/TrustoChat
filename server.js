@@ -14,14 +14,9 @@ var onlineUsers = [];
 // Connect to mongo
 mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, function (err, client) {
     if (err) throw err;
-    console.log('MongoDB connected... Bitch!'); // good job
+    console.log('MongoDB connected... Babe!'); // good job
 
     var db = client.db('trustochat'); // db is an object pointing to mongodb just connected to
-
-    // Create function to send status
-    sendStatus = function (socket, s) { // Pre-defined function
-        socket.emit('status', s);
-    }
 
     // Connect to Socket.io
     io.on('connection', (socket) => { //* CLIENT STARTING POINT  A function to be executed whenever a client connects to the server
@@ -34,7 +29,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
         const users = db.collection('users');
         users.findOne({ userID: username }, (err, res) => {
             if (err) throw err;
-            console.log('first check:' + res);
+            //console.log('first check:' + res);
             socket.emit('userInfo', res);
         });
         // Get new user info
@@ -65,7 +60,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
         function refresh() {
             setTimeout(() => {
                 onlineUsers = onlineUsers.reverse();
-                console.log(username);
+                //console.log(username);
                 socket.emit('onlineRefresh', onlineUsers);
             }, 6000);
         };
@@ -89,9 +84,6 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
         });
 
 
-
-
-
         //* Update user online status
         users.updateOne({ userID: username }, { $set: { status: 'online' } });
 
@@ -110,11 +102,10 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
             // Check for userID and message
             if (sigmsg.userID != '' && sigmsg.message != '') {  // Should let all checks be in server since client is open for modification
                 // Insert message
-                console.log('inserting chats in collection..');
+                //console.log('inserting chats in collection..');
                 chats.insertOne({ userID: sigmsg.userID, message: sigmsg.message, signature: sigmsg.signature }, function () {
                     io.emit('output', [sigmsg]);
-                    // Send status object
-                    console.log('chats inserted');
+                    //console.log('chats inserted');
                     sendStatus(socket, {
                         message: 'Message sent',
                         clear: true
@@ -136,12 +127,12 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
 
         // User Search
         socket.on('userSearchReq', (user_name) => {
-            console.log("RECEIVED :: " + user_name);
+            //console.log("RECEIVED :: " + user_name);
             users.find({ 'username': user_name, cert: { $ne: null } }, { projection: { userID: 1, username: 1 } }).toArray((err, res) => {
                 if (err) throw err;
-                console.log("search results are ::");
+                //console.log("search results are ::");
                 socket.emit('userSearchRes', res);
-                console.log(res);
+                //console.log(res);
             });
         });
 

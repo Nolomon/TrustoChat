@@ -1,5 +1,4 @@
 // Get Elements
-var status = document.getElementById('status');
 var messages = document.getElementById('messages');
 var textarea = document.getElementById('textarea');
 var clearBtn = document.getElementById('clear');
@@ -13,19 +12,6 @@ var username = prompt("Please enter your username:");
 userLabel.innerText = "My Name: "+username;
 if (username == null || username == "") window.location.reload(); 
 else {
-    // Set default status
-    var statusDefault = status.textContent;
-
-    // Set status
-    var setStatus = function (s) {
-        status.textContent = s;
-        if (s !== statusDefault) {
-            console.log('status set!');
-            var delay = setTimeout(() => {
-                setStatus(statusDefault);
-            }, 1500);
-        }
-    }
 
     // Connect to socket.io
     //local: 127.0.0.1
@@ -157,16 +143,6 @@ else {
             }
         });
 
-        // Get Status From Server
-        socket.on('status', (data) => {
-            // get message status
-            setStatus((typeof data === 'object') ? data.message : data);
-
-            // If status is message sent, clear text
-            if (data.clear) {
-                textarea.value = '';
-            }
-        });
         // Handle Server Input
         sendBtn.addEventListener('click', (event) => {
             // Sign message and emit to server
