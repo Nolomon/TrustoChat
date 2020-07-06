@@ -7,10 +7,10 @@ var sendBtn = document.getElementById('sendBtn');
 var userLabel = document.getElementById('userLabel');
 var onlineUsersPanel = document.getElementById('onlineDiv');
 var searchInput = document.getElementById("searchInput");
-
+var searchResults = document.getElementById("searchResults");
 
 var username = prompt("Please enter your username:");
-userLabel.innerText = username;
+userLabel.innerText = "My Name: "+username;
 if (username == null || username == "") window.location.reload(); 
 else {
     // Set default status
@@ -227,8 +227,27 @@ else {
             socket.emit('onlineRefresh');   // Update onlineUsersPanel (server will take 6000ms)
         });
 
+
         //* User Search
-        //searchInput.oninput
+        searchInput.addEventListener("input",(event)=>{
+            setTimeout(() => {
+                socket.emit('userSearchReq', searchInput.value);
+                socket.once('userSearchRes', (results) => {
+                    searchResults.innerHTML = '';
+                    for (let user of results) {
+                        if (user.userID == username) continue;
+                        const usercard = document.createElement('div');
+                        usercard.setAttribute('id', "card_" + user.userID);
+                        usercard.innerText = user.username;
+                        usercard.addEventListener("click", ()=>{
+                            openConv(user.userID);
+                        });
+                        searchResults.appendChild(usercard);
+                    }
+                });
+            }, 500);
+
+        });
 
     }
 
