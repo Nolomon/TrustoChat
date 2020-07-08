@@ -106,10 +106,6 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
                 chats.insertOne({ userID: sigmsg.userID, message: sigmsg.message, signature: sigmsg.signature }, function () {
                     io.emit('output', [sigmsg]);
                     //console.log('chats inserted');
-                    sendStatus(socket, {
-                        message: 'Message sent',
-                        clear: true
-                    });
                 });
             }
         });
@@ -128,7 +124,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
         // User Search
         socket.on('userSearchReq', (user_name) => {
             //console.log("RECEIVED :: " + user_name);
-            users.find({ 'username': user_name, cert: { $ne: null } }, { projection: { userID: 1, username: 1 } }).toArray((err, res) => {
+            users.find({ 'username': {$regex: user_name, $options: 'i'}, cert: { $ne: null } }, { projection: { userID: 1, username: 1 } }).limit(20).toArray((err, res) => {
                 if (err) throw err;
                 //console.log("search results are ::");
                 socket.emit('userSearchRes', res);
