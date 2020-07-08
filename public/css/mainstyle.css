@@ -28,7 +28,7 @@
 }
 #searchResults{
     overflow-y: auto;
-    max-height: 100px;
+    max-height: 30em;
     margin-top: 10px;
     
 }
@@ -49,8 +49,12 @@
 #messages{
     grid-column: 2/3;
     overflow-y: auto;
-    max-height: 200px;
+    height: 30em;
 }
+#messages div{
+    margin: 2px auto 2px auto;
+}
+
 #message-input{
     border: unset;
     grid-column: 2/3;
@@ -69,6 +73,3 @@
     grid-template-columns: 1fr;
     row-gap: 10px;
 }
-/* #send{
-    background-image:;
-} */

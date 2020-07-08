@@ -150,7 +150,9 @@ else {
             sig.init(prvkey);
             const encryptedHash = sig.signString(textarea.value);
             const sigmsg = { userID: username, message: textarea.value, signature: encryptedHash };
+            console.log(sigmsg);
             socket.emit('sigmsg', sigmsg);
+            textarea.value = '';
         });
 
         // Handle Chat Clear
