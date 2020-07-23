@@ -124,6 +124,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
         // User Search
         socket.on('userSearchReq', (user_name) => {
             //console.log("RECEIVED :: " + user_name);
+            if(user_name.trim().length<3) return;
             users.find({ 'username': {$regex: user_name, $options: 'i'}, cert: { $ne: null } }, { projection: { userID: 1, username: 1 } }).limit(20).toArray((err, res) => {
                 if (err) throw err;
                 //console.log("search results are ::");
