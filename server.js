@@ -33,7 +33,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
             socket.emit('userInfo', res);
         });
         // Get new user info
-        socket.on('userInfo', (data) => {
+        socket.on('userInfo', (data, callback) => {
             console.log('REGISTERING NEW USER:' + username + ' ...');
             users.insertOne({
                 username: username,
@@ -46,6 +46,7 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
                 console.log(username + ' inserted after ' + (t1 - t0) + 'ms');
                 console.log('USER ' + username + ' REGISTERED!')
             });
+            callback('server received userInfo.');
         });
 
         function checkUserInfo() {
