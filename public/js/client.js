@@ -103,12 +103,16 @@ else {
                     certPEM = cert.getPEMString();
                     userCerts.set(username, certPEM);
 
-                    ////// send user info to server
+                    //* send user info to server
+                    console.log("sending userInfo to server...");
+                    var t0 = performance.now();
                     socket.emit('userInfo', {
                         cert: certPEM
-                    }, () => {
-                        console.log('userInfo sent to server.');
+                    }, (confirmation) => {
+                        console.log(`Time taken to receive info: ${performance.now()-t0}ms`);
+                        console.log(confirmation);
                     });
+
                     // calculate private key in pem format
                     prvkey = KEYUTIL.getPEM(keypair.prvKeyObj, "PKCS1PRV");
 
