@@ -9,8 +9,8 @@ var searchInput = document.getElementById("searchInput");
 var searchResults = document.getElementById("searchResults");
 
 var username = prompt("Please enter your username:");
-userLabel.innerText = "My Name: "+username;
-if (username == null || username == "") window.location.reload(); 
+userLabel.innerText = "My Name: " + username;
+if (username == null || username == "") window.location.reload();
 else {
 
     // Connect to socket.io
@@ -22,7 +22,7 @@ else {
         console.log('Connected to socket.');
         // TIME OUT EVENT
         socket.on('connect_timeout', (timeout) => {
-            console.log('TIMEOUT AFTER '+timeout+'ms');
+            console.log('TIMEOUT AFTER ' + timeout + 'ms');
         });
 
         //* username check
@@ -41,7 +41,7 @@ else {
                     let valid = false;
                     do {
                         prvkey = prompt("Please paste your private key here:");
-                        if(prvkey==undefined) window.location.reload();
+                        if (prvkey == undefined) window.location.reload();
 
                         //? 1. Is it a key??
                         let prvkeyObj;
@@ -58,19 +58,19 @@ else {
                         //? 2. Is the public portion correct??
                         if (prvkeyObj.isPrivate && prvkeyObj.e === pubkeyObj.e) {
                             valid = true;
-                            for(const k of Object.keys(prvkeyObj.n)){ // checking for the modulus n
-                                if( typeof prvkeyObj.n[k] === 'function') continue;
-                                if (prvkeyObj.n[k] !== pubkeyObj.n[k]){
+                            for (const k of Object.keys(prvkeyObj.n)) { // checking for the modulus n
+                                if (typeof prvkeyObj.n[k] === 'function') continue;
+                                if (prvkeyObj.n[k] !== pubkeyObj.n[k]) {
                                     valid = false;
                                     break;
                                 }
                             }
                         }
 
-                         //? 3. Is the private portion correct??
-                         const sig = new KJUR.crypto.Signature({ "alg": "SHA512withRSA" });
-                         sig.init(prvkey);
-                         if( !pubkeyObj.verify("I luv u", sig.signString("I luv u")) ) valid = false;
+                        //? 3. Is the private portion correct??
+                        const sig = new KJUR.crypto.Signature({ "alg": "SHA512withRSA" });
+                        sig.init(prvkey);
+                        if (!pubkeyObj.verify("I luv u", sig.signString("I luv u"))) valid = false;
 
                     } while (!valid);
                     //* //////////////////////
@@ -109,9 +109,17 @@ else {
                     }, () => {
                         console.log('userInfo sent to server.');
                     });
-                    // show private key in pem format
+                    // calculate private key in pem format
                     prvkey = KEYUTIL.getPEM(keypair.prvKeyObj, "PKCS1PRV");
-                    alert("This is your private key, keep it safe!!\n\n" + prvkey);
+
+                    //* Output To User
+                    let mdl = btrAlert('This is your private key, keep it safe!!\n\n', prvkey, 'Close to download your private key.');
+                    let closeBtn = mdl.getElementsByClassName('btrAlert-closeBtn')[0];
+                    closeBtn.addEventListener('click', () => {
+                        mdl.remove();
+                        downloadText(username+' private key.txt', prvkey);
+                        toastSnackbar('Save private key in a secure place!!', 3000);
+                    });
 
                 }
             }
@@ -207,7 +215,7 @@ else {
 
 
         //* User Search
-        searchInput.addEventListener("input",(event)=>{
+        searchInput.addEventListener("input", (event) => {
             setTimeout(() => {
                 socket.emit('userSearchReq', searchInput.value);
                 socket.once('userSearchRes', (results) => {
@@ -217,7 +225,7 @@ else {
                         const usercard = document.createElement('div');
                         usercard.setAttribute('id', "card_" + user.userID);
                         usercard.innerText = user.username;
-                        usercard.addEventListener("click", ()=>{
+                        usercard.addEventListener("click", () => {
                             openConv(user.userID);
                         });
                         searchResults.appendChild(usercard);
