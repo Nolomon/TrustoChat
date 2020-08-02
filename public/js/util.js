@@ -49,15 +49,14 @@ function btrAlert(title, content, tail) {
 }
 
 function toastSnackbar(text, duration) {
-  console.log(text + " got toasted.");
-  let copiedToast = document.createElement("div");
-  copiedToast.id = "snackbar";
-  copiedToast.className = 'show';
-  copiedToast.innerHTML = text;
+  let saveToast = document.createElement("div");
+  saveToast.id = "snackbar";
+  saveToast.className = 'show';
+  saveToast.innerHTML = text;
   let style = document.createElement("style");
   document.getElementsByTagName("head")[0].appendChild(style);
-  style.innerHTML = `#snackbar {
-        visibility: hidden;
+  style.innerHTML = `
+        #snackbar {
         min-width: 250px;
         margin-left: -125px;
         background-color: #333;
@@ -73,13 +72,13 @@ function toastSnackbar(text, duration) {
       }
       
       #snackbar.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s ${duration}s;
+        -webkit-animation: fadein 0.5s;
+        animation: fadein 0.5s;
       }
 
       #snackbar.hide {
-        visibility: hidden;
+        -webkit-animation: fadeout 0.25s;
+        animation: fadeout 0.25s;
       }
 
       @-webkit-keyframes fadein {
@@ -102,12 +101,12 @@ function toastSnackbar(text, duration) {
         to {bottom: 0; opacity: 0;}
       }`;
 
-  document.body.appendChild(copiedToast);
+  document.body.appendChild(saveToast);
     setTimeout(function () {
-        copiedToast.className = copiedToast.className.replace("show", "hide");
+        saveToast.className = saveToast.className.replace("show", "hide");
         setTimeout(() => {
-            copiedToast.remove();
-        }, 50);
+            saveToast.remove();
+        }, 250);
       }, duration);
 }
 
