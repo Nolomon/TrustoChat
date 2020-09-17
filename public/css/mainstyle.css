@@ -50,8 +50,19 @@
 #messages{
     overflow-y: auto;
 }
-#messages div{
+#messages div.my-message{
+    /* display: inline-block; */
+    max-width: 50%;
     margin: 2px auto 2px auto;
+    float: right;
+    clear: both;
+}
+#messages div.other-message{
+    /* display: inline-block; */
+    max-width: 50%;
+    margin: 2px auto 2px auto;
+    float: left;
+    clear: both;
 }
 
 #message-input{
