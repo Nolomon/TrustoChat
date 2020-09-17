@@ -142,7 +142,7 @@ else {
                 for (let x = 0; x < data.length; x++) {
                     // Build out message div
                     const message = document.createElement('div');
-                    message.setAttribute('class', 'chat-message');
+                    message.setAttribute('class', (data[x].userID==username)?'my-message':'other-message');
                     message.textContent = data[x].userID + ": " + data[x].message;
 
                     //* ///// SINGATURE VERIFICATION  ////////
