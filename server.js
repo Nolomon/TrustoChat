@@ -39,7 +39,6 @@ mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, fun
                 username: username,
                 userID: username,
                 cert: data.cert,
-                passHash: null,
                 status: 'online'
             }, () => {
                 let t1 = performance.now();
