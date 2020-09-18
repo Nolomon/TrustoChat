@@ -93,24 +93,28 @@
     border-radius: 20px;
     position: relative;
     padding: 10px;
+    clear: both;
 }
-#messages > div span.sender-message{
+#messages > div div.sender-message{
     border-bottom: 1px solid #2d6a4f34;
     font-size: 0.7em;
 }
-#messages > div span.body-message{
+#messages > div div.body-message{
     display: grid;
     grid-template-columns: auto 25px;
 }
+#messages > div *{
+    min-width: 0;                /** IMPORTANTEEEEEEEEEEEEEEEEEEEEEE*/
+    word-wrap: break-word;
+}
+
 #messages div.my-message{
     float: right;
-    clear: both;
     background-color: #00bd65;
     color: #ffffff;
 }
 #messages div.other-message{
     float: left;
-    clear: both;
     background-color: #bce784;
 }
 #messages div.unsafe-message{
@@ -153,4 +157,19 @@
     row-gap: 10px;
     padding: 10px;
     border-radius: 20px;
+}
+#sendBtn{
+    background-color: #bce004;
+    color: #007f5f;
+}
+#sendBtn:hover{
+    background-color: #99ad32;
+    color: #00a77d;
+}
+#sendBtn:active{
+    background-color: #caf104;
+    color: #8da805;
+}
+#clear{
+
 }
