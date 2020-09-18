@@ -140,15 +140,30 @@ else {
             console.log(data);
             if (data.length) {
                 for (let x = 0; x < data.length; x++) {
-                    // Build out message div
+                    //* Build out message div
                     const message = document.createElement('div');
-                    message.setAttribute('class', (data[x].userID==username)?'my-message':'other-message');
-                    message.textContent = data[x].userID + ": " + data[x].message;
+                    message.className = (data[x].userID==username)?'my-message':'other-message';
+                    message.innerHTML = "<span class='sender-message'>"+data[x].userID+"</span>" + "<span class='body-message'>"+data[x].message+"</span>";
 
                     //* ///// SINGATURE VERIFICATION  ////////
                     const pubKey = KEYUTIL.getKey(userCerts.get(data[x].userID));
-                    if (pubKey.verify(data[x].message, data[x].signature)) message.textContent += "\n\n    [VERIFIED]";
-                    else message.textContent += "\n\n    [MODIFIED]";
+                    if (pubKey.verify(data[x].message, data[x].signature)) {
+                        message.className += " safe-message";
+                        message.innerHTML +=
+                        "<div class='tooltip'>"+
+                        "<img class='ver-icon' src='safe.png' alt='[VERIFIED]'/>"+
+                        "<span class='tooltiptext'>Message verified to be from "+data[x].userID+"</span>"+
+                        "</div>";
+                    }
+                    else {
+                        message.className += " unsafe-message";
+                        message.innerHTML +=
+                        "<div class='tooltip'>"+
+                        "<img class='ver-icon' src='unsafe.png' alt='[MODIFIED]'/>"+
+                        "<span class='tooltiptext'>Verification Failed! message may has been alterd after "+data[x].userID+" sent it!"+"</span>"+
+                        "</div>";
+                    }
+
 
                     messages.appendChild(message);
                 }
