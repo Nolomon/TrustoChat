@@ -12,9 +12,9 @@ server.listen(process.env.PORT || 4000);
 var onlineUsers = [];
 
 // Connect to mongo
-mongo.connect('mongodb://127.0.0.1/mongochat', { useUnifiedTopology: true }, function (err, client) {
+mongo.connect('mongodb://127.0.0.1/', { useUnifiedTopology: true }, function (err, client) {
     if (err) throw err;
-    console.log('MongoDB connected... Babe!'); // good job
+    console.log('MongoDB connected... Sweet!'); // good job
 
     var db = client.db('trustochat'); // db is an object pointing to mongodb just connected to
 
