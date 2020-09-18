@@ -1,3 +1,14 @@
+/** Imports  **/
+@import url("tooltip.css");
+/**/
+
+/** Fonts **/
+@font-face {
+    font-family: "GoodUnicorn";
+    src: url("fonts/GoodUnicornRegular-Rxev.woff");
+  }
+/**/
+
 .grid-container{
     display:grid;
     grid-template-columns: minmax(10em, auto) minmax(25em, auto) 0.7fr;
@@ -7,22 +18,30 @@
     padding-left: 4em;
     padding-right: 4em;
 }
-.grid-container *{
-    border-style:solid;
-    border-radius: 20px;
-    padding: 10px;
-}
+
 .title {
     grid-column: 1/-1;
     place-self: center;
+    font-family: 'GoodUnicorn';
+    font-size: 40pt;
+    color: rgb(34, 204, 162);
+    border-radius: 50px 20px 50px 20px;
+    padding: 10px 25px 10px 25px;
+    border: solid #2d6a4f;
 }
 
 #right-sidebar{
     display:grid;
     grid-template-rows: 50px auto;
-    border: unset;
     padding: 0;
+    border-radius: 20px;
 }
+#right-sidebar *{
+    border: solid #2d6a4f;
+    padding: 10px;
+    border-radius: 20px;
+}
+
 #searchPanel{
     display: grid;
     grid-template-rows: 2em auto;
@@ -38,7 +57,16 @@
 #left-sidebar{
     display:grid;
     grid-template-rows: 50px auto;
+    border: solid #2d6a4f;
+    padding: 10px;
+    border-radius: 20px;
 }
+#left-sidebar *{
+    border: solid #2d6a4f;
+    padding: 10px;
+    border-radius: 20px;
+}
+
 #onlineLabel{
     border: unset;
 }
@@ -49,37 +77,76 @@
 
 #messages{
     overflow-y: auto;
+    border: solid #2d6a4f;
+    padding: 10px;
+    border-radius: 20px;
+}
+#messages > div{
+    display: grid;
+    grid-template-rows: auto auto;
+    max-width: 50%;
+    margin: 2px auto 2px auto;
+    border-radius: 20px;
+    position: relative;
+    padding: 10px;
+}
+#messages > div span.sender-message{
+    border-bottom: 1px solid #2d6a4f34;
+    font-size: 0.7em;
+}
+#messages > div span.body-message{
+    display: grid;
+    grid-template-columns: auto 25px;
 }
 #messages div.my-message{
-    /* display: inline-block; */
-    max-width: 50%;
-    margin: 2px auto 2px auto;
     float: right;
     clear: both;
+    background-color: #00bd65;
+    color: #ffffff;
 }
 #messages div.other-message{
-    /* display: inline-block; */
-    max-width: 50%;
-    margin: 2px auto 2px auto;
     float: left;
     clear: both;
+    background-color: #bce784;
+}
+#messages div.unsafe-message{
+    background-color: lightcoral;
+}
+#messages img.ver-icon{
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+    width: 20px;
+    border-radius: 50%;
+}
+#messages > div.safe-message img.ver-icon{
+    opacity: 0.25;
+}
+
+
+#messages > div img.ver-icon:hover{
+    opacity:1;
+    box-shadow: 0 0 10px whitesmoke;
 }
 
 #message-input{
-    border: unset;
     grid-column: 2/3;
     display: grid;
     grid-template-columns: 10fr 1fr;
+    padding: 10px;
+    border-radius: 20px;
 }
-#status{
-    border: unset;
-    grid-row: 4/5;
-    grid-column: 1/-1;
-    place-self: center;
+#message-input *{
+    border: solid #2d6a4f;
+    padding: 10px;
+    border-radius: 20px;
 }
-.buttons{
+
+#message-input .buttons{
     border:unset;
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 10px;
+    padding: 10px;
+    border-radius: 20px;
 }
