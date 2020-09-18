@@ -143,7 +143,10 @@ else {
                     //* Build out message div
                     const message = document.createElement('div');
                     message.className = (data[x].userID==username)?'my-message':'other-message';
-                    message.innerHTML = "<span class='sender-message'>"+data[x].userID+"</span>" + "<span class='body-message'>"+data[x].message+"</span>";
+                    message.innerHTML = 
+                    "<div class='sender-message'>"+data[x].userID+"</div>"+
+                    "<div class='body-message'>"+
+                    "<div class='text-message'>"+data[x].message+"</div>";
 
                     //* ///// SINGATURE VERIFICATION  ////////
                     const pubKey = KEYUTIL.getKey(userCerts.get(data[x].userID));
@@ -164,6 +167,7 @@ else {
                         "</div>";
                     }
 
+                    message.innerHTML += "</div>";
 
                     messages.appendChild(message);
                 }
