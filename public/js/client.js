@@ -133,6 +133,7 @@ else {
         });
 
         //* Handle Server Output (incoming messages)
+        var otherUserID = null, convID = null;
         let outputCnt = 1;
         socket.on('output', (data) => {
             console.log(outputCnt++);
@@ -140,6 +141,8 @@ else {
             console.log(data);
             if (data.length) {
                 for (let x = 0; x < data.length; x++) {
+                    //* determin if message belong to the currently open convo
+                    if(data[x].userID!=otherUserID && data[x].userID!=username) continue;
                     //* Build out message div
                     const message = document.createElement('div');
                     message.className = (data[x].userID==username)?'my-message':'other-message';
@@ -180,7 +183,7 @@ else {
             const sig = new KJUR.crypto.Signature({ "alg": "SHA512withRSA" });
             sig.init(prvkey);
             const encryptedHash = sig.signString(textarea.value);
-            const sigmsg = { userID: username, message: textarea.value, signature: encryptedHash };
+            const sigmsg = {receiver:otherUserID, convID: convID, userID: username, message: textarea.value, signature: encryptedHash };
             console.log(sigmsg);
             socket.emit('sigmsg', sigmsg);
             textarea.value = '';
@@ -193,25 +196,41 @@ else {
 
         // Clear Messages
         socket.on('cleared', () => {
-            messages.textContent = '';
+            let messageDivs = messages.getElementsByTagName('div');
+            for(messageDiv of messageDivs) messageDiv.remove();
         });
 
+        // function highlightConvo(panel, usercardID){
+        //     // remove previous highlight
+        //     let usercards = panel.getElementsByClassName('selected-convo');
+        //     for(usercard of usercards){
+        //         usercard.className = 'usercard';
+        //     }
+        //     // highlight the specified conversation
+        //     document.getElementById(usercardID).className+=' selected-convo';
+        // }
+
         function openConv(userID) {
+            otherUserID = userID;
+            document.getElementById('receiverLabel').innerHTML = "Talking to: "+otherUserID;
+            convID = (username<=otherUserID)?(username+otherUserID):(otherUserID+username);
             sendBtn.disabled = true;
             textarea.disabled = true;
             // clear conversation panel
             const clearProm = new Promise((resolve) => {
-                while (messages.firstChild && messages.removeChild(messages.firstChild));
+                let convoLabel = document.getElementById('receiverLabel');
+                messages.innerHTML = "";
+                messages.appendChild(convoLabel);
+                messages.innerHTML+="<hr>";
                 resolve();
             });
-
             clearProm.then(() => { // getting other user certificate
                 console.log('requesting cert for ' + userID);
                 socket.emit('req-cert', userID);
                 socket.on('res-cert', (usercert) => {
                     console.log('############       GOT ' + userID + ' CERT!!!       #############');
                     userCerts.set(userID, usercert);
-                    socket.emit('openconv', null);
+                    socket.emit('openconv', convID);  //* Request the conversation
                     sendBtn.disabled = false;
                     textarea.disabled = false;
                     socket.removeAllListeners('res-cert'); // or you could've used socket.once() instead of socket.on()
@@ -227,10 +246,12 @@ else {
                 console.log(onuser);
                 const usercard = document.createElement('div');
                 usercard.setAttribute('id', "card_" + onuser);
+                usercard.setAttribute('class', "usercard");
                 usercard.innerText = onuser;
-                usercard.onclick = (function (param) {
-                    return () => openConv(param);
-                })(onuser);
+                usercard.addEventListener("click", () => {
+                    openConv(onuser);
+                    // highlightConvo(onlineUsersPanel,usercard.id);
+                });
                 onlineUsersPanel.appendChild(usercard);
             }
             socket.emit('onlineRefresh');   // Update onlineUsersPanel (server will take 6000ms)
@@ -247,9 +268,11 @@ else {
                         if (user.userID == username) continue;
                         const usercard = document.createElement('div');
                         usercard.setAttribute('id', "card_" + user.userID);
+                        usercard.setAttribute('class', "usercard");
                         usercard.innerText = user.username;
                         usercard.addEventListener("click", () => {
                             openConv(user.userID);
+                            // highlightConvo(searchResults,usercard.id);
                         });
                         searchResults.appendChild(usercard);
                     }

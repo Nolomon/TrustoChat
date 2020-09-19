@@ -10,6 +10,7 @@ server.listen(process.env.PORT || 4000);
 
 // connected users / sockets
 var onlineUsers = [];
+var currentConnections = new Map();
 
 // Connect to mongo
 mongo.connect('mongodb://127.0.0.1/', { useUnifiedTopology: true }, function (err, client) {
@@ -65,7 +66,8 @@ mongo.connect('mongodb://127.0.0.1/', { useUnifiedTopology: true }, function (er
             }, 6000);
         };
         userInfoProm.then((value) => {
-            onlineUsers.push(username);
+            onlineUsers.push(username); // add username to the onlineUsers list
+            currentConnections.set(username, socket); // store client socket for later use
             refresh();
         });
 
@@ -91,8 +93,9 @@ mongo.connect('mongodb://127.0.0.1/', { useUnifiedTopology: true }, function (er
         const chats = db.collection('chats');
         //* Get chats from mongo collection
         socket.on('openconv', (convID) => {
-            chats.find().limit(100).sort({ _id: 1 }).toArray((err, res) => { // sort messages in ascending according to id (Chronologically)
+            chats.find({convID:convID}).limit(100).sort({ _id: 1 }).toArray((err, res) => { // sort messages in ascending according to id (Chronologically)
                 if (err) throw err;
+                //console.log("#################  RES ################\n"+res+"#################  RES ################");
                 socket.emit('output', res);
             });
         });
@@ -100,11 +103,14 @@ mongo.connect('mongodb://127.0.0.1/', { useUnifiedTopology: true }, function (er
         // Handle input events
         socket.on('sigmsg', (sigmsg) => {
             // Check for userID and message
-            if (sigmsg.userID != '' && sigmsg.message != '') {  // Should let all checks be in server since client is open for modification
+            if (sigmsg.convID!='' && sigmsg.userID != '' && sigmsg.message != '') {  // Should let all checks be in server since client is open for modification
                 // Insert message
                 //console.log('inserting chats in collection..');
-                chats.insertOne({ userID: sigmsg.userID, message: sigmsg.message, signature: sigmsg.signature }, function () {
-                    io.emit('output', [sigmsg]);
+                chats.insertOne({ convID:sigmsg.convID, userID: sigmsg.userID, message: sigmsg.message, signature: sigmsg.signature }, function () {
+                    //* Send message back to sender and receiver
+                    socket.emit('output', [sigmsg]);
+                    let receiverSocket = currentConnections.get(sigmsg.receiver);
+                    if(receiverSocket != undefined) receiverSocket.emit('output', [sigmsg]);
                     //console.log('chats inserted');
                 });
             }
